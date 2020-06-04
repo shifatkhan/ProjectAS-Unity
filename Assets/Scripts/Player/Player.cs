@@ -25,9 +25,13 @@ public class Player : Movement2D
     [SerializeField] protected FloatVariable currentHealth;
     [SerializeField] protected GameEvent playerHealthEvent;
 
+    public ParticleSystem dust;
+
     public override void Start()
     {
         base.Start();
+
+        dust = GetComponentInChildren<ParticleSystem>();
     }
 
     public override void FixedUpdate()
@@ -44,6 +48,13 @@ public class Player : Movement2D
     */
     public void SetDirectionalInput(Vector2 input)
     {
+        // Create dust when switching run direction.
+        // Don't create dust if player comes to a halt.
+        if (input.x != directionalInput.x && controller.collisions.below && input.x != 0)
+        {
+            CreateDust();
+        }
+
         directionalInput = input;
     }
 
@@ -69,12 +80,14 @@ public class Player : Movement2D
                 velocity.x = -wallDirX * wallLeap.x;
                 velocity.y = wallLeap.y;
             }
+            CreateDust();
         }
         if (controller.collisions.below)
         {
             if (directionalInput.y != -1) // For when we want to fall through platform.
             {
                 velocity.y = maxJumpVelocity;
+                CreateDust();
             }
         }
     }
@@ -172,5 +185,11 @@ public class Player : Movement2D
         {
             base.UpdateState();
         }
+    }
+
+    public void CreateDust()
+    {
+        if(dust != null)
+            dust.Play();
     }
 }
