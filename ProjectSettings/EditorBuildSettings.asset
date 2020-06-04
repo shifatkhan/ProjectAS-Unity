@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/2DPlatformer/Scenes/LevelScene.unity
+    path: Assets/Scenes/LevelScene.unity
     guid: 89d14b98a8a5b7a4f9cb308ef1e2e154
   - enabled: 1
-    path: Assets/2DPlatformer/Scenes/CameraScene.unity
+    path: Assets/Scenes/CameraScene.unity
     guid: d9eb452380e70bc40aa12943516b7d78
   - enabled: 1
-    path: Assets/2DPlatformer/Scenes/2DPlatformerMain.unity
+    path: Assets/Scenes/2DPlatformerMain.unity
     guid: e0a1972c08fa4654a9c1bd74e5d9e085
   m_configObjects: {}
