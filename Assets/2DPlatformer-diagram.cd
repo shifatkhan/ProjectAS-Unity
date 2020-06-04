@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Movement2D">
+    <Position X="8" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQgACgAEqAAACEJIAAAACgAAAAoAAIABAwARAAAAAA=</HashCode>
+      <FileName>Assets\2DPlatformer\Scripts\Movement2D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player">
+    <Position X="10" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JAACAAAAAwAIIgAAAAAAAAgAAAAAQAAAAAIAhAAAgVA=</HashCode>
+      <FileName>Assets\2DPlatformer\Scripts\Player\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Enemy">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAIAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Assets\2DPlatformer\Scripts\Enemy\Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemySkeleton">
+    <Position X="6" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEAACAAiACAADAIACAAAACAAAAAAAAAAAABACAAAA=</HashCode>
+      <FileName>Assets\2DPlatformer\Scripts\Enemy\EnemySkeleton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KnockBack">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEBgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\2DPlatformer\Scripts\KnockBack.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="State">
+    <Position X="3.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQACAAIAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\2DPlatformer\Scripts\Movement2D.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

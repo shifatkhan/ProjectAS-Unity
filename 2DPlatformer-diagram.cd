@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Player">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JAQgAAgAESAIIgEIAAAAACgAAAAIQAIABAwAwAAAgVA=</HashCode>
+      <FileName>Assets\2DPlatformer\Scripts\Player\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RaycastController">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="RaycastController.RaycastOrigins" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\2DPlatformer\Scripts\Player\RaycastController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAgAEAABCAAAIAAAAAAAAgAIIAAAAAACAACAAAAQGA=</HashCode>
+      <FileName>Assets\2DPlatformer\Scripts\Player\RaycastController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Controller2D">
+    <Position X="2.5" Y="5.75" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="Controller2D.CollisionInfo" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\2DPlatformer\Scripts\Player\Controller2D.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAIAABKAAAFAAAAAAQAAAAAIAIAgAABAAAAAAAAA=</HashCode>
+      <FileName>Assets\2DPlatformer\Scripts\Player\Controller2D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerInput">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\2DPlatformer\Scripts\Player\PlayerInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CameraFollow">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="CameraFollow.FocusArea" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\2DPlatformer\Scripts\Game\CameraFollow.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAACAAAAAAIABgIEIBAAAAAAAAoEEFAAAAACA=</HashCode>
+      <FileName>Assets\2DPlatformer\Scripts\Game\CameraFollow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlatformController">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="PlatformController.PassengerMovement" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\2DPlatformer\Scripts\PlatformController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQEgABgACQAIAAAgQAQIAAAAADAAQAAAAAgggEAAAA=</HashCode>
+      <FileName>Assets\2DPlatformer\Scripts\PlatformController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
