@@ -84,7 +84,7 @@ public class Player : Movement2D
         }
         if (controller.collisions.below)
         {
-            if (directionalInput.y != -1) // For when we want to fall through platform.
+            if (directionalInput.y != -1) // If we're not falling through platform.
             {
                 velocity.y = maxJumpVelocity;
                 CreateDust();
