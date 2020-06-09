@@ -1291,7 +1291,7 @@ PrefabInstance:
     - target: {fileID: 442888911747674145, guid: 8123ed49b855bc648ba10c11a3754db2,
         type: 3}
       propertyPath: sceneName
-      value: 2DPlatformerMain
+      value: ParticleScene
       objectReference: {fileID: 0}
     - target: {fileID: 442888911747674149, guid: 8123ed49b855bc648ba10c11a3754db2,
         type: 3}
