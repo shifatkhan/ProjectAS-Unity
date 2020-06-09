@@ -62,7 +62,7 @@ public class Player : Movement2D
      */
     public void OnJumpInputDown()
     {
-        animator.SetTrigger("takeoff");
+        animator.SetTrigger("jump");
         if (wallJumpingEnabled && wallSliding)
         {
             if (wallDirX == directionalInput.x) // For wall climbing (moving at same direction as where the wall is)
