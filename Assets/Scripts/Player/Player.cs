@@ -34,6 +34,22 @@ public class Player : Movement2D
         dust = GetComponentInChildren<ParticleSystem>();
     }
 
+    // TODO: REMOVE
+    private float nextActionTime = 0.0f;
+    public float period = 0.5f;
+
+    public override void Update()
+    {
+        base.Update();
+
+        // TODO: Play around with audio source (where to put them? On player gameobject or AudioManager gameobject?)
+        if(directionalInput.x != 0 && controller.collisions.below && Time.time > nextActionTime)
+        {
+            nextActionTime += period;
+            AudioManager.PlayFootstepAudio();
+        }
+    }
+
     public override void FixedUpdate()
     {
         base.FixedUpdate();
