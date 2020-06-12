@@ -34,22 +34,6 @@ public class Player : Movement2D
         dust = GetComponentInChildren<ParticleSystem>();
     }
 
-    // TODO: REMOVE
-    private float nextActionTime = 0.0f;
-    public float period = 0.5f;
-
-    public override void Update()
-    {
-        base.Update();
-
-        // TODO: Play around with audio source (where to put them? On player gameobject or AudioManager gameobject?)
-        if(directionalInput.x != 0 && controller.collisions.below && Time.time > nextActionTime)
-        {
-            nextActionTime += period;
-            AudioManager.PlayFootstepAudio();
-        }
-    }
-
     public override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -79,6 +63,7 @@ public class Player : Movement2D
     public void OnJumpInputDown()
     {
         animator.SetTrigger("jump");
+        
         if (wallJumpingEnabled && wallSliding)
         {
             if (wallDirX == directionalInput.x) // For wall climbing (moving at same direction as where the wall is)
@@ -97,6 +82,7 @@ public class Player : Movement2D
                 velocity.y = wallLeap.y;
             }
             CreateDust();
+            AudioManager.PlayJumpAudio();
         }
         if (controller.collisions.below)
         {
@@ -104,6 +90,7 @@ public class Player : Movement2D
             {
                 velocity.y = maxJumpVelocity;
                 CreateDust();
+                AudioManager.PlayJumpAudio();
             }
         }
     }
@@ -178,10 +165,14 @@ public class Player : Movement2D
     {
         currentHealth.RuntimeValue -= damage;
         playerHealthEvent.Raise();
+        AudioManager.PlayHurtAudio();
 
         if (currentHealth.RuntimeValue <= 0)
         {
             animator.SetTrigger("dead");
+
+            // TODO: Remove this and call Die() from animation "death"
+            AudioManager.PlayDeathAudio();
             gameObject.SetActive(false);
         }
     }
@@ -201,6 +192,14 @@ public class Player : Movement2D
         {
             base.UpdateState();
         }
+    }
+
+    /** This is mainly used by Animation Events since we can't call other game object's
+     * functions through the animation event.
+     */
+    public void PlayFootstepAudio()
+    {
+        AudioManager.PlayFootstepAudio();
     }
 
     public void CreateDust()

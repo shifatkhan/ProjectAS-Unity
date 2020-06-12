@@ -22,19 +22,20 @@ public class AudioManager : MonoBehaviour
     public AudioClip levelStingClip;    //The sting played when the scene loads
     public AudioClip deathStingClip;    //The sting played when the player dies
     public AudioClip winStingClip;      //The sting played when the player wins
-    public AudioClip orbStingClip;      //The sting played when an orb is collected
+    public AudioClip itemStingClip;      //The sting played when an item is collected
     public AudioClip doorOpenStingClip; //The sting played when the door opens
 
-    [Header("Robbie Audio")]
+    [Header("Player Audio")]
+    // TODO: Add ENUM 
     public AudioClip[] walkStepClips;   //The footstep sound effects
-    public AudioClip[] crouchStepClips; //The crouching footstep sound effects
     public AudioClip deathClip;			//The player death sound effect
+    public AudioClip hurtClip;			//The player hurt sound effect
     public AudioClip jumpClip;          //The player jump sound effect
 
-    public AudioClip jumpVoiceClip;     //The player jump voice
-    public AudioClip deathVoiceClip;    //The player death voice
-    public AudioClip orbVoiceClip;      //The player orb collection voice
-    public AudioClip winVoiceClip;      //The player wins voice
+    //public AudioClip jumpVoiceClip;     //The player jump voice
+    //public AudioClip deathVoiceClip;    //The player death voice
+    //public AudioClip itemVoiceClip;      //The player orb collection voice
+    //public AudioClip winVoiceClip;      //The player wins voice
 
     [Header("Mixer Groups")]
     public AudioMixerGroup ambientGroup;//The ambient mixer group
@@ -114,21 +115,6 @@ public class AudioManager : MonoBehaviour
         current.playerSource.Play();
     }
 
-    public static void PlayCrouchFootstepAudio()
-    {
-        //If there is no current AudioManager or the player source is already playing
-        //a clip, exit 
-        if (current == null || current.playerSource.isPlaying)
-            return;
-
-        //Pick a random crouching footstep sound
-        int index = Random.Range(0, current.crouchStepClips.Length);
-
-        //Set the footstep clip and tell the source to play
-        current.playerSource.clip = current.crouchStepClips[index];
-        current.playerSource.Play();
-    }
-
     public static void PlayJumpAudio()
     {
         //If there is no current AudioManager, exit
@@ -140,7 +126,7 @@ public class AudioManager : MonoBehaviour
         current.playerSource.Play();
 
         //Set the jump voice clip and tell the source to play
-        current.voiceSource.clip = current.jumpVoiceClip;
+        //current.voiceSource.clip = current.jumpVoiceClip;
         current.voiceSource.Play();
     }
 
@@ -155,12 +141,31 @@ public class AudioManager : MonoBehaviour
         current.playerSource.Play();
 
         //Set the death voice clip and tell the source to play
-        current.voiceSource.clip = current.deathVoiceClip;
+        //current.voiceSource.clip = current.deathVoiceClip;
         current.voiceSource.Play();
 
         //Set the death sting clip and tell the source to play
         current.stingSource.clip = current.deathStingClip;
         current.stingSource.Play();
+    }
+
+    public static void PlayHurtAudio()
+    {
+        //If there is no current AudioManager, exit
+        if (current == null)
+            return;
+
+        //Set the hurt SFX clip and tell the source to play
+        current.playerSource.clip = current.hurtClip;
+        current.playerSource.Play();
+
+        //Set the hurt voice clip and tell the source to play
+        //current.voiceSource.clip = current.hurtVoiceClip;
+        //current.voiceSource.Play();
+
+        //Set the hurt sting clip and tell the source to play
+        //current.stingSource.clip = current.hurtStingClip;
+        //current.stingSource.Play();
     }
 
 
@@ -171,11 +176,11 @@ public class AudioManager : MonoBehaviour
             return;
 
         //Set the orb sting clip and tell the source to play
-        current.stingSource.clip = current.orbStingClip;
+        current.stingSource.clip = current.itemStingClip;
         current.stingSource.Play();
 
         //Set the orb voice clip and tell the source to play
-        current.voiceSource.clip = current.orbVoiceClip;
+        //current.voiceSource.clip = current.itemVoiceClip;
         current.voiceSource.Play();
     }
 
@@ -211,7 +216,7 @@ public class AudioManager : MonoBehaviour
         current.ambientSource.Stop();
 
         //Set the player won voice clip and tell the source to play
-        current.voiceSource.clip = current.winVoiceClip;
+        //current.voiceSource.clip = current.winVoiceClip;
         current.voiceSource.Play();
 
         //Set the player won sting clip and tell the source to play
