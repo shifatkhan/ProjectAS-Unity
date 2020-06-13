@@ -54,13 +54,13 @@ public class EnemySkeleton : Enemy
         // TODO: Change distance calculation to only check for X (not position) - fixes: skeleton keeps walking even when near home position but on a different Y level.
         //      OR make it so skeleton can't fall off ledge.
         // If target is inside chase radius and outside attack radius.
-        if (Vector2.Distance(target.position, transform.position) <= chaseDistance
-            && Vector2.Distance(target.position, transform.position) > attackDistance)
+        if (Mathf.Abs(target.position.x - transform.position.x) <= chaseDistance
+            && Mathf.Abs(target.position.x - transform.position.x) > attackDistance)
         {
             directionalInput = (target.position - transform.position).normalized;
         }
-        else if ((Vector2.Distance(homePosition, transform.position) <= chaseDistance && Vector2.Distance(homePosition, transform.position) > attackDistance)
-            && Vector2.Distance(target.position, transform.position) >= chaseDistance)
+        else if ((Mathf.Abs(homePosition.x - transform.position.x) <= chaseDistance && Mathf.Abs(homePosition.x - transform.position.x) > attackDistance)
+            && Mathf.Abs(target.position.x - transform.position.x) >= chaseDistance)
         {
             // Target is gone, so return to home position.
             directionalInput = (homePosition - transform.position).normalized;
