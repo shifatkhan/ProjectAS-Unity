@@ -11,6 +11,7 @@ using UnityEngine.UI;
  *  
  *  @author ShifatKhan
  */
+[System.Obsolete("This has been replaced by TextMeshAnimator")]
 public class SpriteData : MonoBehaviour
 {
     // TODO: Remove special characters for multiplatform support.
@@ -29,6 +30,10 @@ public class SpriteData : MonoBehaviour
             // Default to m5x7 char sheet.
             charSheetFilename = "font_m5x7";
         }
+        if(spriteSize == 0)
+        {
+            spriteSize = 10;
+        }
 
         GetSubsprites();
         GetSpritesWidth();
@@ -40,15 +45,13 @@ public class SpriteData : MonoBehaviour
     {
         Sprite[] subsprites = Resources.LoadAll<Sprite>(charSheetFilename);
         charSprites = subsprites;
-
-        Debug.Log("Height: " + charSprites[0].texture.height);
-        Debug.Log("Width: " + charSprites[0].texture.width);
     }
 
     /** Iterate through each char sprite and find their width.
      */
     public void GetSpritesWidth()
     {
+        // Get charSheet's height and width (not the sliced char 'a')
         int height = charSprites[0].texture.height;
         int width = charSprites[0].texture.width;
 
