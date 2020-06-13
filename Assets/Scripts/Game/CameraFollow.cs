@@ -8,11 +8,11 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Controller2D target;
-    public float verticalOffset;
-    public float lookAheadDstX;
-    public float lookSmoothTimeX;
-    public float verticalSmoothTime;
-    public Vector2 focusAreaSize;
+    public float verticalOffset = 1;
+    public float lookAheadDstX = 4;
+    public float lookSmoothTimeX = 0.5f;
+    public float verticalSmoothTime = 0.2f;
+    public Vector2 focusAreaSize = new Vector2(3,5);
 
     FocusArea focusArea;
 

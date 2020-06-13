@@ -8,7 +8,7 @@ using UnityEngine;
  * @Special thanks to Lumidi Developer
  */
 [RequireComponent(typeof(CinemachineVirtualCamera))]
-public class CinemachineCameraShake : MonoBehaviour
+public class CinemachineCamera : MonoBehaviour
 {
     public float shakeDuration = 0.3f; // Time the Camera Shake effect will last
     public float shakeAmplitude = 1.0f; // Cinemachine Noise Profile Parameter
@@ -21,7 +21,10 @@ public class CinemachineCameraShake : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        if(virtualCamera == null)
+        // SET TARGET FPS
+        Application.targetFrameRate = 60;
+
+        if (virtualCamera == null)
         {
             virtualCamera = GetComponent<CinemachineVirtualCamera>();
         }
