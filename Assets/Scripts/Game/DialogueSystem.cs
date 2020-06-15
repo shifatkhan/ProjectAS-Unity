@@ -2,41 +2,82 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-[RequireComponent(typeof(TextMeshAnimator))]
 public class DialogueSystem : MonoBehaviour
 {
-    private TextMeshAnimator textMeshAnimator;
+    public GameObject dialogueBox;
+    public TextMeshProUGUI textMesh;
+    public TextMeshAnimator textMeshAnimator;
 
-    [TextArea]
-    public string[] dialogue;
+    public DialogueObject dialogueObject;
+    private int currentDialogueIndex = 0;
 
-    // TODO: Testing
-    private int temp = 0;
-    
+    public bool playerInRange = false;
+
+    private Color showColor = new Color(1, 1, 1, 1);
+    private Color hideColor = new Color(1, 1, 1, 0);
+
     void Start()
     {
-        textMeshAnimator = GetComponent<TextMeshAnimator>();
-        textMeshAnimator.text = dialogue[0];
+        dialogueBox = GameObject.FindGameObjectWithTag("Dialogue");
+        textMesh = dialogueBox.GetComponentInChildren<TextMeshProUGUI>();
+        textMeshAnimator = dialogueBox.GetComponentInChildren<TextMeshAnimator>();
     }
     
     void Update()
     {
-        //Are you shaking in your<color=red> <shake>Boots </color>!?
-        if (Input.GetButtonDown("Attack1"))
+        if (playerInRange && Input.GetButtonDown("Interact"))
         {
-            ChangeText();
+            ShowDialogueBox();
+            StartNextDialogue();
+        }
+    }
+    
+    void StartNextDialogue()
+    {
+        if(currentDialogueIndex < dialogueObject.dialogue.Length)
+        {
+            textMeshAnimator.text = dialogueObject.dialogue[currentDialogueIndex];
+            currentDialogueIndex++;
+        }
+        else
+        {
+            HideDialogueBox();
         }
     }
 
-    // TODO: Testing
-    void ChangeText()
+    private void ShowDialogueBox()
     {
-        
-        if(temp+1 < dialogue.Length)
+        dialogueBox.GetComponent<Image>().color = showColor;
+        textMesh.color = showColor;
+    }
+
+    private void HideDialogueBox()
+    {
+        dialogueBox.GetComponent<Image>().color = hideColor;
+        textMesh.color = hideColor;
+        currentDialogueIndex = 0;
+    }
+
+    // TODO: Create new Interactable object with Ontriggerenter & exit
+    // Move Update() function into Interactable.
+    // Move StartNextDialogue method into Interactable and rename it to OnInteract()
+    // OnInteract will be a virtual method.
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
         {
-            temp++;
-            textMeshAnimator.text = dialogue[temp];
+            playerInRange = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            playerInRange = false;
+            HideDialogueBox();
         }
     }
 }
