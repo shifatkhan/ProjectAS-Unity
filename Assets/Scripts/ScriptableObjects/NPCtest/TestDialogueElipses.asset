@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91f0f33378b214844a4fb8cc2b63966b, type: 3}
-  m_Name: TestDialogue
+  m_Name: TestDialogueElipses
   m_EditorClassIdentifier: 
-  dialogueID: Testing
+  dialogueID: '...'
   dialogue:
-  - Are you shaking in your<color=red> <shake>Boots </color>!?
-  - <color=red> <shake>WHAT</shake> </color>!? Guess I'll just<color=blue> <wave>chill~</color>
+  - '...'
   responseOptions: []

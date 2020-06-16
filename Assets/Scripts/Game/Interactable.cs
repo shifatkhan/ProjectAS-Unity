@@ -16,7 +16,7 @@ public class Interactable : MonoBehaviour
 
     public virtual void OnInteract()
     {
-        
+        // TODO: Maybe use 'Interface' instead of class
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -24,6 +24,14 @@ public class Interactable : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             playerInRange = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            playerInRange = false;
         }
     }
 }
