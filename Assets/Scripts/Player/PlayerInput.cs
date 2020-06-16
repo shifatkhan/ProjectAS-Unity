@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /** This class handles Inputs from the player.
+ * 
+ * @author ShifatKhan
  * @Special thanks to Sebastian Lague
  */
 [RequireComponent (typeof (Player))]

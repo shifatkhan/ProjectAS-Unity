@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/** Holds data about response option to a certain Dialogue and which
+ * Dialogue to display after this response was selected.
+ * 
+ * @author ShifatKhan
+ */
 [CreateAssetMenu]
 public class ResponseObject : ScriptableObject
 {

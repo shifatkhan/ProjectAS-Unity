@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/** Holds data about a series of Dialogues. Each dialogue has a set amount of possible responses.
+ * 
+ * @author ShifatKhan
+ */
 [CreateAssetMenu]
 public class DialogueObject : ScriptableObject
 {

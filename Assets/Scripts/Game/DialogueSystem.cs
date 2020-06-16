@@ -4,16 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class DialogueSystem : MonoBehaviour
+public class DialogueSystem : Interactable
 {
-    public GameObject dialogueBox;
-    public TextMeshProUGUI textMesh;
-    public TextMeshAnimator textMeshAnimator;
+    public GameObject dialogueBox;              // This is the dialogue box that has the box sprite
+    public TextMeshProUGUI textMesh;            // The text
+    public TextMeshAnimator textMeshAnimator;   // The text animator
 
-    public DialogueObject dialogueObject;
-    private int currentDialogueIndex = 0;
-
-    public bool playerInRange = false;
+    public DialogueObject dialogueObject;       // The Dialogue data to display
+    private int currentDialogueIndex = 0;       // The Dialogue index
 
     private Color showColor = new Color(1, 1, 1, 1);
     private Color hideColor = new Color(1, 1, 1, 0);
@@ -25,21 +23,15 @@ public class DialogueSystem : MonoBehaviour
         textMeshAnimator = dialogueBox.GetComponentInChildren<TextMeshAnimator>();
     }
     
-    void Update()
+    public override void OnInteract()
     {
-        if (playerInRange && Input.GetButtonDown("Interact"))
-        {
-            ShowDialogueBox();
-            StartNextDialogue();
-        }
-    }
-    
-    void StartNextDialogue()
-    {
+        // Check if there are any other dialogue to display.
+        // If not, we close the dialogue.
         if(currentDialogueIndex < dialogueObject.dialogue.Length)
         {
             textMeshAnimator.text = dialogueObject.dialogue[currentDialogueIndex];
             currentDialogueIndex++;
+            ShowDialogueBox();
         }
         else
         {
@@ -47,37 +39,21 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
+    /** Make the dialogue box & text visible.
+     */
     private void ShowDialogueBox()
     {
         dialogueBox.GetComponent<Image>().color = showColor;
         textMesh.color = showColor;
     }
 
+    /** Make the dialogue box & text hidden.
+     * Also, reset dialogue index.
+     */
     private void HideDialogueBox()
     {
         dialogueBox.GetComponent<Image>().color = hideColor;
         textMesh.color = hideColor;
         currentDialogueIndex = 0;
-    }
-
-    // TODO: Create new Interactable object with Ontriggerenter & exit
-    // Move Update() function into Interactable.
-    // Move StartNextDialogue method into Interactable and rename it to OnInteract()
-    // OnInteract will be a virtual method.
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerInRange = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerInRange = false;
-            HideDialogueBox();
-        }
     }
 }
