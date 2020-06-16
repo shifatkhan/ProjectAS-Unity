@@ -96,8 +96,12 @@ public class TextMeshAnimator : MonoBehaviour {
 	[SerializeField]
 	public char closingChar = '>';
 
+    // TYPEWRITER
+    public bool animationEnabled = true;
+    public int typewriterIndex = 0;
 
-	public struct TextSpeedItem {
+    // ============= FUNCTIONS =============
+    public struct TextSpeedItem {
 		public int speed;
 		public int index;
 	}
@@ -435,7 +439,7 @@ public class TextMeshAnimator : MonoBehaviour {
 
 		// SCROLL SPEED
 		this.scrollSpeeds = scrollSpeeds.ToArray();
-		
+
 		return outputText;
 	}
 
@@ -487,189 +491,233 @@ public class TextMeshAnimator : MonoBehaviour {
 
 		Vector3 wgv = new Vector3(); //WIGGLE
 
-		for (int i = 0; i < TMProGUI.textInfo.meshInfo.Length; ++i) {
-			int j = 0;
+        if (animationEnabled)
+        {
+            for (int i = 0; i < TMProGUI.textInfo.meshInfo.Length; ++i)
+            {
+                int j = 0;
 
-			//SHAKE
-
-
-			float shakeAmount = 1;
-			if (shakeVelocities.Length > j){
-				shakeAmount = shakeVelocities[j];
-			};
-			int sl = 0;
-			TextMeshAnimator_IndependencyType shakeIndependency = this.shakeIndependency;
-			if (shakeIndependency == TextMeshAnimator_IndependencyType.United) sv = ShakeVector(this.shakeAmount);
-
-			//WAVE
-
-			float waveAmount = 1;
-			if (waveVelocities.Length > j){
-				waveAmount = waveVelocities[j];
-			};
-
-			float waveSpeed = 1;
-			if (waveSpeeds.Length > j){
-				waveSpeed = waveSpeeds[j];
-			};
-			int wl = 0;
-			TextMeshAnimator_IndependencyType waveIndependency = this.waveIndependency;
-			if (waveIndependency == TextMeshAnimator_IndependencyType.United) wv = WaveVector(this.waveAmount, currentFrame*(this.waveSpeed*waveSpeed));
+                //SHAKE
 
 
-			//WIGGLE
+                float shakeAmount = 1;
+                if (shakeVelocities.Length > j)
+                {
+                    shakeAmount = shakeVelocities[j];
+                };
+                int sl = 0;
+                TextMeshAnimator_IndependencyType shakeIndependency = this.shakeIndependency;
+                if (shakeIndependency == TextMeshAnimator_IndependencyType.United) sv = ShakeVector(this.shakeAmount);
 
-			float wiggleAmount = 1;
-			if (wiggleVelocities.Length > j){
-				wiggleAmount = wiggleVelocities[j];
-			};
+                //WAVE
 
-			float wiggleSpeed = 1;
-			if (wiggleSpeeds.Length > j){
-				wiggleSpeed = wiggleSpeeds[j];
-			};
-			int wgl = 0;
-			int wgll = 0;
-			TextMeshAnimator_IndependencyType wiggleIndependency = this.wiggleIndependency;
-			if (wiggleIndependency == TextMeshAnimator_IndependencyType.United) wgv = WiggleVector(this.wiggleAmount, this.wiggleSpeed*wiggleSpeed, ref wgll);
+                float waveAmount = 1;
+                if (waveVelocities.Length > j)
+                {
+                    waveAmount = waveVelocities[j];
+                };
 
-			for (int v = 0; v < TMProGUI.textInfo.meshInfo [i].vertices.Length; v += 4, ++j) {
-
-				for (byte k = 0; k < 4; ++k)
-					TMProGUI.textInfo.meshInfo [i].vertices [v + k] = vertex_Base [i] [v + k];
-
-				//SHAKE
-
-				TextMeshAnimator_IndependencyType prevShakeIndependency = shakeIndependency;
-				if (j < shakeIndependencies.Length) {
-					shakeIndependency = shakeIndependencies [j];
-				}
-				if ((j >= 1) && (j < shakeIndependencies.Length + 1)) {
-					prevShakeIndependency = shakeIndependencies [j-1];
-				}
-				if (shakeIndependency == TextMeshAnimator_IndependencyType.Word) {
-					if (sl < TMProGUI.text.Length) {
-						if ((TMProGUI.text [sl] == ' ') || char.IsControl (TMProGUI.text [sl]) || (prevShakeIndependency != TextMeshAnimator_IndependencyType.Word) || (sl==0)) {
-							sv = ShakeVector (this.shakeAmount);
-							if ((TMProGUI.text [sl] == ' ') || char.IsControl (TMProGUI.text [sl])) ++sl;
-						}
-					}
-				}
-				++sl;
-				bool shake = false;
-				if (shakesEnabled.Length > j){
-					shake = shakesEnabled[j];
-				}
-				if(shake){
-					if (shakeVelocities.Length > j){
-						shakeAmount = shakeVelocities[j];
-					};
-					if(shakeIndependency == TextMeshAnimator_IndependencyType.Character)sv = ShakeVector(this.shakeAmount);
-					for (byte k = 0; k < 4; ++k) {
-						if(shakeIndependency == TextMeshAnimator_IndependencyType.Vertex)sv = ShakeVector(this.shakeAmount);
-						TMProGUI.textInfo.meshInfo [i].vertices [v + k] += sv * shakeAmount;
-					}
-				}
-
-				//WAVE
-				if (waveSpeeds.Length > j){
-					waveSpeed = waveSpeeds[j];
-				};
-
-				float waveSeparation = this.waveSeparation;
-				if (waveSeparations.Length > j){
-					waveSeparation = waveSeparations[j];
-				};
-
-				TextMeshAnimator_IndependencyType prevWaveIndependency = waveIndependency;
-				if (j < waveIndependencies.Length) {
-					waveIndependency = waveIndependencies [j];
-				}
-				if ((j >= 1) && (j < waveIndependencies.Length + 1)) {
-					prevWaveIndependency = waveIndependencies [j-1];
-				}
-				if (waveIndependency == TextMeshAnimator_IndependencyType.Word) {
-					if (wl < TMProGUI.text.Length) {
-						if ((TMProGUI.text [wl] == ' ') || char.IsControl (TMProGUI.text [wl]) || (prevWaveIndependency != TextMeshAnimator_IndependencyType.Word) || (wl==0)) {
-							wv = WaveVector(this.waveAmount, currentFrame*(this.waveSpeed*waveSpeed)+this.waveSpeed*waveSpeed+TMProGUI.textInfo.meshInfo [i].vertices [v].x/(this.waveSeparation*waveSeparation));
-							if ((TMProGUI.text [wl] == ' ') || char.IsControl (TMProGUI.text [wl])) ++wl;
-						}
-					}
-				}
-				++wl;
-
-				bool wave = false;
-				if (wavesEnabled.Length > j){
-					wave = wavesEnabled[j];
-				}
-				if(wave){
-					if (waveVelocities.Length > j){
-						waveAmount = waveVelocities[j];
-					};
-					if(waveIndependency == TextMeshAnimator_IndependencyType.Character)wv = WaveVector(this.waveAmount, currentFrame*(this.waveSpeed*waveSpeed)+TMProGUI.textInfo.meshInfo [i].vertices [v].x/(this.waveSeparation*waveSeparation));
-					for (byte k = 0; k < 4; ++k) {
-						if(waveIndependency == TextMeshAnimator_IndependencyType.Vertex)wv = WaveVector(this.waveAmount, currentFrame*(this.waveSpeed*waveSpeed)+TMProGUI.textInfo.meshInfo [i].vertices [v + k].x/(this.waveSeparation*waveSeparation));
-						TMProGUI.textInfo.meshInfo [i].vertices [v + k] += wv * waveAmount;
-					}
-				}
-
-				//WIGGLE
-
-				wiggleSpeed = this.wiggleSpeed;
-				if (wiggleSpeeds.Length > j){
-					wiggleSpeed = wiggleSpeeds[j];
-				};
-
-				TextMeshAnimator_IndependencyType prevwiggleIndependency = wiggleIndependency;
-				if (j < wiggleIndependencies.Length) {
-					wiggleIndependency = wiggleIndependencies [j];
-				}
-				if ((j >= 1) && (j < wiggleIndependencies.Length + 1)) {
-					prevwiggleIndependency = wiggleIndependencies [j-1];
-				}
-				if (wiggleIndependency == TextMeshAnimator_IndependencyType.Word) {
-					if (wgl < TMProGUI.text.Length) {
-						if ((TMProGUI.text [wgl] == ' ') || char.IsControl (TMProGUI.text [wgl]) || (prevwiggleIndependency != TextMeshAnimator_IndependencyType.Word) || (wgl==0)) {
-							wgv = WiggleVector(this.wiggleAmount, this.wiggleSpeed*wiggleSpeed, ref wgll);
-							if ((TMProGUI.text [wgl] == ' ') || char.IsControl (TMProGUI.text [wgl])) ++wgl;
-						}
-					}
-				}
-				++wgl;
-
-				bool wiggle = false;
-				if (wigglesEnabled.Length > j){
-					wiggle = wigglesEnabled[j];
-				}
-				if(wiggle){
-					if (wiggleVelocities.Length > j){
-						wiggleAmount = wiggleVelocities[j];
-					};
-					if (wiggleIndependency == TextMeshAnimator_IndependencyType.Character) {
-						wgv = WiggleVector (this.wiggleAmount, this.wiggleSpeed*wiggleSpeed, ref wgll);
-					}
-					for (byte k = 0; k < 4; ++k) {
-						if(wiggleIndependency == TextMeshAnimator_IndependencyType.Vertex)wgv = WiggleVector(this.wiggleAmount, this.wiggleSpeed*wiggleSpeed, ref wgll);
-						TMProGUI.textInfo.meshInfo [i].vertices [v + k] += wgv * wiggleAmount;
-					}
-				}
+                float waveSpeed = 1;
+                if (waveSpeeds.Length > j)
+                {
+                    waveSpeed = waveSpeeds[j];
+                };
+                int wl = 0;
+                TextMeshAnimator_IndependencyType waveIndependency = this.waveIndependency;
+                if (waveIndependency == TextMeshAnimator_IndependencyType.United) wv = WaveVector(this.waveAmount, currentFrame * (this.waveSpeed * waveSpeed));
 
 
-				// CHAR VISIBILITY
-				if ((v / 4) + 1 > charsVisible) {
-					for (int g = 0; g < 4; g++) {
-						TMProGUI.textInfo.meshInfo[i].vertices[v+g] = Vector3.zero;
+                //WIGGLE
 
-						//Color32 currentColor = TMProGUI.textInfo.characterInfo[(v/4)+1].color;
-						//TMProGUI.textInfo.characterInfo[(v/4)+1].color = new Color32(currentColor.r, currentColor.g, currentColor.b, (byte)0);
-						
-					}
-				}
-			}
-			
-			TMProGUI.UpdateVertexData();
-			//TMProGUI.ForceMeshUpdate();
-		}
+                float wiggleAmount = 1;
+                if (wiggleVelocities.Length > j)
+                {
+                    wiggleAmount = wiggleVelocities[j];
+                };
+
+                float wiggleSpeed = 1;
+                if (wiggleSpeeds.Length > j)
+                {
+                    wiggleSpeed = wiggleSpeeds[j];
+                };
+                int wgl = 0;
+                int wgll = 0;
+                TextMeshAnimator_IndependencyType wiggleIndependency = this.wiggleIndependency;
+                if (wiggleIndependency == TextMeshAnimator_IndependencyType.United) wgv = WiggleVector(this.wiggleAmount, this.wiggleSpeed * wiggleSpeed, ref wgll);
+
+                for (int v = 0; v < TMProGUI.textInfo.meshInfo[i].vertices.Length; v += 4, ++j)
+                {
+
+                    for (byte k = 0; k < 4; ++k)
+                        TMProGUI.textInfo.meshInfo[i].vertices[v + k] = vertex_Base[i][v + k];
+
+                    //SHAKE
+
+                    TextMeshAnimator_IndependencyType prevShakeIndependency = shakeIndependency;
+                    if (j < shakeIndependencies.Length)
+                    {
+                        shakeIndependency = shakeIndependencies[j];
+                    }
+                    if ((j >= 1) && (j < shakeIndependencies.Length + 1))
+                    {
+                        prevShakeIndependency = shakeIndependencies[j - 1];
+                    }
+                    if (shakeIndependency == TextMeshAnimator_IndependencyType.Word)
+                    {
+                        if (sl < TMProGUI.text.Length)
+                        {
+                            if ((TMProGUI.text[sl] == ' ') || char.IsControl(TMProGUI.text[sl]) || (prevShakeIndependency != TextMeshAnimator_IndependencyType.Word) || (sl == 0))
+                            {
+                                sv = ShakeVector(this.shakeAmount);
+                                if ((TMProGUI.text[sl] == ' ') || char.IsControl(TMProGUI.text[sl])) ++sl;
+                            }
+                        }
+                    }
+                    ++sl;
+                    bool shake = false;
+                    if (shakesEnabled.Length > j)
+                    {
+                        shake = shakesEnabled[j];
+                    }
+                    if (shake)
+                    {
+                        if (shakeVelocities.Length > j)
+                        {
+                            shakeAmount = shakeVelocities[j];
+                        };
+                        if (shakeIndependency == TextMeshAnimator_IndependencyType.Character) sv = ShakeVector(this.shakeAmount);
+                        for (byte k = 0; k < 4; ++k)
+                        {
+                            if (shakeIndependency == TextMeshAnimator_IndependencyType.Vertex) sv = ShakeVector(this.shakeAmount);
+                            TMProGUI.textInfo.meshInfo[i].vertices[v + k] += sv * shakeAmount;
+                        }
+                    }
+
+                    //WAVE
+                    if (waveSpeeds.Length > j)
+                    {
+                        waveSpeed = waveSpeeds[j];
+                    };
+
+                    float waveSeparation = this.waveSeparation;
+                    if (waveSeparations.Length > j)
+                    {
+                        waveSeparation = waveSeparations[j];
+                    };
+
+                    TextMeshAnimator_IndependencyType prevWaveIndependency = waveIndependency;
+                    if (j < waveIndependencies.Length)
+                    {
+                        waveIndependency = waveIndependencies[j];
+                    }
+                    if ((j >= 1) && (j < waveIndependencies.Length + 1))
+                    {
+                        prevWaveIndependency = waveIndependencies[j - 1];
+                    }
+                    if (waveIndependency == TextMeshAnimator_IndependencyType.Word)
+                    {
+                        if (wl < TMProGUI.text.Length)
+                        {
+                            if ((TMProGUI.text[wl] == ' ') || char.IsControl(TMProGUI.text[wl]) || (prevWaveIndependency != TextMeshAnimator_IndependencyType.Word) || (wl == 0))
+                            {
+                                wv = WaveVector(this.waveAmount, currentFrame * (this.waveSpeed * waveSpeed) + this.waveSpeed * waveSpeed + TMProGUI.textInfo.meshInfo[i].vertices[v].x / (this.waveSeparation * waveSeparation));
+                                if ((TMProGUI.text[wl] == ' ') || char.IsControl(TMProGUI.text[wl])) ++wl;
+                            }
+                        }
+                    }
+                    ++wl;
+
+                    bool wave = false;
+                    if (wavesEnabled.Length > j)
+                    {
+                        wave = wavesEnabled[j];
+                    }
+                    if (wave)
+                    {
+                        if (waveVelocities.Length > j)
+                        {
+                            waveAmount = waveVelocities[j];
+                        };
+                        if (waveIndependency == TextMeshAnimator_IndependencyType.Character) wv = WaveVector(this.waveAmount, currentFrame * (this.waveSpeed * waveSpeed) + TMProGUI.textInfo.meshInfo[i].vertices[v].x / (this.waveSeparation * waveSeparation));
+                        for (byte k = 0; k < 4; ++k)
+                        {
+                            if (waveIndependency == TextMeshAnimator_IndependencyType.Vertex) wv = WaveVector(this.waveAmount, currentFrame * (this.waveSpeed * waveSpeed) + TMProGUI.textInfo.meshInfo[i].vertices[v + k].x / (this.waveSeparation * waveSeparation));
+                            TMProGUI.textInfo.meshInfo[i].vertices[v + k] += wv * waveAmount;
+                        }
+                    }
+
+                    //WIGGLE
+
+                    wiggleSpeed = this.wiggleSpeed;
+                    if (wiggleSpeeds.Length > j)
+                    {
+                        wiggleSpeed = wiggleSpeeds[j];
+                    };
+
+                    TextMeshAnimator_IndependencyType prevwiggleIndependency = wiggleIndependency;
+                    if (j < wiggleIndependencies.Length)
+                    {
+                        wiggleIndependency = wiggleIndependencies[j];
+                    }
+                    if ((j >= 1) && (j < wiggleIndependencies.Length + 1))
+                    {
+                        prevwiggleIndependency = wiggleIndependencies[j - 1];
+                    }
+                    if (wiggleIndependency == TextMeshAnimator_IndependencyType.Word)
+                    {
+                        if (wgl < TMProGUI.text.Length)
+                        {
+                            if ((TMProGUI.text[wgl] == ' ') || char.IsControl(TMProGUI.text[wgl]) || (prevwiggleIndependency != TextMeshAnimator_IndependencyType.Word) || (wgl == 0))
+                            {
+                                wgv = WiggleVector(this.wiggleAmount, this.wiggleSpeed * wiggleSpeed, ref wgll);
+                                if ((TMProGUI.text[wgl] == ' ') || char.IsControl(TMProGUI.text[wgl])) ++wgl;
+                            }
+                        }
+                    }
+                    ++wgl;
+
+                    bool wiggle = false;
+                    if (wigglesEnabled.Length > j)
+                    {
+                        wiggle = wigglesEnabled[j];
+                    }
+                    if (wiggle)
+                    {
+                        if (wiggleVelocities.Length > j)
+                        {
+                            wiggleAmount = wiggleVelocities[j];
+                        };
+                        if (wiggleIndependency == TextMeshAnimator_IndependencyType.Character)
+                        {
+                            wgv = WiggleVector(this.wiggleAmount, this.wiggleSpeed * wiggleSpeed, ref wgll);
+                        }
+                        for (byte k = 0; k < 4; ++k)
+                        {
+                            if (wiggleIndependency == TextMeshAnimator_IndependencyType.Vertex) wgv = WiggleVector(this.wiggleAmount, this.wiggleSpeed * wiggleSpeed, ref wgll);
+                            TMProGUI.textInfo.meshInfo[i].vertices[v + k] += wgv * wiggleAmount;
+                        }
+                    }
+
+
+                    // CHAR VISIBILITY
+                    if ((v / 4) + 1 > charsVisible)
+                    {
+                        for (int g = 0; g < 4; g++)
+                        {
+                            TMProGUI.textInfo.meshInfo[i].vertices[v + g] = Vector3.zero;
+
+                            //Color32 currentColor = TMProGUI.textInfo.characterInfo[(v/4)+1].color;
+                            //TMProGUI.textInfo.characterInfo[(v/4)+1].color = new Color32(currentColor.r, currentColor.g, currentColor.b, (byte)0);
+
+                        }
+                    }
+                }
+
+                TMProGUI.UpdateVertexData();
+                //TMProGUI.ForceMeshUpdate();
+            }
+        }
+		
 		++currentFrame;
 	}
 }

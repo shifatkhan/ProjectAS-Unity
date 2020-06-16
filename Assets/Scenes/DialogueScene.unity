@@ -3732,6 +3732,56 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6443476744713177014, guid: eb22d0541fba9954589111c3dd91c3e5,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6443476744713177014, guid: eb22d0541fba9954589111c3dd91c3e5,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6443476744713177014, guid: eb22d0541fba9954589111c3dd91c3e5,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6443476744713177014, guid: eb22d0541fba9954589111c3dd91c3e5,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6443476744713177014, guid: eb22d0541fba9954589111c3dd91c3e5,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6773925117961878603, guid: eb22d0541fba9954589111c3dd91c3e5,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6773925117961878603, guid: eb22d0541fba9954589111c3dd91c3e5,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6773925117961878603, guid: eb22d0541fba9954589111c3dd91c3e5,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6773925117961878603, guid: eb22d0541fba9954589111c3dd91c3e5,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6773925117961878603, guid: eb22d0541fba9954589111c3dd91c3e5,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb22d0541fba9954589111c3dd91c3e5, type: 3}
 --- !u!1001 &995113567
@@ -3937,6 +3987,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NPC test
+      objectReference: {fileID: 0}
+    - target: {fileID: 561292875288856799, guid: ea88a73a80b3315418d53941d8f95afc,
+        type: 3}
+      propertyPath: typingSpeed
+      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea88a73a80b3315418d53941d8f95afc, type: 3}

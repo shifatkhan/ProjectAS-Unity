@@ -19,11 +19,17 @@ public class DialogueSystem : Interactable
 
     public DialogueObject startDialogue;        // The Dialogue data to display
     private DialogueObject responseDialogue;    // Resulting Dialogue from a response
+    private DialogueObject currentDialogue;
     private int currentDialogueIndex = 0;       // The Dialogue index
 
     private Color showDialogueColor;
     private Color showTextColor;
-    private Color hideColor;    
+    private Color hideColor;
+
+    private string textToType = "";
+    private string typedText = "";
+    public float typingSpeed = 0.1f;
+    private bool finishedTyping = true;
 
     // TODO: Might need to change how we get hold of the dialogue UI.
     // Currently, it is very coupled with how the UI is setup.
@@ -53,28 +59,68 @@ public class DialogueSystem : Interactable
     
     public override void OnInteract()
     {
-        DialogueObject currentDialogue = GetCurrentDialogue();
-
-        // Check if there are any other dialogue to display.
-        // If not, we close the dialogue.
-        if(currentDialogueIndex < currentDialogue.dialogue.Length)
+        if (finishedTyping)
         {
-            textMeshAnimator.text = currentDialogue.dialogue[currentDialogueIndex];
-            
-            ShowDialogueBox();
+            currentDialogue = GetCurrentDialogue();
 
-            if (currentDialogueIndex == currentDialogue.dialogue.Length - 1)
+            // Check if there are any other dialogue to display.
+            // If not, we close the dialogue.
+            if (currentDialogueIndex < currentDialogue.dialogue.Length)
             {
-                // Show responses at the end of dialogues.
-                ShowResponses();
+                finishedTyping = false;
+
+                textMeshAnimator.text = currentDialogue.dialogue[currentDialogueIndex];
+                textToType = textMesh.text;
+                textMesh.text = "";
+
+                ShowDialogueBox();
+
+                textMeshAnimator.animationEnabled = false;
+
+                StopAllCoroutines(); // Stop previous typewriter.
+                StartCoroutine(Typewriter());
+            }
+            else
+            {
+                HideDialogueBox();
+            }
+        }
+    }
+
+    IEnumerator Typewriter()
+    {
+        for (int i = 0; i < textToType.Length; i++)
+        {
+            if(textToType[i] == '<')
+            {
+                string richtext = "";
+                for (int j = i; j < textToType.Length; j++)
+                {
+                    richtext += textToType[j];
+                    if(textToType[j] == '>')
+                    {
+                        i = j+1;
+                        textMesh.text += richtext;
+                        break;
+                    }
+                }
             }
 
-            currentDialogueIndex++;
+            textMesh.text += textToType[i];
+            textMeshAnimator.typewriterIndex = i;
+
+            yield return new WaitForSeconds(typingSpeed);
         }
-        else
+
+        finishedTyping = true;
+        textMeshAnimator.animationEnabled = true;
+
+        if (currentDialogueIndex == currentDialogue.dialogue.Length - 1)
         {
-            HideDialogueBox();
+            // Show responses at the end of dialogues & when typewriter finished.
+            ShowResponses();
         }
+        currentDialogueIndex++;
     }
 
     /** Make the dialogue box & text visible.
@@ -110,7 +156,7 @@ public class DialogueSystem : Interactable
      */
     private void ShowResponses()
     {
-        DialogueObject currentDialogue = GetCurrentDialogue();
+        currentDialogue = GetCurrentDialogue();
 
         if (currentDialogue.responseOptions.Length > 0)
         {
@@ -149,7 +195,7 @@ public class DialogueSystem : Interactable
      */
     public void OnResponseClick()
     {
-        DialogueObject currentDialogue = GetCurrentDialogue();
+        currentDialogue = GetCurrentDialogue();
         
         string buttonPressed = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TextMeshProUGUI>().text;
         ResponseObject selectedResponse = null;
