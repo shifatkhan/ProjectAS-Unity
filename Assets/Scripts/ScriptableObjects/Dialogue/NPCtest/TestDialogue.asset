@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TestDialogue
   m_EditorClassIdentifier: 
   dialogueID: Testing
+  speaker: {fileID: 11400000, guid: d03326ae827500345b757da1ee760527, type: 2}
   dialogue:
   - Why hello there <color=yellow>sexy</color>~
   - Can you show a girl a<color=purple> <wave>good</wave></color> time? ;)

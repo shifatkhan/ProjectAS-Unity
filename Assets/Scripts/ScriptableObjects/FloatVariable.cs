@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "ScriptableObject/FloatVariable")]
 public class FloatVariable : ScriptableObject, ISerializationCallbackReceiver
 {
     public float InitialValue;

@@ -6,10 +6,13 @@ using UnityEngine;
  * 
  * @author ShifatKhan
  */
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "New Dialogue", menuName = "ScriptableObject/Dialogue/DialogueObject")]
 public class DialogueObject : ScriptableObject
 {
+    // TODO: Don't know if this is needed
     public string dialogueID;
+
+    public CharacterObject speaker;
 
     [TextArea]
     public string[] dialogue; //Are you shaking in your<color=red> <shake>Boots </color>!?

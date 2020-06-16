@@ -14,6 +14,9 @@ public class DialogueSystem : Interactable
     private GameObject responses;
     private bool responsePressed = false;
 
+    private Image portrait;
+    private GameObject name;
+
     public DialogueObject startDialogue;        // The Dialogue data to display
     private DialogueObject responseDialogue;    // Resulting Dialogue from a response
     private int currentDialogueIndex = 0;       // The Dialogue index
@@ -22,13 +25,24 @@ public class DialogueSystem : Interactable
     private Color showTextColor;
     private Color hideColor;    
 
+    // TODO: Might need to change how we get hold of the dialogue UI.
+    // Currently, it is very coupled with how the UI is setup.
+    // Example: The `Dialogue Text` GameObject must be placed above the `Name Box` GameObject.
     void Start()
     {
+        // Get Components to update
         dialogueBox = GameObject.FindGameObjectWithTag("Dialogue");
         textMesh = dialogueBox.GetComponentInChildren<TextMeshProUGUI>();
         textMeshAnimator = dialogueBox.GetComponentInChildren<TextMeshAnimator>();
-
+        
         responses = GameObject.Find("Responses");
+
+        portrait = GameObject.FindGameObjectWithTag("Portrait").GetComponent<Image>();
+        name = GameObject.FindGameObjectWithTag("Name");
+
+        // Set portrait and name
+        portrait.sprite = startDialogue.speaker.portrait;
+        name.GetComponentInChildren<TextMeshProUGUI>().text = startDialogue.speaker.fullName;
 
         showDialogueColor = new Color(1, 1, 1, 1);
         showTextColor = textMesh.color;
@@ -69,6 +83,10 @@ public class DialogueSystem : Interactable
     {
         dialogueBox.GetComponent<Image>().color = showDialogueColor;
         textMesh.color = showTextColor;
+
+        portrait.color = showDialogueColor;
+        name.GetComponent<Image>().color = showDialogueColor;
+        name.GetComponentInChildren<TextMeshProUGUI>().color = showTextColor;
     }
 
     /** Make the dialogue box & text hidden.
@@ -78,11 +96,18 @@ public class DialogueSystem : Interactable
     {
         dialogueBox.GetComponent<Image>().color = hideColor;
         textMesh.color = hideColor;
+
+        portrait.color = hideColor;
+        name.GetComponent<Image>().color = hideColor;
+        name.GetComponentInChildren<TextMeshProUGUI>().color = hideColor;
+
         currentDialogueIndex = 0;
         responsePressed = false;
         HideResponses();
     }
 
+    /** Enable as many buttons as there are responses.
+     */
     private void ShowResponses()
     {
         DialogueObject currentDialogue = GetCurrentDialogue();
