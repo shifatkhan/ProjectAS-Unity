@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ParticleScene.unity
     guid: 6b4266e25c2a4ec4bb92adc0fa30c766
+  - enabled: 1
+    path: Assets/Scenes/DialogueScene.unity
+    guid: b45cbd11d3f9fe545ad42eb8106ffffb
   m_configObjects: {}

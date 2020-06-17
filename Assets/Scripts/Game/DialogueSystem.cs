@@ -72,10 +72,8 @@ public class DialogueSystem : Interactable
                 textMeshAnimator.text = currentDialogue.dialogue[currentDialogueIndex];
                 textToType = textMesh.text;
                 textMesh.text = "";
-
+                Debug.Log("TEXT LENGTH: "+ textToType.Length);
                 ShowDialogueBox();
-
-                textMeshAnimator.animationEnabled = false;
 
                 StopAllCoroutines(); // Stop previous typewriter.
                 StartCoroutine(Typewriter());
@@ -91,6 +89,7 @@ public class DialogueSystem : Interactable
     {
         for (int i = 0; i < textToType.Length; i++)
         {
+            // Check for rich text. Skip them so typewriter effect doesn't apply.
             if(textToType[i] == '<')
             {
                 string richtext = "";
@@ -99,21 +98,24 @@ public class DialogueSystem : Interactable
                     richtext += textToType[j];
                     if(textToType[j] == '>')
                     {
+                        // Hotfix for index out of bounds when we do i = j+1
+                        if (j + 1 >= textToType.Length)
+                            textToType += " ";
+
                         i = j+1;
                         textMesh.text += richtext;
                         break;
                     }
                 }
             }
-
+            
             textMesh.text += textToType[i];
-            textMeshAnimator.typewriterIndex = i;
+            textMeshAnimator.SyncToTextMesh();
 
             yield return new WaitForSeconds(typingSpeed);
         }
 
         finishedTyping = true;
-        textMeshAnimator.animationEnabled = true;
 
         if (currentDialogueIndex == currentDialogue.dialogue.Length - 1)
         {
