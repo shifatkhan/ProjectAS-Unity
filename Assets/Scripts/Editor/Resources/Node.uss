@@ -1,3 +1,7 @@
 DialogueNode #title{
-	backgroud-color: #e6bbad;
+	background-color: #add8e6;
+}
+
+DialogueNode #title Label{
+	color: #0c2026;
 }

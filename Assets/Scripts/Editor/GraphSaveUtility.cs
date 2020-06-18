@@ -30,12 +30,37 @@ public class GraphSaveUtility
 
     public void SaveGraph(string fileName)
     {
+        DialogueContainer dialogueContainer = ScriptableObject.CreateInstance<DialogueContainer>();
+        if (!SaveNodes(dialogueContainer))
+        {
+            return;
+        }
+
+        SaveExposedProperties(dialogueContainer);
+
+        // Create the Resources folder if it wasn't already.
+        if (!AssetDatabase.IsValidFolder("Assets/Resources"))
+        {
+            AssetDatabase.CreateFolder("Assets", "Resources");
+        }
+
+        // Save the Dialogue Container.
+        AssetDatabase.CreateAsset(dialogueContainer, $"Assets/Resources/{fileName}.asset");
+        AssetDatabase.SaveAssets();
+    }
+
+    private void SaveExposedProperties(DialogueContainer dialogueContainer)
+    {
+        dialogueContainer.exposedProperties.AddRange(_targetGraphView.exposedProperties);
+    }
+
+    private bool SaveNodes(DialogueContainer dialogueContainer)
+    {
         // Don't save if there's nothing.
         if (!Edges.Any())
-            return;
+            return false;
 
         // Create a new Dialogue Container scriptable object & populate it
-        DialogueContainer dialogueContainer = ScriptableObject.CreateInstance<DialogueContainer>();
         Edge[] connectedPorts = Edges.Where(x => x.input.node != null).ToArray();
 
         for (int i = 0; i < connectedPorts.Length; i++)
@@ -61,15 +86,7 @@ public class GraphSaveUtility
             });
         }
 
-        // Create the Resources folder if it wasn't already.
-        if (!AssetDatabase.IsValidFolder("Assets/Resources"))
-        {
-            AssetDatabase.CreateFolder("Assets", "Resources");
-        }
-
-        // Save the Dialogue Container.
-        AssetDatabase.CreateAsset(dialogueContainer, $"Assets/Resources/{fileName}.asset");
-        AssetDatabase.SaveAssets();
+        return true;
     }
 
     public void LoadGraph(string fileName)
@@ -84,7 +101,20 @@ public class GraphSaveUtility
         ClearGraph();
         CreateNodes();
         ConnectNodes();
+        CreateExposedProperties();
+    }
 
+    /** Clear existing properties on hot-reload
+     * And then add the properties from the save data.
+     */
+    private void CreateExposedProperties()
+    {
+        _targetGraphView.ClearBlackBoardAndExposedProperties();
+
+        foreach (ExposedProperty exposedProperty in _containerCache.exposedProperties)
+        {
+            _targetGraphView.AddPropertyToBlackboard(exposedProperty);
+        }
     }
 
     /** Link the node's ports with other node's ports.
@@ -129,7 +159,8 @@ public class GraphSaveUtility
     {
         foreach (DialogueNodeData nodeData in _containerCache.dialogueNodeData)
         {
-            DialogueNode tempNode = _targetGraphView.CreateDialogueNode(nodeData.dialogueText);
+            // Put vec2.zero since we change position after anyway.
+            DialogueNode tempNode = _targetGraphView.CreateDialogueNode(nodeData.dialogueText, Vector2.zero);
             tempNode.GUID = nodeData.GUID;
             _targetGraphView.AddElement(tempNode);
 

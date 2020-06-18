@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -26,6 +28,47 @@ public class DialogueGraph : EditorWindow
     {
         ConstructGraphView();
         GenerateToolbar();
+        GenerateMiniMap();
+        GenerateBlackboard();
+    }
+
+    /** Created black board with property variables.
+     */
+    private void GenerateBlackboard()
+    {
+        Blackboard blackboard = new Blackboard();
+        blackboard.Add(new BlackboardSection { title = "Exposed Properties"});
+        blackboard.addItemRequested = _blackboard => { _graphView.AddPropertyToBlackboard(new ExposedProperty()); };
+        blackboard.editTextRequested = (blackboard1, currElement, newName) => 
+        {
+            string oldPropertyValue = ((BlackboardField)currElement).text;
+            if (_graphView.exposedProperties.Any(x => x.propertyName == newName))
+            {
+                EditorUtility.DisplayDialog("Error", "This property name already exists. Please choose another one.",
+                    "OK");
+                return;
+            }
+
+            int propertyIndex = _graphView.exposedProperties.FindIndex(x => x.propertyName == oldPropertyValue);
+            _graphView.exposedProperties[propertyIndex].propertyName = newName;
+            ((BlackboardField)currElement).text = newName;
+        };
+
+        blackboard.SetPosition(new Rect(10, 30, 200, 300));
+        
+        _graphView.Add(blackboard);
+        _graphView.Blackboard = blackboard;
+    }
+
+    /** Creates a small minimap to view the whole graph.
+     */
+    private void GenerateMiniMap()
+    {
+        MiniMap miniMap = new MiniMap { anchored = true };
+        Vector2 coords = _graphView.contentViewContainer.WorldToLocal(new Vector2(this.maxSize.x - 10, 30));
+        miniMap.SetPosition(new Rect(coords.x, coords.y, 200, 140));
+
+        _graphView.Add(miniMap);
     }
 
     private void OnDisable()
@@ -35,7 +78,7 @@ public class DialogueGraph : EditorWindow
 
     private void ConstructGraphView()
     {
-        _graphView = new DialogueGraphView
+        _graphView = new DialogueGraphView(this)
         {
             name = "Dialogue Graph"
         };
@@ -66,15 +109,6 @@ public class DialogueGraph : EditorWindow
         {
             text = "Load Data"
         });
-
-        // ADD button to create nodes.
-        Button nodeCreateButton = new Button(clickEvent: () =>
-        {
-            _graphView.CreateNode("Dialogue Node");
-        });
-
-        nodeCreateButton.text = "Create Node";
-        toolbar.Add(nodeCreateButton);
 
         rootVisualElement.Add(toolbar);
     }

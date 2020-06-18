@@ -17,18 +17,23 @@ MonoBehaviour:
     portName: Next
     targetNodeGuid: b0304efe-a58b-455c-8372-3d97f819ef3a
   - baseNodeGuid: b0304efe-a58b-455c-8372-3d97f819ef3a
-    portName: Hey
+    portName: Yes
     targetNodeGuid: 046797f0-ef4c-480e-8517-c28400cdd4b6
   - baseNodeGuid: b0304efe-a58b-455c-8372-3d97f819ef3a
-    portName: H
+    portName: No
     targetNodeGuid: 936a35e0-9558-432b-bc53-a45956454374
   dialogueNodeData:
-  - GUID: 046797f0-ef4c-480e-8517-c28400cdd4b6
-    dialogueText: Dialogue Node
-    position: {x: 519, y: 135}
+  - GUID: b0304efe-a58b-455c-8372-3d97f819ef3a
+    dialogueText: Test dialogue
+    position: {x: 240, y: 233}
   - GUID: 936a35e0-9558-432b-bc53-a45956454374
     dialogueText: Dialogue Node
-    position: {x: 524, y: 330}
-  - GUID: b0304efe-a58b-455c-8372-3d97f819ef3a
-    dialogueText: Hello world
-    position: {x: 240, y: 233}
+    position: {x: 632, y: 358}
+  - GUID: 046797f0-ef4c-480e-8517-c28400cdd4b6
+    dialogueText: Dialogue Node
+    position: {x: 493, y: 232}
+  exposedProperties:
+  - propertyName: Yeet
+    propertyValue: Val1
+  - propertyName: Skeet
+    propertyValue: Val2
