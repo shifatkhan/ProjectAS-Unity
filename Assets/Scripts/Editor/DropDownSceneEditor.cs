@@ -47,7 +47,7 @@ public class DropDownSceneEditor : Editor
         // https://forum.unity.com/threads/custom-editor-not-saving-changes.424675/
         if (GUI.changed)
         {
-            // Save changes made to SceneLoader
+            // Notify Editor that changes has been made. Therefore allowing user to save.
             EditorUtility.SetDirty(sceneLoader);
             EditorSceneManager.MarkSceneDirty(sceneLoader.gameObject.scene);
         }
