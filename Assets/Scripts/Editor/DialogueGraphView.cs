@@ -9,10 +9,11 @@ using UnityEngine.UIElements;
 /** Class that takes care of the dialogue graph window.
  * 
  * @author ShifatKhan
+ * @special thanks to Mert Kirimgeri - https://youtu.be/OMDfr1dzBco
  */
 public class DialogueGraphView : GraphView
 {
-    private readonly Vector2 NODE_SIZE = new Vector2(150, 200);
+    public readonly Vector2 NODE_SIZE = new Vector2(150, 200);
 
     public DialogueGraphView()
     {
@@ -113,13 +114,26 @@ public class DialogueGraphView : GraphView
         inputPort.portName = "Input";
         dialogueNode.inputContainer.Add(inputPort);
 
+        dialogueNode.styleSheets.Add(Resources.Load<StyleSheet>("Node"));
+
+        // ADD button to create new choices.
         Button choiceButton = new Button(clickEvent: () =>
         {
             AddChoicePort(dialogueNode);
         });
         choiceButton.text = "New Choice";
-
         dialogueNode.titleContainer.Add(choiceButton);
+
+        // ADD text field for Dialogue text.
+        TextField textField = new TextField(string.Empty);
+        textField.RegisterValueChangedCallback(evt =>
+        {
+            dialogueNode.dialogueText = evt.newValue;
+            dialogueNode.title = evt.newValue;
+        });
+        textField.SetValueWithoutNotify(dialogueNode.title);
+        dialogueNode.mainContainer.Add(textField);
+
 
         // Update node since we changed it.
         dialogueNode.RefreshExpandedState();
@@ -172,13 +186,13 @@ public class DialogueGraphView : GraphView
         IEnumerable<Edge> targetEdge = edges.ToList().Where(x => 
             x.output.portName == generatedPort.portName && x.output.node == generatedPort.node);
 
-        if (!targetEdge.Any())
-            return;
-
-        // Disconnect the edges before deleting a port.
-        var edge = targetEdge.First();
-        edge.input.Disconnect(edge);
-        RemoveElement(targetEdge.First());
+        if (targetEdge.Any())
+        {
+            // Disconnect the edges before deleting a port (if connected)
+            Edge edge = targetEdge.First();
+            edge.input.Disconnect(edge);
+            RemoveElement(targetEdge.First());
+        }
 
         dialogueNode.outputContainer.Remove(generatedPort);
         // Update node since we changed it.

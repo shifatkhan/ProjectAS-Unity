@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6324cbce300500045b58be95f30e3d2c, type: 3}
+  m_Name: New Narrative
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - baseNodeGuid: dd1b26e9-2047-430b-b78f-f5775b08c7d5
+    portName: Next
+    targetNodeGuid: b0304efe-a58b-455c-8372-3d97f819ef3a
+  - baseNodeGuid: b0304efe-a58b-455c-8372-3d97f819ef3a
+    portName: Hey
+    targetNodeGuid: 046797f0-ef4c-480e-8517-c28400cdd4b6
+  - baseNodeGuid: b0304efe-a58b-455c-8372-3d97f819ef3a
+    portName: H
+    targetNodeGuid: 936a35e0-9558-432b-bc53-a45956454374
+  dialogueNodeData:
+  - GUID: 046797f0-ef4c-480e-8517-c28400cdd4b6
+    dialogueText: Dialogue Node
+    position: {x: 519, y: 135}
+  - GUID: 936a35e0-9558-432b-bc53-a45956454374
+    dialogueText: Dialogue Node
+    position: {x: 524, y: 330}
+  - GUID: b0304efe-a58b-455c-8372-3d97f819ef3a
+    dialogueText: Hello world
+    position: {x: 240, y: 233}

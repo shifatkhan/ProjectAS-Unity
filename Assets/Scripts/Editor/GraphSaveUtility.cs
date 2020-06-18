@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 /** Class that will add save and load functionality to
  * the Dialogue's graph view.
@@ -86,23 +87,42 @@ public class GraphSaveUtility
 
     }
 
+    /** Link the node's ports with other node's ports.
+     */
     private void ConnectNodes()
     {
-        // Set and replace entry point (start) guid back from save.
-        Nodes.Find(x => x.entryPoint).GUID = _containerCache.nodeLinks[0].baseNodeGuid;
-
-        foreach (DialogueNode node in Nodes)
+        for (int i = 0; i < Nodes.Count; i++)
         {
-            if (node.entryPoint)
-                return;
+            List<NodeLinkData> connections = _containerCache.nodeLinks.Where(x => x.baseNodeGuid == Nodes[i].GUID).ToList();
+            for (int j = 0; j < connections.Count; j++)
+            {
+                string targetNodeGuid = connections[j].targetNodeGuid;
+                DialogueNode targetNode = Nodes.First(x => x.GUID == targetNodeGuid);
+                LinkNodes(Nodes[i].outputContainer[j].Q<Port>(), (Port)targetNode.inputContainer[0]);
 
-            // Remove edges connected to this node.
-            Edges.Where(x => x.input.node == node).ToList()
-                .ForEach(edge => _targetGraphView.RemoveElement(edge));
-
-            // Remove the node.
-            _targetGraphView.RemoveElement(node);
+                targetNode.SetPosition(new Rect(
+                    _containerCache.dialogueNodeData.First(x => x.GUID == targetNodeGuid).position,
+                    _targetGraphView.NODE_SIZE
+                    ));
+            }
         }
+    }
+
+    /** Connects port pair with an edge.
+     */
+    private void LinkNodes(Port outputPort, Port inputport)
+    {
+        Edge tempEdge = new Edge
+        {
+            output = outputPort,
+            input = inputport
+        };
+
+        tempEdge.input.Connect(tempEdge);
+        tempEdge.output.Connect(tempEdge);
+
+        _targetGraphView.Add(tempEdge);
+
     }
 
     private void CreateNodes()
@@ -120,6 +140,20 @@ public class GraphSaveUtility
 
     private void ClearGraph()
     {
-        throw new NotImplementedException();
+        // Set and replace entry point (start) guid back from save.
+        Nodes.Find(x => x.entryPoint).GUID = _containerCache.nodeLinks[0].baseNodeGuid;
+
+        foreach (DialogueNode node in Nodes)
+        {
+            if (node.entryPoint)
+                continue;
+
+            // Remove edges connected to this node.
+            Edges.Where(x => x.input.node == node).ToList()
+                .ForEach(edge => _targetGraphView.RemoveElement(edge));
+
+            // Remove the node.
+            _targetGraphView.RemoveElement(node);
+        }
     }
 }
