@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/** Class that keeps data about a dialogue node
+ * 
+ * @author ShifatKhan
+ */
 [Serializable]
 public class DialogueNodeData
 {

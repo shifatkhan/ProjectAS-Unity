@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -57,11 +58,11 @@ public class DialogueGraph : EditorWindow
 
         toolbar.Add(fileNameTextField);
 
-        toolbar.Add(new Button(() => SaveData())
+        toolbar.Add(new Button(() => RequestDataOperation(true))
         {
             text = "Save Data"
         });
-        toolbar.Add(new Button(() => LoadData())
+        toolbar.Add(new Button(() => RequestDataOperation(false))
         {
             text = "Load Data"
         });
@@ -78,13 +79,26 @@ public class DialogueGraph : EditorWindow
         rootVisualElement.Add(toolbar);
     }
 
-    private void SaveData()
+    /** Save or Load graph data.
+     * If save = true, it will save.
+     * If save = false, it will load.
+     */
+    private void RequestDataOperation(bool save)
     {
+        if (string.IsNullOrEmpty(_fileName))
+        {
+            EditorUtility.DisplayDialog("Invalid file name!", "Please enter a valid file name.", "OK");
+        }
 
-    }
+        var saveUtility = GraphSaveUtility.GetInstance(_graphView);
 
-    private void LoadData()
-    {
-
+        if (save)
+        {
+            saveUtility.SaveGraph(_fileName);
+        }
+        else
+        {
+            saveUtility.LoadGraph(_fileName);
+        }
     }
 }
