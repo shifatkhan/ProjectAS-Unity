@@ -65,7 +65,7 @@ public class DialogueSystem : Interactable
 
             // Check if there are any other dialogue to display.
             // If not, we close the dialogue.
-            if (currentDialogueIndex < currentDialogue.dialogue.Length)
+            if (currentDialogueIndex < currentDialogue.dialogue.Count)
             {
                 finishedTyping = false;
 
@@ -117,7 +117,7 @@ public class DialogueSystem : Interactable
 
         finishedTyping = true;
 
-        if (currentDialogueIndex == currentDialogue.dialogue.Length - 1)
+        if (currentDialogueIndex == currentDialogue.dialogue.Count - 1)
         {
             // Show responses at the end of dialogues & when typewriter finished.
             ShowResponses();
@@ -160,13 +160,13 @@ public class DialogueSystem : Interactable
     {
         currentDialogue = GetCurrentDialogue();
 
-        if (currentDialogue.responseOptions.Length > 0)
+        if (currentDialogue.responseOptions.Count > 0)
         {
             int children = responses.transform.childCount;
 
             GameObject currentButton;
 
-            for (int i = 0; i < children && i < currentDialogue.responseOptions.Length; i++)
+            for (int i = 0; i < children && i < currentDialogue.responseOptions.Count; i++)
             {
                 currentButton = responses.transform.GetChild(i).gameObject;
                 currentButton.SetActive(true);

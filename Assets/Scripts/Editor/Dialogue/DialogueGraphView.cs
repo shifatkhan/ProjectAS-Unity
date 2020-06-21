@@ -41,67 +41,11 @@ public class DialogueGraphView : GraphView
         AddSearchWindow(editorWindow);
     }
 
-    public void AddPropertyToBlackboard(ExposedProperty exposedProperty)
-    {
-        // Deal with duplicate property names.
-        string localPropertyName = exposedProperty.propertyName;
-        string localPropertyValue = exposedProperty.propertyValue;
-        while(exposedProperties.Any(x => x.propertyName == localPropertyName))
-        {
-            localPropertyName = $"{localPropertyName}1"; // E.G.: USERNAME(1), USERNAME(1)(1), ETC.
-        }
-
-        ExposedProperty property = new ExposedProperty();
-
-        property.propertyName = localPropertyName;
-        property.propertyValue = localPropertyValue;
-
-        exposedProperties.Add(property);
-
-        VisualElement container = new VisualElement();
-
-        BlackboardField blackboardField = new BlackboardField
-        {
-            text = property.propertyName,
-            typeText = "string property"
-        };
-        container.Add(blackboardField);
-
-        TextField propertyValueTextField = new TextField("Value:")
-        {
-            value = property.propertyValue
-        };
-
-        propertyValueTextField.RegisterValueChangedCallback(evt =>
-        {
-            int changingPropertyIdnex = exposedProperties.FindIndex(x => x.propertyName == property.propertyName);
-            exposedProperties[changingPropertyIdnex].propertyValue = evt.newValue;
-        });
-        BlackboardRow blackBoardValueRow = new BlackboardRow(blackboardField, propertyValueTextField);
-        container.Add(blackBoardValueRow);
-
-        Blackboard.Add(container);
-        Blackboard.scrollable = true;
-    }
-
-    public void ClearBlackBoardAndExposedProperties()
-    {
-        exposedProperties.Clear();
-        Blackboard.Clear();
-    }
-
-    private void AddSearchWindow(EditorWindow editorWindow)
-    {
-        _searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
-        _searchWindow.Init(editorWindow, this);
-        nodeCreationRequest = context => SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), _searchWindow);
-    }
-
     /** Creates the START node.
      */
     private DialogueNode GenerateEntryPointNode()
     {
-        DialogueNode node = new DialogueNode
+        DialogueNode dialogueNode = new DialogueNode
         {
             title = "START",
             GUID = Guid.NewGuid().ToString(),
@@ -112,52 +56,22 @@ public class DialogueGraphView : GraphView
         // TODO: Maybe have multiple output ports
         // Since this node is the start node, it will only have 1 Port
         // >The output port.
-        Port generatedPort = GeneratePort(node, Direction.Output, Port.Capacity.Single);
+        Port generatedPort = GeneratePort(dialogueNode, Direction.Output, Port.Capacity.Single);
         generatedPort.portName = "Next";
-        node.outputContainer.Add(generatedPort);
+        dialogueNode.outputContainer.Add(generatedPort);
 
-        node.capabilities -= Capabilities.Movable; // TODO: Maybe remove to allow it to move.
-        node.capabilities -= Capabilities.Deletable;
+        dialogueNode.capabilities -= Capabilities.Movable; // TODO: Maybe remove to allow it to move.
+        dialogueNode.capabilities -= Capabilities.Deletable;
 
-        node.styleSheets.Add(Resources.Load<StyleSheet>("StartNode"));
+        dialogueNode.styleSheets.Add(Resources.Load<StyleSheet>("StartNode"));
         
         // Update node since we changed it.
-        node.RefreshExpandedState();
-        node.RefreshPorts();
+        dialogueNode.RefreshExpandedState();
+        dialogueNode.RefreshPorts();
 
-        node.SetPosition(new Rect(100, 200, 100, 150));
+        dialogueNode.SetPosition(new Rect(100, 200, 100, 150));
 
-        return node;
-    }
-
-    /** Checks for ports that are not from the same node.
-     */
-    public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
-    {
-        List<Port> compatiblePorts = new List<Port>();
-
-        // Can't do a normal foreach loop since 'ports' doesn't have GetEnumerator
-        ports.ForEach( port =>
-        {
-            Port portView = port;
-            if(startPort != port && startPort.node != port.node)
-            {
-                compatiblePorts.Add(port);
-            }
-        });
-
-        return compatiblePorts; ;
-    }
-
-    /** Ports are the slots where we can plug in the edges (lines) into.
-     * This function creates custom Ports.
-     */
-    private Port GeneratePort(DialogueNode node, Direction portDirection, Port.Capacity capacity)
-    {
-        // Arbitrary type.
-        Port newPort = node.InstantiatePort(Orientation.Horizontal, portDirection, capacity, typeof(float));
-        newPort.portColor = new Color(1f, 0.647f, 0);
-        return newPort;
+        return dialogueNode;
     }
 
     /** Create a new Dialogue node with a name and add it to the graph.
@@ -176,9 +90,11 @@ public class DialogueGraphView : GraphView
         {
             title = nodeName,
             dialogueText = nodeName,
+            dialogueObject = new DialogueObject(),
             GUID = Guid.NewGuid().ToString()
         };
 
+        // ADD input port.
         Port inputPort = GeneratePort(dialogueNode, Direction.Input, Port.Capacity.Multi);
         inputPort.portName = "Input";
         dialogueNode.inputContainer.Add(inputPort);
@@ -249,6 +165,36 @@ public class DialogueGraphView : GraphView
         dialogueNode.RefreshPorts();
     }
 
+    /** Checks for ports that are not from the same node.
+     */
+    public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+    {
+        List<Port> compatiblePorts = new List<Port>();
+
+        // Can't do a normal foreach loop since 'ports' doesn't have GetEnumerator
+        ports.ForEach(port =>
+        {
+            Port portView = port;
+            if (startPort != port && startPort.node != port.node)
+            {
+                compatiblePorts.Add(port);
+            }
+        });
+
+        return compatiblePorts; ;
+    }
+
+    /** Ports are the slots where we can plug in the edges (lines) into.
+     * This function creates custom Ports.
+     */
+    private Port GeneratePort(DialogueNode node, Direction portDirection, Port.Capacity capacity)
+    {
+        // Arbitrary type.
+        Port newPort = node.InstantiatePort(Orientation.Horizontal, portDirection, capacity, typeof(float));
+        newPort.portColor = new Color(1f, 0.647f, 0);
+        return newPort;
+    }
+
     private void RemovePort(DialogueNode dialogueNode, Port generatedPort)
     {
         // Get edges that have generated ports.
@@ -268,5 +214,63 @@ public class DialogueGraphView : GraphView
         dialogueNode.RefreshExpandedState();
         dialogueNode.RefreshPorts();
 
+    }
+
+    /** Creates blackboard property variable.
+     */
+    public void AddPropertyToBlackboard(ExposedProperty exposedProperty)
+    {
+        // Deal with duplicate property names.
+        string localPropertyName = exposedProperty.propertyName;
+        string localPropertyValue = exposedProperty.propertyValue;
+        while (exposedProperties.Any(x => x.propertyName == localPropertyName))
+        {
+            localPropertyName = $"{localPropertyName}1"; // E.G.: USERNAME(1), USERNAME(1)(1), ETC.
+        }
+
+        ExposedProperty property = new ExposedProperty();
+
+        property.propertyName = localPropertyName;
+        property.propertyValue = localPropertyValue;
+
+        exposedProperties.Add(property);
+
+        VisualElement container = new VisualElement();
+
+        BlackboardField blackboardField = new BlackboardField
+        {
+            text = property.propertyName,
+            typeText = "string property"
+        };
+        container.Add(blackboardField);
+
+        TextField propertyValueTextField = new TextField("Value:")
+        {
+            value = property.propertyValue
+        };
+
+        propertyValueTextField.RegisterValueChangedCallback(evt =>
+        {
+            int changingPropertyIdnex = exposedProperties.FindIndex(x => x.propertyName == property.propertyName);
+            exposedProperties[changingPropertyIdnex].propertyValue = evt.newValue;
+        });
+        BlackboardRow blackBoardValueRow = new BlackboardRow(blackboardField, propertyValueTextField);
+        container.Add(blackBoardValueRow);
+
+        Blackboard.Add(container);
+        Blackboard.scrollable = true;
+    }
+
+    public void ClearBlackBoardAndExposedProperties()
+    {
+        exposedProperties.Clear();
+        Blackboard.Clear();
+    }
+
+    private void AddSearchWindow(EditorWindow editorWindow)
+    {
+        _searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
+        _searchWindow.Init(editorWindow, this);
+        nodeCreationRequest = context => SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), _searchWindow);
     }
 }
