@@ -12,6 +12,7 @@ public class DialogueNodeData
 {
     public string GUID;
     public string dialogueText;
+    public DialogueObject dialogueObject;
     public Vector2 position;
 
 }

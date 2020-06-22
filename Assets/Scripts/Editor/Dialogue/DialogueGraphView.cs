@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -93,6 +94,7 @@ public class DialogueGraphView : GraphView
             dialogueObject = new DialogueObject(),
             GUID = Guid.NewGuid().ToString()
         };
+        dialogueNode.dialogueObject.dialogue = new List<string>();
 
         // ADD input port.
         Port inputPort = GeneratePort(dialogueNode, Direction.Input, Port.Capacity.Multi);
@@ -109,15 +111,24 @@ public class DialogueGraphView : GraphView
         choiceButton.text = "New Choice";
         dialogueNode.titleContainer.Add(choiceButton);
 
-        // ADD text field for Dialogue text.
-        TextField textField = new TextField(string.Empty);
-        textField.RegisterValueChangedCallback(evt =>
+        // ADD button to create new dialogue text.
+        Button textButton = new Button(clickEvent: () =>
         {
-            dialogueNode.dialogueText = evt.newValue;
-            dialogueNode.title = evt.newValue;
+            AddDialogueText(dialogueNode);
         });
-        textField.SetValueWithoutNotify(dialogueNode.title);
-        dialogueNode.mainContainer.Add(textField);
+        textButton.text = "New text";
+        dialogueNode.titleContainer.Add(textButton);
+
+        // ADD text field for Dialogue text.
+        //TextField textField = new TextField(string.Empty);
+        //textField.RegisterValueChangedCallback(evt =>
+        //{
+        //    dialogueNode.dialogueText = evt.newValue;
+        //    dialogueNode.title = evt.newValue;
+        //});
+        //textField.SetValueWithoutNotify(dialogueNode.title);
+        //textField.multiline = true;
+        //dialogueNode.mainContainer.Add(textField);
 
         // Update node since we changed it.
         dialogueNode.RefreshExpandedState();
@@ -163,6 +174,25 @@ public class DialogueGraphView : GraphView
         // Update node since we changed it.
         dialogueNode.RefreshExpandedState();
         dialogueNode.RefreshPorts();
+    }
+
+    public void AddDialogueText(DialogueNode dialogueNode)
+    {
+        dialogueNode.dialogueObject.dialogue.Add("");
+        Label textLabel = new Label(dialogueNode.dialogueObject.dialogue.Count.ToString());
+        dialogueNode.mainContainer.Add(textLabel);
+
+        // ADD text field for Dialogue text.
+        TextField textField = new TextField(string.Empty);
+        textField.RegisterValueChangedCallback(evt =>
+        {
+            dialogueNode.dialogueText = evt.newValue;
+            dialogueNode.dialogueObject.dialogue[dialogueNode.dialogueObject.dialogue.Count - 1] = evt.newValue;
+            //dialogueNode.title = evt.newValue;
+        });
+        //textField.SetValueWithoutNotify(dialogueNode.title);
+        textField.multiline = true;
+        dialogueNode.mainContainer.Add(textField);
     }
 
     /** Checks for ports that are not from the same node.

@@ -1,7 +1,15 @@
+DialogueNode {
+	max-width: 300px;
+}
+
 DialogueNode #title{
 	background-color: #add8e6;
 }
 
 DialogueNode #title Label{
 	color: #0c2026;
+	/*
+	max-width: 200px;
+	white-space: normal;
+	*/
 }

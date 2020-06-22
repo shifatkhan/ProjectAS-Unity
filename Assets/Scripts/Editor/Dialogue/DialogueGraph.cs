@@ -29,7 +29,7 @@ public class DialogueGraph : EditorWindow
         ConstructGraphView();
         GenerateToolbar();
         GenerateMiniMap();
-        GenerateBlackboard();
+        //GenerateBlackboard();
     }
 
     /** Created black board with property variables.
@@ -37,6 +37,13 @@ public class DialogueGraph : EditorWindow
     private void GenerateBlackboard()
     {
         Blackboard blackboard = new Blackboard();
+
+        // ADD character name and sprite
+        //blackboard.Add(new BlackboardSection { title = "Character details" });
+        //TextField charName = new TextField("Character name:");
+        //blackboard.Add(charName);
+
+        // ADD exposed properties
         blackboard.Add(new BlackboardSection { title = "Exposed Properties"});
         blackboard.addItemRequested = _blackboard => { _graphView.AddPropertyToBlackboard(new ExposedProperty()); };
         blackboard.editTextRequested = (blackboard1, currElement, newName) => 

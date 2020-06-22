@@ -31,22 +31,25 @@ public class GraphSaveUtility
     public void SaveGraph(string fileName)
     {
         DialogueContainer dialogueContainer = ScriptableObject.CreateInstance<DialogueContainer>();
-        if (!SaveNodes(dialogueContainer))
+
+        // DELETE everything before saving.
+        if (AssetDatabase.IsValidFolder($"Assets/Resources/Dialogue/{fileName}"))
+        {
+            AssetDatabase.DeleteAsset($"Assets/Resources/Dialogue/{fileName}");
+        }
+        AssetDatabase.CreateFolder("Assets", "Resources");
+
+        // Save dialogues.
+        if (!SaveNodes(dialogueContainer)) // move below assets folder creation
         {
             return;
         }
 
-        SaveExposedProperties(dialogueContainer);
-
-        // Create the Resources folder if it wasn't already.
-        if (!AssetDatabase.IsValidFolder("Assets/Resources"))
-        {
-            AssetDatabase.CreateFolder("Assets", "Resources");
-        }
+        //SaveExposedProperties(dialogueContainer);
 
         // Save the Dialogue Container.
-        AssetDatabase.CreateAsset(dialogueContainer, $"Assets/Resources/{fileName}.asset");
-        AssetDatabase.SaveAssets();
+        //AssetDatabase.CreateAsset(dialogueContainer, $"Assets/Resources/{fileName}.asset");
+        //AssetDatabase.SaveAssets();
     }
 
     private void SaveExposedProperties(DialogueContainer dialogueContainer)
@@ -65,6 +68,9 @@ public class GraphSaveUtility
 
         for (int i = 0; i < connectedPorts.Length; i++)
         {
+            Debug.Log($"Port out saved: {connectedPorts[i].output.portName}");
+            Debug.Log($"Output node: {connectedPorts[i].output.node.title}");
+
             DialogueNode outputNode = connectedPorts[i].output.node as DialogueNode;
             DialogueNode inputNode = connectedPorts[i].input.node as DialogueNode;
 
@@ -74,16 +80,23 @@ public class GraphSaveUtility
                 portName = connectedPorts[i].output.portName,
                 targetNodeGuid = inputNode.GUID
             });
-        }
 
+            // SAVE RESPONSE OBJECTS
+
+        }
+        Debug.Log("-----------------------");
         foreach (DialogueNode dialogueNode in Nodes.Where(node => !node.entryPoint))
         {
+            
             dialogueContainer.dialogueNodeData.Add(new DialogueNodeData
             {
                 GUID = dialogueNode.GUID,
                 dialogueText = dialogueNode.dialogueText,
+                dialogueObject = dialogueNode.dialogueObject,
                 position = dialogueNode.GetPosition().position
             });
+
+            // SAVE DIALOGUE OBJECTS
         }
 
         return true;
@@ -101,7 +114,7 @@ public class GraphSaveUtility
         ClearGraph();
         CreateNodes();
         ConnectNodes();
-        CreateExposedProperties();
+        //CreateExposedProperties();
     }
 
     /** Clear existing properties on hot-reload
