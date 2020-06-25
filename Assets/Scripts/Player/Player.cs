@@ -118,6 +118,7 @@ public class Player : Movement2D
             && !controller.collisions.below && velocity.y < 0)
         {
             wallSliding = true;
+            CreateDust();
 
             // Slowdown descent speed.
             if (velocity.y < -wallSlideSpeedMax)
@@ -206,5 +207,14 @@ public class Player : Movement2D
     {
         if(dust != null)
             dust.Play();
+    }
+
+    public override void UpdateAnimator()
+    {
+        base.UpdateAnimator();
+        if(animator != null)
+        {
+            animator.SetBool("isWallsliding", wallSliding);
+        }
     }
 }
