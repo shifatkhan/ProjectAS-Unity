@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -51,6 +52,10 @@ public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
         switch (SearchTreeEntry.userData)
         {
             case DialogueNode dialogueNode:
+                //if(File.Exists($"Assets/Resources/Dialogue/{_graphView._fileName}/Dialogue Node-DO.asset"))
+                //{
+                //    _graphView.CreateNode("Dialogue Node", localMousePosition);
+                //}
                 _graphView.CreateNode("Dialogue Node", localMousePosition);
                 return true;
             default:

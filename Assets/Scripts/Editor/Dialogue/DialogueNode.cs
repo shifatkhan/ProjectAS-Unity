@@ -19,4 +19,6 @@ public class DialogueNode : Node
     public bool entryPoint = false; // Is this the START node or not.
 
     public bool endPoint = false; // Is this a LEAF node or not.
+
+    public bool visited = false; // Used for BFS algorithm when saving.
 }

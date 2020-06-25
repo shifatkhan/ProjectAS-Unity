@@ -32,24 +32,70 @@ public class GraphSaveUtility
     {
         DialogueContainer dialogueContainer = ScriptableObject.CreateInstance<DialogueContainer>();
 
-        // DELETE everything before saving.
+        // OVERWRITE dialogue if user wishes. Otherwise, skip save.
         if (AssetDatabase.IsValidFolder($"Assets/Resources/Dialogue/{fileName}"))
         {
-            AssetDatabase.DeleteAsset($"Assets/Resources/Dialogue/{fileName}");
+            if (!EditorUtility.DisplayDialog("Dialogue already exists!", $"Overwrite existing dialogue \"{fileName}\"?", "Yes", "No"))
+            {
+                //AssetDatabase.DeleteAsset($"Assets/Resources/Dialogue/{fileName}");
+                return; // User cancelled saving.
+            }
         }
-        AssetDatabase.CreateFolder("Assets", "Resources");
+        else
+        {
+            AssetDatabase.CreateFolder("Assets/Resources/Dialogue", fileName);
+        }
 
         // Save dialogues.
-        if (!SaveNodes(dialogueContainer)) // move below assets folder creation
+        if (!SaveNodes(dialogueContainer, fileName)) // move below assets folder creation
         {
+            EditorUtility.DisplayDialog("Couldn't save!", $"No edges found. Make sure your dialogues are properly connected.", "OK");
             return;
         }
 
-        //SaveExposedProperties(dialogueContainer);
+        // TODO: Delete. Testing for dialogueobject saving and modifying after saving.
+        //DialogueObject d = new DialogueObject();
+        //d.dialogue = new List<string>();
+        //d.dialogue.Add("TEXT1");
+        //d.dialogue.Add("TEXT2");
 
+        //ResponseObject yes = new ResponseObject();
+        //yes.responseText = "Yes";
+        //ResponseObject no = new ResponseObject();
+        //no.responseText = "No";
+
+        //d.responseOptions = new List<ResponseObject>();
+        //d.responseOptions.Add(yes);
+        //d.responseOptions.Add(no);
+
+        //if (!AssetDatabase.IsValidFolder($"Assets/Resources/Dialogue/{fileName}"))
+        //{
+        //    AssetDatabase.CreateFolder("Assets/Resources/Dialogue", fileName);
+        //}
+        //AssetDatabase.CreateAsset(yes, $"Assets/Resources/Dialogue/{fileName}/{fileName}yes.asset");
+        //AssetDatabase.CreateAsset(no, $"Assets/Resources/Dialogue/{fileName}/{fileName}no.asset");
+        //AssetDatabase.CreateAsset(d, $"Assets/Resources/Dialogue/{fileName}/{fileName}.asset");
+
+        //AssetDatabase.AddObjectToAsset(yes, d); NOT GUD
+        //AssetDatabase.AddObjectToAsset(no, d);
+
+        //yes.responseText = "HECK YEA";
+        //d = new DialogueObject() // COMPLETELY NEW -- PERFECT
+        //{
+        //    dialogue = new List<string>() { "CHANGED" }
+        //};
+        //EditorUtility.SetDirty(yes);
+        //AssetDatabase.SaveAssets();
+        //AssetDatabase.Refresh();
+
+        // OLD----------------------------------------------------------------------------------//
+        //SaveExposedProperties(dialogueContainer);
         // Save the Dialogue Container.
         //AssetDatabase.CreateAsset(dialogueContainer, $"Assets/Resources/{fileName}.asset");
         //AssetDatabase.SaveAssets();
+
+        // TODO: Change to progress bar.
+        EditorUtility.DisplayDialog("Dialogue saved.", $"Save complete. Dialogue can be found under Assets/Resources/Dialogue/{fileName}", "OK");
     }
 
     private void SaveExposedProperties(DialogueContainer dialogueContainer)
@@ -57,53 +103,102 @@ public class GraphSaveUtility
         dialogueContainer.exposedProperties.AddRange(_targetGraphView.exposedProperties);
     }
 
-    private bool SaveNodes(DialogueContainer dialogueContainer)
+    private bool SaveNodes(DialogueContainer dialogueContainer, string fileName)
     {
-        // Don't save if there's nothing.
+        // Don't save if there's no connections.
         if (!Edges.Any())
             return false;
-
-        // Create a new Dialogue Container scriptable object & populate it
+        
         Edge[] connectedPorts = Edges.Where(x => x.input.node != null).ToArray();
+
+        DialogueNode parentDO = connectedPorts[0].output.node as DialogueNode;
 
         for (int i = 0; i < connectedPorts.Length; i++)
         {
-            Debug.Log($"Port out saved: {connectedPorts[i].output.portName}");
+            if (connectedPorts[i].output.node.title == "START")
+                continue;
+
             Debug.Log($"Output node: {connectedPorts[i].output.node.title}");
+            Debug.Log($"Port out saved: {connectedPorts[i].output.portName}");
+            Debug.Log($"Input node: {connectedPorts[i].input.node.title}\n");
 
             DialogueNode outputNode = connectedPorts[i].output.node as DialogueNode;
             DialogueNode inputNode = connectedPorts[i].input.node as DialogueNode;
 
-            dialogueContainer.nodeLinks.Add(new NodeLinkData
+            //TODO: TESTING
+            DialogueObject inputDO = inputNode.dialogueObject;
+            DialogueObject outputDO = outputNode.dialogueObject;
+            Debug.Log($"Found {outputDO.responseOptions.Count()} choices");
+            foreach(ResponseObject r in outputDO.responseOptions)
             {
-                baseNodeGuid = outputNode.GUID,
-                portName = connectedPorts[i].output.portName,
-                targetNodeGuid = inputNode.GUID
-            });
+                Debug.Log($"\tr: {r.responseText}");
+            }
+            ResponseObject outputRO = outputDO.responseOptions[int.Parse(connectedPorts[i].output.portName)-1];
+            outputRO.dialogueObject = inputNode.dialogueObject;
+
+            if (AssetDatabase.Contains(inputDO))
+            {
+                Debug.Log("\t*******Exists");
+                EditorUtility.SetDirty(inputDO);
+            }
+            else
+            {
+                Debug.Log("\t*******DOES NOT Exist");
+                AssetDatabase.CreateAsset(inputDO, $"Assets/Resources/Dialogue/{fileName}/{fileName}DOO{i}.asset");
+            }
+            if (AssetDatabase.Contains(outputRO))
+            {
+                Debug.Log("\t*******Exists");
+                EditorUtility.SetDirty(outputRO);
+            }
+            else
+            {
+                Debug.Log("\t*******DOES NOT Exist");
+                AssetDatabase.CreateAsset(outputRO, $"Assets/Resources/Dialogue/{fileName}/{fileName}RO{i}.asset");
+            }
+            if (AssetDatabase.Contains(outputDO))
+            {
+                Debug.Log("\t*******Exists");
+                EditorUtility.SetDirty(outputDO);
+            }
+            else
+            {
+                Debug.Log("\t*******DOES NOT Exist");
+                AssetDatabase.CreateAsset(outputDO, $"Assets/Resources/Dialogue/{fileName}/{fileName}DO{i}.asset");
+            }
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            //dialogueContainer.nodeLinks.Add(new NodeLinkData
+            //{
+            //    baseNodeGuid = outputNode.GUID,
+            //    portName = connectedPorts[i].output.portName,
+            //    targetNodeGuid = inputNode.GUID
+            //});
 
             // SAVE RESPONSE OBJECTS
-
         }
-        Debug.Log("-----------------------");
-        foreach (DialogueNode dialogueNode in Nodes.Where(node => !node.entryPoint))
-        {
-            
-            dialogueContainer.dialogueNodeData.Add(new DialogueNodeData
-            {
-                GUID = dialogueNode.GUID,
-                dialogueText = dialogueNode.dialogueText,
-                dialogueObject = dialogueNode.dialogueObject,
-                position = dialogueNode.GetPosition().position
-            });
+        //Debug.Log("-----------------------");
+        //foreach (DialogueNode dialogueNode in Nodes.Where(node => !node.entryPoint))
+        //{
+        //    Debug.Log($"Nodes: {dialogueNode.title}");
+        //    dialogueContainer.dialogueNodeData.Add(new DialogueNodeData
+        //    {
+        //        GUID = dialogueNode.GUID,
+        //        dialogueText = dialogueNode.dialogueText,
+        //        dialogueObject = dialogueNode.dialogueObject,
+        //        position = dialogueNode.GetPosition().position
+        //    });
 
-            // SAVE DIALOGUE OBJECTS
-        }
+        //    // SAVE DIALOGUE OBJECTS
+        //}
 
         return true;
     }
 
     public void LoadGraph(string fileName)
     {
+        // TODO: Load using BFS traversal.
         _containerCache = Resources.Load<DialogueContainer>(fileName);
         if(_containerCache == null)
         {

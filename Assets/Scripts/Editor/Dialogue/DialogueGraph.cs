@@ -87,8 +87,14 @@ public class DialogueGraph : EditorWindow
     {
         _graphView = new DialogueGraphView(this)
         {
-            name = "Dialogue Graph"
+            name = "Dialogue Graph",
+            _fileName = this._fileName
         };
+
+        if (!AssetDatabase.IsValidFolder($"Assets/Resources/Dialogue/{_fileName}"))
+        {
+            AssetDatabase.CreateFolder($"Assets/Resources/Dialogue", _fileName);
+        }
 
         _graphView.StretchToParentSize();
         rootVisualElement.Add(_graphView);
@@ -104,7 +110,10 @@ public class DialogueGraph : EditorWindow
 
         // Notify Editor that changes has been made. Therefore allowing user to save.
         fileNameTextField.MarkDirtyRepaint();
-        fileNameTextField.RegisterValueChangedCallback(evt => _fileName = evt.newValue);
+        fileNameTextField.RegisterValueChangedCallback(evt => {
+            _fileName = evt.newValue;
+            _graphView._fileName = evt.newValue;
+        });
 
         toolbar.Add(fileNameTextField);
 

@@ -20,6 +20,7 @@ public class DialogueGraphView : GraphView
     public Blackboard Blackboard;
     public List<ExposedProperty> exposedProperties = new List<ExposedProperty>();
     private NodeSearchWindow _searchWindow;
+    public string _fileName;
 
     public DialogueGraphView(EditorWindow editorWindow)
     {
@@ -89,12 +90,35 @@ public class DialogueGraphView : GraphView
     {
         DialogueNode dialogueNode = new DialogueNode
         {
-            title = nodeName,
+            //title = nodeName,
             dialogueText = nodeName,
             dialogueObject = new DialogueObject(),
-            GUID = Guid.NewGuid().ToString()
+            endPoint = true,
+            GUID = Guid.NewGuid().ToString(),
         };
         dialogueNode.dialogueObject.dialogue = new List<string>();
+        dialogueNode.dialogueObject.responseOptions = new List<ResponseObject>();
+        dialogueNode.dialogueObject.GUID = dialogueNode.GUID;
+        dialogueNode.dialogueObject.dialogueID = nodeName + "DO";
+
+        AssetDatabase.CreateAsset(dialogueNode.dialogueObject, 
+            $"Assets/Resources/Dialogue/{_fileName}/{dialogueNode.dialogueObject.dialogueID}.asset");
+
+        // ADD title edit
+        TextField titleField = new TextField();
+        titleField.value = nodeName;
+        titleField.RegisterValueChangedCallback(evt =>
+        {
+            //Debug.Log(AssetDatabase.RenameAsset($"Assets/Resources/Dialogue/{_fileName}/{dialogueNode.dialogueObject.dialogueID}.asset",
+            //    $"Assets/Resources/Dialogue/{_fileName}/{evt.newValue}DO.asset"));
+            //AssetDatabase.SaveAssets();
+            //AssetDatabase.Refresh();
+            System.IO.File.Move($"Assets/Resources/Dialogue/{_fileName}/{dialogueNode.dialogueObject.dialogueID}.asset",
+                $"Assets/Resources/Dialogue/{_fileName}/{evt.newValue}DO.asset");
+            dialogueNode.dialogueObject.dialogueID = evt.newValue + "DO";
+            AssetDatabase.Refresh();
+        });
+        dialogueNode.titleContainer.Add(titleField);
 
         // ADD input port.
         Port inputPort = GeneratePort(dialogueNode, Direction.Input, Port.Capacity.Multi);
@@ -106,7 +130,7 @@ public class DialogueGraphView : GraphView
         // ADD button to create new choices.
         Button choiceButton = new Button(clickEvent: () =>
         {
-            AddChoicePort(dialogueNode);
+            AddChoicePort(dialogueNode); // TODO: Set this node's endPoint = false.
         });
         choiceButton.text = "New Choice";
         dialogueNode.titleContainer.Add(choiceButton);
@@ -118,17 +142,6 @@ public class DialogueGraphView : GraphView
         });
         textButton.text = "New text";
         dialogueNode.titleContainer.Add(textButton);
-
-        // ADD text field for Dialogue text.
-        //TextField textField = new TextField(string.Empty);
-        //textField.RegisterValueChangedCallback(evt =>
-        //{
-        //    dialogueNode.dialogueText = evt.newValue;
-        //    dialogueNode.title = evt.newValue;
-        //});
-        //textField.SetValueWithoutNotify(dialogueNode.title);
-        //textField.multiline = true;
-        //dialogueNode.mainContainer.Add(textField);
 
         // Update node since we changed it.
         dialogueNode.RefreshExpandedState();
@@ -142,16 +155,13 @@ public class DialogueGraphView : GraphView
     public void AddChoicePort(DialogueNode dialogueNode, string overridenPortName = "")
     {
         Port generatedPort = GeneratePort(dialogueNode, Direction.Output, Port.Capacity.Single);
-
-        // Remove port label and keep only a text field.
-        //Label oldLabel = generatedPort.contentContainer.Q<Label>("type");
-        //generatedPort.contentContainer.Remove(oldLabel);
+        ResponseObject responseObject = new ResponseObject();
 
         int outputPortCount = dialogueNode.outputContainer.Query("connector").ToList().Count;
 
         string choicePortName = string.IsNullOrEmpty(overridenPortName) 
             ? $"Choice {outputPortCount+1}" : overridenPortName;
-        generatedPort.portName = choicePortName;
+        responseObject.responseText = choicePortName;
 
         // Add text field for port's choice name
         TextField textField = new TextField
@@ -159,7 +169,13 @@ public class DialogueGraphView : GraphView
             name = string.Empty,
             value = choicePortName
         };
-        textField.RegisterValueChangedCallback(evt => generatedPort.portName = evt.newValue);
+        textField.RegisterValueChangedCallback(evt =>
+        {
+            generatedPort.portName = evt.newValue;
+            responseObject.responseText = evt.newValue;
+        });
+        dialogueNode.dialogueObject.responseOptions.Add(responseObject);
+        generatedPort.portName = dialogueNode.dialogueObject.responseOptions.Count().ToString();
         generatedPort.contentContainer.Add(new Label("  ")); // Optional gap for styling.
         generatedPort.contentContainer.Add(textField);
 
@@ -169,7 +185,7 @@ public class DialogueGraphView : GraphView
             text = "X"
         };
         generatedPort.contentContainer.Add(deleteButton);
-
+        
         dialogueNode.outputContainer.Add(generatedPort);
         // Update node since we changed it.
         dialogueNode.RefreshExpandedState();
@@ -178,12 +194,12 @@ public class DialogueGraphView : GraphView
 
     public void AddDialogueText(DialogueNode dialogueNode)
     {
-        dialogueNode.dialogueObject.dialogue.Add("");
-        Label textLabel = new Label(dialogueNode.dialogueObject.dialogue.Count.ToString());
-        dialogueNode.mainContainer.Add(textLabel);
+        dialogueNode.dialogueObject.dialogue.Add("New Text");
 
         // ADD text field for Dialogue text.
         TextField textField = new TextField(string.Empty);
+        textField.value = "New Text";
+        textField.label = dialogueNode.dialogueObject.dialogue.Count.ToString();
         textField.RegisterValueChangedCallback(evt =>
         {
             dialogueNode.dialogueText = evt.newValue;
@@ -192,6 +208,13 @@ public class DialogueGraphView : GraphView
         });
         //textField.SetValueWithoutNotify(dialogueNode.title);
         textField.multiline = true;
+        
+        // Button to delete text.
+        Button deleteButton = new Button(clickEvent: () => RemoveText(dialogueNode, textField))
+        {
+            text = "X"
+        };
+        textField.Add(deleteButton);
         dialogueNode.mainContainer.Add(textField);
     }
 
@@ -244,6 +267,23 @@ public class DialogueGraphView : GraphView
         dialogueNode.RefreshExpandedState();
         dialogueNode.RefreshPorts();
 
+    }
+
+    private void RemoveText(DialogueNode dialogueNode, TextField textField)
+    {
+        // Remove the selected text field and update all other textfield labels (index)
+        foreach (TextField t in dialogueNode.mainContainer.Query<TextField>().ToList())
+        {
+            if (!string.IsNullOrWhiteSpace(t.label) && int.Parse(t.label) > int.Parse(textField.label))
+            {
+                Debug.Log($"RemoveText(): UPDATING {t.label}");
+                t.label = (int.Parse(t.label) - 1).ToString();
+            }
+        }
+
+        dialogueNode.dialogueObject.dialogue.RemoveAt(int.Parse(textField.label) - 1);
+        dialogueNode.mainContainer.Remove(textField);
+        dialogueNode.RefreshExpandedState();
     }
 
     /** Creates blackboard property variable.

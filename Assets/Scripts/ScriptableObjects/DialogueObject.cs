@@ -9,8 +9,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Dialogue", menuName = "ScriptableObject/Dialogue/DialogueObject")]
 public class DialogueObject : ScriptableObject
 {
-    // TODO: Don't know if this is needed
     public string dialogueID;
+
+    public string GUID;
 
     public CharacterObject speaker;
 

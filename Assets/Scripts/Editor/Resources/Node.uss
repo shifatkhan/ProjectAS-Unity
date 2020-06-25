@@ -13,3 +13,7 @@ DialogueNode #title Label{
 	white-space: normal;
 	*/
 }
+
+DialogueNode TextField{
+	flex-direction: column;
+}
