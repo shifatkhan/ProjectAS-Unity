@@ -1,19 +1,31 @@
 fileFormatVersion: 2
-guid: 9a69964f5beb285438dbeca93a10c5a4
+guid: 52c76c642091a9c429832812bae44e85
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7309971679661875369
-    second: ophelia_idle_0
+      213: 2208223840190753849
+    second: ophelia_running_0
   - first:
-      213: -5193755753374100074
-    second: ophelia_idle_1
+      213: -5547693603019661016
+    second: ophelia_running_1
   - first:
-      213: -8004388918376429793
-    second: ophelia_idle_2
+      213: -3987864652673275024
+    second: ophelia_running_2
   - first:
-      213: 3964671907155325793
-    second: ophelia_idle_3
+      213: 222592369791400375
+    second: ophelia_running_3
+  - first:
+      213: -63289162170099908
+    second: ophelia_running_4
+  - first:
+      213: 6207420649699166545
+    second: ophelia_running_5
+  - first:
+      213: -5015309542835035163
+    second: ophelia_running_6
+  - first:
+      213: 3619076110318529615
+    second: ophelia_running_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -76,8 +88,8 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
-    compressionQuality: 100
-    crunchedCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -88,32 +100,8 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
-    compressionQuality: 100
-    crunchedCompression: 1
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 100
-    crunchedCompression: 1
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 100
-    crunchedCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -122,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ophelia_idle_0
+      name: ophelia_running_0
       rect:
         serializedVersion: 2
         x: 0
@@ -136,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 53694e2d30ff74b479d709018bc12fa7
-      internalID: 7309971679661875369
+      spriteID: 234fbfac580aaf34fb1aea5c2bcacaff
+      internalID: 2208223840190753849
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ophelia_idle_1
+      name: ophelia_running_1
       rect:
         serializedVersion: 2
         x: 128
@@ -157,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 94edb52087fb81c4485d5734e673e476
-      internalID: -5193755753374100074
+      spriteID: 77403a087a95b40459059fd9fd450bf5
+      internalID: -5547693603019661016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ophelia_idle_2
+      name: ophelia_running_2
       rect:
         serializedVersion: 2
         x: 256
@@ -178,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db457ff9a41064949a2e51bb64487284
-      internalID: -8004388918376429793
+      spriteID: 102fcaa8689269a46836584ba5183570
+      internalID: -3987864652673275024
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ophelia_idle_3
+      name: ophelia_running_3
       rect:
         serializedVersion: 2
         x: 384
@@ -199,8 +187,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb7db5ef4a0854c4dab4c81fe36b0596
-      internalID: 3964671907155325793
+      spriteID: 5537b50b4c8d3ee4fa4410915b694211
+      internalID: 222592369791400375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ophelia_running_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5199fae9ebd964a409f1cc31e5084643
+      internalID: -63289162170099908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ophelia_running_5
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 348f8391016e83e4987865a6cba51826
+      internalID: 6207420649699166545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ophelia_running_6
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69b40961bdfc3894b9e79df4f7d78baf
+      internalID: -5015309542835035163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ophelia_running_7
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b403b66a290f5c47a4d661dd73366d7
+      internalID: 3619076110318529615
       vertices: []
       indices: 
       edges: []

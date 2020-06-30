@@ -1,22 +1,22 @@
 fileFormatVersion: 2
-guid: 174b8a5823b52ef46a81f6da2bbaad53
+guid: 81b784b9a5ef8c042b36168edf18e90c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7470360944610008926
-    second: ophelia_resting_0
+      213: 6614491211763501747
+    second: ophelia_idle_resting_0
   - first:
-      213: 1512381880735966875
-    second: ophelia_resting_1
+      213: -2351696400164153834
+    second: ophelia_idle_resting_1
   - first:
-      213: 3207554642748915732
-    second: ophelia_resting_2
+      213: -6204601158552182484
+    second: ophelia_idle_resting_2
   - first:
-      213: 588324859086407791
-    second: ophelia_resting_3
+      213: -2163304744352329740
+    second: ophelia_idle_resting_3
   - first:
-      213: 214599566604931792
-    second: ophelia_resting_4
+      213: -1324820528937982421
+    second: ophelia_idle_resting_4
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -97,35 +97,11 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ophelia_resting_0
+      name: ophelia_idle_resting_0
       rect:
         serializedVersion: 2
         x: 0
@@ -139,14 +115,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f85bc7a20eaa73b4bad566da623ce23f
-      internalID: 7470360944610008926
+      spriteID: b4fcef18a19d5d24a84db28b2220607e
+      internalID: 6614491211763501747
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ophelia_resting_1
+      name: ophelia_idle_resting_1
       rect:
         serializedVersion: 2
         x: 128
@@ -160,14 +136,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 351a0b38fc0f0ec47a544254de7e47a8
-      internalID: 1512381880735966875
+      spriteID: e9d68adb1ecc51f4b8647002aebddc36
+      internalID: -2351696400164153834
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ophelia_resting_2
+      name: ophelia_idle_resting_2
       rect:
         serializedVersion: 2
         x: 256
@@ -181,14 +157,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b2100e2f102cfb54aafbee1c96ff1a2a
-      internalID: 3207554642748915732
+      spriteID: c0f297a1ea78e9b469a1461d4726051a
+      internalID: -6204601158552182484
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ophelia_resting_3
+      name: ophelia_idle_resting_3
       rect:
         serializedVersion: 2
         x: 384
@@ -202,14 +178,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 807f59d6b2af7a2438980fcc73ac3f5b
-      internalID: 588324859086407791
+      spriteID: 6c1a1bc488a0fa54a99ffe790f47582a
+      internalID: -2163304744352329740
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ophelia_resting_4
+      name: ophelia_idle_resting_4
       rect:
         serializedVersion: 2
         x: 512
@@ -223,8 +199,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0b9ae93bd38509d4a818cd1ad8655615
-      internalID: 214599566604931792
+      spriteID: e28655f27208a5547b78f01c4a751bfa
+      internalID: -1324820528937982421
       vertices: []
       indices: 
       edges: []
