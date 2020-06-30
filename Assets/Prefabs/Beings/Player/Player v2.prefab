@@ -4769,7 +4769,7 @@ GameObject:
   - component: {fileID: 4533014238548319083}
   - component: {fileID: 4533014238548318996}
   m_Layer: 13
-  m_Name: Player Ophelia
+  m_Name: Player v2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5034,7 +5034,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5573090798329901692
 Transform:
   m_ObjectHideFlags: 0

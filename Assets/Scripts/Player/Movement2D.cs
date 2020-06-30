@@ -128,7 +128,7 @@ public class Movement2D : MonoBehaviour
     {
         if (animator != null)
         {
-            animator.SetBool("isRunning", directionalInput.x != 0);
+            animator.SetBool("isMoving", directionalInput.x != 0);
 
             animator.SetBool("isAirborne", !controller.collisions.below);
 

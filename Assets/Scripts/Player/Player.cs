@@ -8,6 +8,7 @@ using UnityEngine;
  */
 public class Player : Movement2D
 {
+    // WALL JUMP VARS
     [SerializeField] private bool wallJumpingEnabled = true; // Enable/Disable the ability to walljump.
     private bool wallSliding;
     private int wallDirX;
@@ -20,12 +21,20 @@ public class Player : Movement2D
     private float wallStickTime = .1f; // Time after which player gets off the wall when no jump inputs were given (instead just getting off)
     private float timeToWallUnstick;
 
+    // DEFAULT MOVEMENT VARS.
+    private float walkSpeed = 6;
+    private float sprintSpeed = 10;
+    private bool isSprinting = false;
+
     [SerializeField] private float attackSpeed = 0.5f;
     
     [SerializeField] protected FloatVariable currentHealth;
     [SerializeField] protected GameEvent playerHealthEvent;
 
+    // EFFECTS VARS.
     public ParticleSystem dust;
+    public float distanceBetweenImages;
+    private float lastAfterImageXPos;
 
     public override void Start()
     {
@@ -44,6 +53,12 @@ public class Player : Movement2D
         }
     }
 
+    public override void Update()
+    {
+        base.Update();
+        CheckSprint();
+    }
+
     /** Takes in player input and assigns it.
     */
     public void SetDirectionalInput(Vector2 input)
@@ -56,6 +71,39 @@ public class Player : Movement2D
         }
 
         directionalInput = input;
+    }
+
+    /** Set sprinting state.
+     */
+    public void SetSprinting(bool isSprinting)
+    {
+        if (isSprinting)
+        {
+            if (controller.collisions.below)
+            {
+                this.isSprinting = isSprinting;
+            }
+        }
+        else
+        {
+            this.isSprinting = isSprinting;
+        }
+    }
+
+    /** Update player's speed based on sprint state. 
+     */
+    private void CheckSprint()
+    {
+        if (isSprinting)
+        {
+            moveSpeed = sprintSpeed;
+
+            CreateAfterImage();
+        }
+        else
+        {
+            moveSpeed = walkSpeed;
+        }
     }
 
     /** Handle player jump velocity (takes into account for all 3 types of wall jumps)
@@ -194,13 +242,22 @@ public class Player : Movement2D
             base.UpdateState();
         }
     }
-
+    
     /** This is mainly used by Animation Events since we can't call other game object's
      * functions through the animation event.
      */
     public void PlayFootstepAudio()
     {
         AudioManager.PlayFootstepAudio();
+    }
+
+    private void CreateAfterImage()
+    {
+        if (Mathf.Abs(transform.position.x - lastAfterImageXPos) > distanceBetweenImages)
+        {
+            PlayerAfterImagePool.Instance.GetFromPool(directionalInput.x < 0);
+            lastAfterImageXPos = transform.position.x;
+        }
     }
 
     public void CreateDust()
@@ -215,6 +272,8 @@ public class Player : Movement2D
         if(animator != null)
         {
             animator.SetBool("isWallsliding", wallSliding);
+
+            animator.SetBool("isSprinting", isSprinting);
         }
     }
 }

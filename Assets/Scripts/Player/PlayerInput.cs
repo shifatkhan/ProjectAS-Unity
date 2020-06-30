@@ -12,6 +12,9 @@ public class PlayerInput : MonoBehaviour
 {
     Player player;
 
+    private float lastClickTime; // Used for double clicking.
+    private const float DOUBLE_CLICK_TIME = .2f;
+
     void Start()
     {
         player = GetComponent<Player>();
@@ -28,6 +31,22 @@ public class PlayerInput : MonoBehaviour
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         player.SetDirectionalInput(directionalInput);
 
+        if (Input.GetButtonDown("Horizontal"))
+        {
+            float timeSinceLastClick = Time.time - lastClickTime;
+
+            if(timeSinceLastClick <= DOUBLE_CLICK_TIME)
+            {
+                // Double clicked
+                player.SetSprinting(true);
+            }
+
+            lastClickTime = Time.time;
+        }
+        if (Input.GetButtonUp("Horizontal"))
+        {
+            player.SetSprinting(false);
+        }
         if (Input.GetButtonDown("Jump"))
         {
             player.OnJumpInputDown();

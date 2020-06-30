@@ -354,7 +354,7 @@ PrefabInstance:
     - target: {fileID: 442888911747674145, guid: 8123ed49b855bc648ba10c11a3754db2,
         type: 3}
       propertyPath: sceneName
-      value: DialogueScene
+      value: PlayerScene
       objectReference: {fileID: 0}
     - target: {fileID: 442888911747674149, guid: 8123ed49b855bc648ba10c11a3754db2,
         type: 3}
@@ -439,6 +439,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8109752833922933, guid: eb22d0541fba9954589111c3dd91c3e5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4111161860878137217, guid: eb22d0541fba9954589111c3dd91c3e5,
         type: 3}
       propertyPath: m_Name
@@ -505,6 +509,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4493992431593823747, guid: eb22d0541fba9954589111c3dd91c3e5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347974820647885718, guid: eb22d0541fba9954589111c3dd91c3e5,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
