@@ -15532,6 +15532,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4533014238744269478, guid: e0b29e3aeba686c4b8ea77dae52d6003,
+        type: 3}
+      propertyPath: VelocityModule.y.scalar
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 4533849109269064969, guid: e0b29e3aeba686c4b8ea77dae52d6003,
         type: 3}
       propertyPath: m_Name
@@ -15677,6 +15682,31 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 773573270}
+    - target: {fileID: 6923508522534886557, guid: 4038df6acad3e4a42a698ee5e8107421,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.9197396
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923508522534886557, guid: 4038df6acad3e4a42a698ee5e8107421,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.06719756
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923508523091176486, guid: 4038df6acad3e4a42a698ee5e8107421,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.9197396
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923508523091176486, guid: 4038df6acad3e4a42a698ee5e8107421,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.06719756
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923508523091176487, guid: 4038df6acad3e4a42a698ee5e8107421,
+        type: 3}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4038df6acad3e4a42a698ee5e8107421, type: 3}
 --- !u!1001 &6599561732115255987

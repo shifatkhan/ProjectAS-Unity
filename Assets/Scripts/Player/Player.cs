@@ -99,6 +99,8 @@ public class Player : Movement2D
             moveSpeed = sprintSpeed;
 
             CreateAfterImage();
+            if(controller.collisions.below)
+                CreateDust();
         }
         else
         {
