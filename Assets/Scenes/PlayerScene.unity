@@ -15721,6 +15721,36 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 773573270}
+    - target: {fileID: 6923508522534886546, guid: 4038df6acad3e4a42a698ee5e8107421,
+        type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923508522534886557, guid: 4038df6acad3e4a42a698ee5e8107421,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.50999975
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923508522534886557, guid: 4038df6acad3e4a42a698ee5e8107421,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5575338
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923508523091176486, guid: 4038df6acad3e4a42a698ee5e8107421,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.50999975
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923508523091176486, guid: 4038df6acad3e4a42a698ee5e8107421,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5575338
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923508523091176487, guid: 4038df6acad3e4a42a698ee5e8107421,
+        type: 3}
+      propertyPath: field of view
+      value: 24
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4038df6acad3e4a42a698ee5e8107421, type: 3}
 --- !u!1001 &6599561732115255987
