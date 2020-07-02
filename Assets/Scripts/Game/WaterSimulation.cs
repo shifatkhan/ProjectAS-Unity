@@ -37,10 +37,10 @@ public class WaterSimulation : MonoBehaviour
     private float backgroundWaveMaxHeight = 0.1f;
     private float backgroundWaveCompression = 3f; // Amounts of waves in a small area (smaller width = more compression)
 
-    private List<float> sineOffsets = new List<float>(); // Amounts by which a particular sine is offset
+    private List<float> sineYOffsets = new List<float>(); // Amounts by which a particular sine is offset
     private List<float> sineAmplitudes = new List<float>(); // Amounts by which a particular sine is amplified
-    private List<float> sineStretches = new List<float>(); // Amounts by which a particular sine is stretched
-    private List<float> offsetStretches = new List<float>(); // Amounts by which a particular sine's offset is multiplied
+    private List<float> sineWavelength = new List<float>(); // Amounts by which a particular sine is stretched
+    private List<float> offsetSpeed = new List<float>(); // Amounts by which a particular sine's offset is multiplied
 
     /*************** Renderer ***************/
     public Material mat; //The material we're using for the top of the water
@@ -52,6 +52,10 @@ public class WaterSimulation : MonoBehaviour
         // Spawn our water
         GenerateRandomWaves();
         InitializeWater(-10, 20, 0, -3);
+        Debug.Log($"sineOffset:{sineYOffsets[0]}");
+        Debug.Log($"sineAmplitudes:{sineAmplitudes[0]}");
+        Debug.Log($"sineStretches:{sineWavelength[0]}");
+        Debug.Log($"offsetStretches:{offsetSpeed[0]}");
     }
 
     private void FixedUpdate()
@@ -66,17 +70,10 @@ public class WaterSimulation : MonoBehaviour
             wavePoints[i].y += wavePoints[i].velocity;
             wavePoints[i].velocity += wavePoints[i].acceleration;
 
-            //float result = 0;
+            // RANDOM WAVES
+            wavePoints[i].y = Mathf.Abs(OverlapSines(wavePoints[i].x));
 
-            //for (int n = 0; n < numBackgroundWaves; n++)
-            //{
-            //    result = result +
-            //        sineOffsets[n] +
-            //        sineAmplitudes[n] *
-            //        Mathf.Sin(wavePoints[i].x * sineStretches[n] + offset * offsetStretches[n]);
-            //}
-            //wavePoints[i].y = Mathf.Abs(result);
-
+            // Update line renderer
             Body.SetPosition(i, new Vector3(wavePoints[i].x, wavePoints[i].y, z));
         }
 
@@ -231,13 +228,14 @@ public class WaterSimulation : MonoBehaviour
     {
         for (int i = -0; i < numBackgroundWaves; i++)
         {
-            sineOffsets.Add(-Mathf.PI + 2 * Mathf.PI * Random.value);
+            //sineYOffsets.Add(-Mathf.PI + 2 * Mathf.PI * Random.value);
+            sineYOffsets.Add(Random.Range(-0.1f, 0.1f));
 
             sineAmplitudes.Add(Random.value * backgroundWaveMaxHeight);
 
-            sineStretches.Add(Random.value * backgroundWaveCompression);
+            sineWavelength.Add(Random.value * backgroundWaveCompression);
 
-            offsetStretches.Add(Random.value * backgroundWaveCompression);
+            offsetSpeed.Add(Random.value * backgroundWaveCompression);
         }
     }
 
@@ -270,9 +268,9 @@ public class WaterSimulation : MonoBehaviour
         for (int i = 0; i < numBackgroundWaves; i++)
         {
             result = result +
-                sineOffsets[i] +
+                sineYOffsets[i] +
                 sineAmplitudes[i] *
-                Mathf.Sin(x * sineStretches[i] + offset * offsetStretches[i]);
+                Mathf.Sin(x * sineWavelength[i] + offset * offsetSpeed[i]);
         }
 
         return result;
