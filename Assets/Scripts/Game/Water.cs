@@ -12,22 +12,25 @@ using UnityEngine;
  */
 //[ExecuteInEditMode]
 [RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class Water : MonoBehaviour
 {
     public LineRenderer lineRenderer;
 
     /********************* WATER CONTAINER COORDS *********************/
-    // TODO: Replace with water box collider.
-    [DraggablePoint] public Vector3 topRight;
-    [DraggablePoint] public Vector3 botRight;
+    private BoxCollider2D boxCollider2D;
+    private Vector3 topLeft;
+    private Vector3 topRight;
+    private Vector3 btmLeft;
+    private Vector3 btmRight;
 
     /************************ WAVE POINTS VARS ************************/
-    public int numPoints = 10; // Resolution of simulation
+    public int numPoints = 80; // Resolution of simulation
     public float width = 200; // Width of simulation
-    public float yOffset = 200; // Vertical draw offset of simulation
+    private float yOffset = 200; // Vertical draw offset of simulation
 
-    public float springConstant = 0.5f;//0.005f; // Spring constant for forces applied by adjacent points
-    public float springConstantBaseline = 0.5f;//0.005f; // Sprint constant for force applied to baseline (resting state)
+    public float springConstant = 0.005f; // Spring constant for forces applied by adjacent points
+    public float springConstantBaseline = 0.005f; // Sprint constant for force applied to baseline (resting state)
     public float damping = 0.99f; // Damping to apply to speed changes
 
     // Number of iterations of point-influences-point to do on wave per step
@@ -40,32 +43,78 @@ public class Water : MonoBehaviour
     private float offset = 0; // A phase difference to apply to each sine
 
     public int numBackgroundWaves = 7; // Randomness of each wave.
-    public float backgroundWaveMaxHeight = 1f;
-    public float backgroundWaveCompression = 1f; // Amounts of waves in a small area (smaller width = more compression)
+    public float backgroundWaveMaxHeight = 6;
+    public float backgroundWaveCompression = 0.1f; // Amounts of waves in a small area (smaller width = more compression)
 
     private List<float> sineOffsets = new List<float>(); // Amounts by which a particular sine is offset
     private List<float> sineAmplitudes = new List<float>(); // Amounts by which a particular sine is amplified
     private List<float> sineStretches = new List<float>(); // Amounts by which a particular sine is stretched
     private List<float> offsetStretches = new List<float>(); // Amounts by which a particular sine's offset is multiplied
 
+    Vector3 worldPosition = Vector3.zero;
+
     private void Start()
     {
+        // Get Components.
         lineRenderer = GetComponent<LineRenderer>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
 
-        //width = Vector3.Distance(transform.position, topRight);
-        //yOffset = Vector3.Distance(topRight, botRight);
+        // Get Box collider coords
+        // Special thanks to Alec-Slayden: http://answers.unity.com/answers/860223/view.html
+        float top = boxCollider2D.offset.y + (boxCollider2D.size.y / 2f);
+        float btm = boxCollider2D.offset.y - (boxCollider2D.size.y / 2f);
+        float left = boxCollider2D.offset.x - (boxCollider2D.size.x / 2f);
+        float right = boxCollider2D.offset.x + (boxCollider2D.size.x / 2f);
+
+        topLeft = transform.TransformPoint(new Vector3(left, top, 0f));
+        topRight = transform.TransformPoint(new Vector3(right, top, 0f));
+        btmLeft = transform.TransformPoint(new Vector3(left, btm, 0f));
+        btmRight = transform.TransformPoint(new Vector3(right, btm, 0f));
 
         // Get initial wave values.
+        //width = Vector3.Distance(topLeft, topRight);
+        yOffset = Vector3.Distance(topLeft, btmLeft);
+
         GenerateRandomWaves();
         wavePoints = MakeWavePoints(numPoints);
 
-        // Set linerenderer values.
+        // Set line renderer values.
         lineRenderer.positionCount = wavePoints.Count;
         lineRenderer.SetPositions(ConvertSpringPointsToVector3());
     }
 
     private void Update()
     {
+        // TODO: Remove mouse click. It's used to test the wave splash.
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1);
+            worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
+
+            float startX = transform.position.x;
+            float endX = transform.position.x + width;
+            float lineLength = endX - startX;
+
+            float closestDistance = -1;
+            int closestPoint = 0;
+            for (int n = 0; n < wavePoints.Count; n++)
+            {
+                float distance = Mathf.Abs(worldPosition.x - wavePoints[n].x);
+                if(closestDistance == -1)
+                {
+                    closestPoint = n;
+                    closestDistance = distance;
+                }
+                else if (distance <= closestDistance)
+                {
+                    closestPoint = n;
+                    closestDistance = distance;
+                }
+            }
+            wavePoints[closestPoint].y = worldPosition.y;
+        }
+
+        // ------------------------
         offset = offset + 1;
 
         // Update positions of points.
@@ -87,8 +136,10 @@ public class Water : MonoBehaviour
                 float force = 0;
 
                 // Forces caused by the point immediately to the left or the right.
-                float forceFromLeft, forceFromRight;
-
+                float forceFromLeft = 0, forceFromRight= 0;
+                
+                /** TODO: Remove if not needed. 
+                 * Commented Code below if for wrapping the force around (unrealistic)
                 if (n == 0) // Wrap left-to-right
                 {
                     float dy = wavePoints[wavePoints.Count - 1].y - wavePoints[n].y;
@@ -106,6 +157,19 @@ public class Water : MonoBehaviour
                     forceFromRight = springConstant * dy;
                 }
                 else // Normally
+                {
+                    float dy = wavePoints[n + 1].y - wavePoints[n].y;
+                    forceFromRight = springConstant * dy;
+                }
+                */
+
+                if (n != 0)
+                {
+                    float dy = wavePoints[n - 1].y - wavePoints[n].y;
+                    forceFromLeft = springConstant * dy;
+                }
+                
+                if(n != wavePoints.Count - 1)
                 {
                     float dy = wavePoints[n + 1].y - wavePoints[n].y;
                     forceFromRight = springConstant * dy;
