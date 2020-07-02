@@ -69,6 +69,11 @@ public class Movement2D : MonoBehaviour
         Move();
     }
 
+    public Vector3 GetVelocity()
+    {
+        return this.velocity;
+    }
+
     /** Calculate and apply X and Y velocity to game object..
      */
     protected void CalculateVelocity()
