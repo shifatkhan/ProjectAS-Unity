@@ -71,7 +71,7 @@ public class WaterSimulation : MonoBehaviour
             wavePoints[i].velocity += wavePoints[i].acceleration;
 
             // RANDOM WAVES
-            wavePoints[i].y = Mathf.Abs(OverlapSines(wavePoints[i].x));
+            //wavePoints[i].y = Mathf.Abs(OverlapSines(wavePoints[i].x));
 
             // Update line renderer
             Body.SetPosition(i, new Vector3(wavePoints[i].x, wavePoints[i].y, z));
