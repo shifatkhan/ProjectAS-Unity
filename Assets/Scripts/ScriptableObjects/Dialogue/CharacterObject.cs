@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Character", menuName = "ScriptableObject/Dialogue/CharacterObject")]
+[CreateAssetMenu(fileName = "New Character", menuName = "Dialogue/CharacterObject")]
 public class CharacterObject : ScriptableObject
 {
     public string fullName;

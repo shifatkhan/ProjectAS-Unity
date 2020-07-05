@@ -7,7 +7,7 @@ using UnityEngine;
  * 
  * @author ShifatKhan
  */
-[CreateAssetMenu(fileName = "New Response", menuName = "ScriptableObject/Dialogue/ResponseObject")]
+[CreateAssetMenu(fileName = "New Response", menuName = "Dialogue/ResponseObject")]
 public class ResponseObject : ScriptableObject
 {
     public string responseText;

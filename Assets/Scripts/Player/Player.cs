@@ -36,6 +36,9 @@ public class Player : Movement2D
     public float distanceBetweenImages;
     private float lastAfterImageXPos;
 
+    // INVENTORY
+    public InventoryObject inventory;
+
     public override void Start()
     {
         base.Start();
@@ -57,6 +60,25 @@ public class Player : Movement2D
     {
         base.Update();
         CheckSprint();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Check if we got an item.
+        Item item = other.GetComponent<Item>();
+        if (item)
+        {
+            inventory.AddItem(item.item, 1);
+            Destroy(other.gameObject);
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        // TODO: Might remove this for the actual build.
+
+        // Clear and delete the inventory.
+        inventory.itemsContainer.Clear();
     }
 
     /** Takes in player input and assigns it.

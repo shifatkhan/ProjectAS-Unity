@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/**
+/** Gets the current instance of the player's sprite so it can be used to 
+ * display a copy of it behind the player as after image.
+ * @author ShifatKhan
  * @Special thanks Bardent (https://youtu.be/ylsWcc4IP3E)
  */
 public class PlayerAfterImage : MonoBehaviour

@@ -5,6 +5,7 @@ using UnityEngine;
 /** Camera class that follows the player around.
  * @Special thanks to Sebastian Lague
  */
+[System.Obsolete("This has been replaced by a Cinemachine camera")]
 public class CameraFollow : MonoBehaviour
 {
     public Controller2D target;

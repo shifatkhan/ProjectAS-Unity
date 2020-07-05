@@ -5,7 +5,7 @@ using UnityEngine;
 /** Subject.
  * @Special thanks to Ryan Hipple (https://unity.com/how-to/architect-game-code-scriptable-objects)
  */
-[CreateAssetMenu(menuName = "ScriptableObject/GameEvent")]
+[CreateAssetMenu(menuName = "Event System/GameEvent")]
 public class GameEvent : ScriptableObject
 {
     private List<GameEventListener> listeners =

@@ -6,7 +6,7 @@ using UnityEngine;
  * 
  * @author ShifatKhan
  */
-[CreateAssetMenu(fileName = "New Dialogue", menuName = "ScriptableObject/Dialogue/DialogueObject")]
+[CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue/DialogueObject")]
 public class DialogueObject : ScriptableObject
 {
     public string dialogueID;
