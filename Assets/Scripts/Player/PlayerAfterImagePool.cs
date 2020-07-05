@@ -46,8 +46,12 @@ public class PlayerAfterImagePool : MonoBehaviour
         }
 
         GameObject instance = availableObjects.Dequeue();
-        instance.transform.localScale = flipped ? new Vector3(-1, 1, 1) : new Vector3(1, 1, 1);
         instance.SetActive(true);
+
+        Vector3 newTransform = instance.transform.localScale;
+        newTransform.x *= flipped ? -1 : 1;
+        instance.transform.localScale = newTransform;
+
         return instance;
     }
 }
