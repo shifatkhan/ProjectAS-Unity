@@ -20,34 +20,34 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -2026416148943288999, guid: 4be3a78de4c1a654cbf231b4a8ccbc31,
+      value: {fileID: 2208223840190753849, guid: 52c76c642091a9c429832812bae44e85,
         type: 3}
-    - time: 0.0625
-      value: {fileID: -7329262604147811714, guid: 4be3a78de4c1a654cbf231b4a8ccbc31,
+    - time: 0.083333336
+      value: {fileID: -5547693603019661016, guid: 52c76c642091a9c429832812bae44e85,
         type: 3}
-    - time: 0.125
-      value: {fileID: -2174224443189336883, guid: 4be3a78de4c1a654cbf231b4a8ccbc31,
-        type: 3}
-    - time: 0.1875
-      value: {fileID: -8837796763745643938, guid: 4be3a78de4c1a654cbf231b4a8ccbc31,
+    - time: 0.16666667
+      value: {fileID: -3987864652673275024, guid: 52c76c642091a9c429832812bae44e85,
         type: 3}
     - time: 0.25
-      value: {fileID: 203203087858466370, guid: 4be3a78de4c1a654cbf231b4a8ccbc31,
+      value: {fileID: 222592369791400375, guid: 52c76c642091a9c429832812bae44e85,
         type: 3}
-    - time: 0.3125
-      value: {fileID: 6081477837168836901, guid: 4be3a78de4c1a654cbf231b4a8ccbc31,
+    - time: 0.33333334
+      value: {fileID: -63289162170099908, guid: 52c76c642091a9c429832812bae44e85,
         type: 3}
-    - time: 0.375
-      value: {fileID: 7890823993968823308, guid: 4be3a78de4c1a654cbf231b4a8ccbc31,
+    - time: 0.41666666
+      value: {fileID: 6207420649699166545, guid: 52c76c642091a9c429832812bae44e85,
         type: 3}
-    - time: 0.4375
-      value: {fileID: 6062427185819671099, guid: 4be3a78de4c1a654cbf231b4a8ccbc31,
+    - time: 0.5
+      value: {fileID: -5015309542835035163, guid: 52c76c642091a9c429832812bae44e85,
+        type: 3}
+    - time: 0.5833333
+      value: {fileID: 3619076110318529615, guid: 52c76c642091a9c429832812bae44e85,
         type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 16
+  m_SampleRate: 12
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -62,20 +62,20 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -2026416148943288999, guid: 4be3a78de4c1a654cbf231b4a8ccbc31, type: 3}
-    - {fileID: -7329262604147811714, guid: 4be3a78de4c1a654cbf231b4a8ccbc31, type: 3}
-    - {fileID: -2174224443189336883, guid: 4be3a78de4c1a654cbf231b4a8ccbc31, type: 3}
-    - {fileID: -8837796763745643938, guid: 4be3a78de4c1a654cbf231b4a8ccbc31, type: 3}
-    - {fileID: 203203087858466370, guid: 4be3a78de4c1a654cbf231b4a8ccbc31, type: 3}
-    - {fileID: 6081477837168836901, guid: 4be3a78de4c1a654cbf231b4a8ccbc31, type: 3}
-    - {fileID: 7890823993968823308, guid: 4be3a78de4c1a654cbf231b4a8ccbc31, type: 3}
-    - {fileID: 6062427185819671099, guid: 4be3a78de4c1a654cbf231b4a8ccbc31, type: 3}
+    - {fileID: 2208223840190753849, guid: 52c76c642091a9c429832812bae44e85, type: 3}
+    - {fileID: -5547693603019661016, guid: 52c76c642091a9c429832812bae44e85, type: 3}
+    - {fileID: -3987864652673275024, guid: 52c76c642091a9c429832812bae44e85, type: 3}
+    - {fileID: 222592369791400375, guid: 52c76c642091a9c429832812bae44e85, type: 3}
+    - {fileID: -63289162170099908, guid: 52c76c642091a9c429832812bae44e85, type: 3}
+    - {fileID: 6207420649699166545, guid: 52c76c642091a9c429832812bae44e85, type: 3}
+    - {fileID: -5015309542835035163, guid: 52c76c642091a9c429832812bae44e85, type: 3}
+    - {fileID: 3619076110318529615, guid: 52c76c642091a9c429832812bae44e85, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.5
+    m_StopTime: 0.6666666
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -102,21 +102,21 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.125
+  - time: 0.16666667
     functionName: PlayFootstepAudio
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.25
+  - time: 0.33333334
     functionName: PlayFootstepAudio
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.375
+  - time: 0.5
     functionName: PlayFootstepAudio
     data: 
     objectReferenceParameter: {fileID: 0}

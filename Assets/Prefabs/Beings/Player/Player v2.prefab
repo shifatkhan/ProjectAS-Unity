@@ -1541,7 +1541,7 @@ ParticleSystem:
     y:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.2
+      scalar: 0.6
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4784,7 +4784,7 @@ Transform:
   m_GameObject: {fileID: 4533849109269064969}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.62, y: 0.3, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 63129760653353413}
   - {fileID: 5573090798329901692}
@@ -4830,7 +4830,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4753702385071775785, guid: 63ff4a68da333de41b03715fc46ba674,
+  m_Sprite: {fileID: 3301670848146286338, guid: 206ee28439e1b8c4faf9ca65b8d39c32,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4940,6 +4940,7 @@ MonoBehaviour:
   currentHealth: {fileID: 11400000, guid: 8f19276d46a2c1846a0e63ffb695224f, type: 2}
   playerHealthEvent: {fileID: 11400000, guid: f75bdf27a9b082042867327a1148da97, type: 2}
   dust: {fileID: 0}
+  distanceBetweenImages: 0
 --- !u!1 &5943933637830263607
 GameObject:
   m_ObjectHideFlags: 0
