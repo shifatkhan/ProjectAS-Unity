@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 6128179487270560233}
   - component: {fileID: 2316649088589718212}
   m_Layer: 13
-  m_Name: Player vWater
+  m_Name: Player v3
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -255,7 +255,7 @@ Transform:
   m_GameObject: {fileID: 6127249646400641012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.68, y: 5.9, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7711115316374444856}
   - {fileID: 2789049941763197057}
@@ -301,7 +301,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4753702385071775785, guid: 63ff4a68da333de41b03715fc46ba674,
+  m_Sprite: {fileID: 1389912333861406241, guid: 206ee28439e1b8c4faf9ca65b8d39c32,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
