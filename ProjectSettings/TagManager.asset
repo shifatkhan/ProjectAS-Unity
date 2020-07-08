@@ -9,6 +9,7 @@ TagManager:
   - Dialogue
   - Name
   - Portrait
+  - Inventory
   layers:
   - Default
   - TransparentFX

@@ -14,8 +14,9 @@ public class InventoryUI : MonoBehaviour
     {
         foreach(InventorySlot slot in inventory.itemsContainer)
         {
+            // TODO: Check how to change sprite and amount text.
             GameObject createdItem = Instantiate(inventorySlotTemplate);
-            createdItem.GetComponentInChildren<Image>().sprite = slot.item.itemPrefab.GetComponent<Sprite>();
+            createdItem.transform.Find("Item Image").GetComponent<Image>().sprite = slot.item.itemSprite;
             createdItem.transform.parent = this.transform;
         }
     }

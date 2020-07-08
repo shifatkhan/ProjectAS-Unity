@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7de91b2b607a9d64e91a6fd7a7205308, type: 3}
-  m_Name: Torch
+  m_Name: Lantern
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 21300000, guid: 43d90a5ee99a61946b908a0455f8308e, type: 3}
+  itemSprite: {fileID: 21300016, guid: 545e3f6ad65c48d40a96534d4c3ecd84, type: 3}
   type: 2
-  description: Use it to light up a dark space!
+  description: A lantern powerful enough to light up the skies!
