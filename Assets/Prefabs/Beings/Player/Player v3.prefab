@@ -412,6 +412,7 @@ MonoBehaviour:
   playerHealthEvent: {fileID: 11400000, guid: f75bdf27a9b082042867327a1148da97, type: 2}
   dust: {fileID: 0}
   distanceBetweenImages: 0
+  inventory: {fileID: 11400000, guid: c74e862eee54478449bd6f6705f1e966, type: 2}
 --- !u!50 &2316649088589718212
 Rigidbody2D:
   serializedVersion: 4

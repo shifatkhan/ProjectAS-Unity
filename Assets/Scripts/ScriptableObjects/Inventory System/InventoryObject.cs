@@ -47,7 +47,7 @@ public class InventoryObject : ScriptableObject
 public class InventorySlot
 {
     public ItemObject item;
-    public int amount;
+    public int amount; // TODO: Move amount into ItemObject?
 
     public InventorySlot(ItemObject item, int amount)
     {

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de91b2b607a9d64e91a6fd7a7205308, type: 3}
   m_Name: Torch
   m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 0}
+  itemPrefab: {fileID: 8090680118141075829, guid: 87c15a64eb9ce6d4291e90b7787aaef1,
+    type: 3}
   type: 2
   description: Use it to light up a dark space!

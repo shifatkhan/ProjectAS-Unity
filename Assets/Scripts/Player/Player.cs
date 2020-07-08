@@ -33,11 +33,12 @@ public class Player : Movement2D
 
     // EFFECTS VARS.
     public ParticleSystem dust;
-    public float distanceBetweenImages;
+    public float distanceBetweenAfterImages;
     private float lastAfterImageXPos;
 
     // INVENTORY
     public InventoryObject inventory;
+    public InventoryUI inventoryUI; // TODO: Remove. Just testing.
 
     public override void Start()
     {
@@ -64,12 +65,14 @@ public class Player : Movement2D
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // TODO: Add button to pickup item.
         // Check if we got an item.
         Item item = other.GetComponent<Item>();
-        if (item)
+        if (item && inventory)
         {
             inventory.AddItem(item.item, 1);
             Destroy(other.gameObject);
+            inventoryUI.RefreshInventoryItems();
         }
     }
 
@@ -78,7 +81,8 @@ public class Player : Movement2D
         // TODO: Might remove this for the actual build.
 
         // Clear and delete the inventory.
-        inventory.itemsContainer.Clear();
+        if(inventory)
+            inventory.itemsContainer.Clear();
     }
 
     /** Takes in player input and assigns it.
@@ -277,7 +281,7 @@ public class Player : Movement2D
 
     private void CreateAfterImage()
     {
-        if (Mathf.Abs(transform.position.x - lastAfterImageXPos) > distanceBetweenImages)
+        if (Mathf.Abs(transform.position.x - lastAfterImageXPos) > distanceBetweenAfterImages)
         {
             PlayerAfterImagePool.Instance.GetFromPool(directionalInput.x < 0);
             lastAfterImageXPos = transform.position.x;
