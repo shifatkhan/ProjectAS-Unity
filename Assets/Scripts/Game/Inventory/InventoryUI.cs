@@ -30,6 +30,16 @@ public class InventoryUI : MonoBehaviour
             // Don't show numbers if there's only 1.
             createdItem.transform.Find("Amount Text").GetComponent<TextMeshProUGUI>().text = itemSlot.amount == 1 ? "" : itemSlot.amount.ToString();
             createdItem.transform.SetParent(transform.Find("ItemSlotsContainer"));
+
+            createdItem.GetComponent<ClickableObject>().rightClick.AddListener(() => OnRightClickItemSlot(itemSlot.item, itemSlot.amount));
         }
+    }
+
+    // TODO: Fix right click not working.
+    public void OnRightClickItemSlot(ItemObject item, int amount)
+    {
+        inventory.RemoveItem(item, amount);
+        RefreshInventoryItems();
+        Debug.Log("Right Clicked");
     }
 }

@@ -15,7 +15,7 @@ public class InventoryObject : ScriptableObject
      * This will search if the item is already present in the inventory.
      * If it is, we add to the amount instead of creating a new slot.
      */
-    public void AddItem(ItemObject item, int amount)
+    public void AddItem(ItemObject item, int amountToAdd)
     {
         // TODO: Change List to Dictionnary for better searching.
         bool hasItem = false;
@@ -27,7 +27,7 @@ public class InventoryObject : ScriptableObject
             {
                 if (itemsContainer[i].item == item)
                 {
-                    itemsContainer[i].AddAmount(amount);
+                    itemsContainer[i].AddAmount(amountToAdd);
                     hasItem = true;
                     break;
                 }
@@ -36,12 +36,36 @@ public class InventoryObject : ScriptableObject
             // Add new instance of item if it's not already in inventory.
             if (!hasItem)
             {
-                itemsContainer.Add(new InventorySlot(item, amount));
+                itemsContainer.Add(new InventorySlot(item, amountToAdd));
             }
         }
         else
         {
-            itemsContainer.Add(new InventorySlot(item, amount));
+            itemsContainer.Add(new InventorySlot(item, amountToAdd));
+        }
+    }
+
+    public void RemoveItem(ItemObject item, int amountToRemove)
+    {
+        // TODO: Change List to Dictionnary for better searching.
+
+        // Search if Item is already present.
+        for (int i = 0; i < itemsContainer.Count; i++)
+        {
+            if (itemsContainer[i].item == item)
+            {
+                if (itemsContainer[i].amount <= amountToRemove)
+                {
+                    // Remove item from inventory if amount to remove is greater than what we have.
+                    itemsContainer.Remove(itemsContainer[i]);
+                }
+                else
+                {
+                    // Substract item amount.
+                    itemsContainer[i].RemoveAmount(amountToRemove);
+                }
+                break;
+            }
         }
     }
 }
@@ -67,5 +91,16 @@ public class InventorySlot
     public void AddAmount(int amountToAdd)
     {
         amount += amountToAdd;
+    }
+
+    public void RemoveAmount(int amountToRemove)
+    {
+        if(amount - amountToRemove < 0)
+        {
+            Debug.LogWarning($"ERROR: Can't remove more amount than what we have for item {item.name}");
+            return;
+        }
+        
+        amount -= amountToRemove;
     }
 }
