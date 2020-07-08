@@ -37,8 +37,8 @@ public class Player : Movement2D
     private float lastAfterImageXPos;
 
     // INVENTORY
-    public InventoryObject inventory;
-    public InventoryUI inventoryUI; // TODO: Remove. Just testing.
+    public InventoryObject inventory; // TODO: Serialize
+    [SerializeField] protected GameEvent inventoryEvent;
 
     public override void Start()
     {
@@ -72,7 +72,8 @@ public class Player : Movement2D
         {
             inventory.AddItem(item.item, 1);
             Destroy(other.gameObject);
-            inventoryUI.RefreshInventoryItems();
+
+            inventoryEvent.Raise();
         }
     }
 

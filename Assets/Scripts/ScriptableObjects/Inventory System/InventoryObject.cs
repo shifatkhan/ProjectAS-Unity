@@ -20,19 +20,26 @@ public class InventoryObject : ScriptableObject
         // TODO: Change List to Dictionnary for better searching.
         bool hasItem = false;
 
-        // Search if Item is already present.
-        for (int i = 0; i < itemsContainer.Count; i++)
+        if (item.IsStackable())
         {
-            if(itemsContainer[i].item == item)
+            // Search if Item is already present.
+            for (int i = 0; i < itemsContainer.Count; i++)
             {
-                itemsContainer[i].AddAmount(amount);
-                hasItem = true;
-                break;
+                if (itemsContainer[i].item == item)
+                {
+                    itemsContainer[i].AddAmount(amount);
+                    hasItem = true;
+                    break;
+                }
+            }
+
+            // Add new instance of item if it's not already in inventory.
+            if (!hasItem)
+            {
+                itemsContainer.Add(new InventorySlot(item, amount));
             }
         }
-
-        // Add new instance of item if it's not already in inventory.
-        if (!hasItem)
+        else
         {
             itemsContainer.Add(new InventorySlot(item, amount));
         }

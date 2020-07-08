@@ -978,7 +978,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5769082637785051185}
   - component: {fileID: 3389550970008486915}
-  - component: {fileID: 7580436226641912542}
   m_Layer: 5
   m_Name: ItemSlotsContainer
   m_TagString: Untagged
@@ -1030,21 +1029,6 @@ MonoBehaviour:
   m_Spacing: {x: 6, y: 6}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &7580436226641912542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2669420009595526654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7562f20c4f1c42a4bb2a8c2cc9b20c88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventory: {fileID: 11400000, guid: c74e862eee54478449bd6f6705f1e966, type: 2}
-  inventorySlotTemplate: {fileID: 3550665164378718264, guid: b918eb6a7439b9c4fb4b49689881128e,
-    type: 3}
 --- !u!1 &2746195609136601440
 GameObject:
   m_ObjectHideFlags: 0
@@ -1357,6 +1341,8 @@ GameObject:
   - component: {fileID: 8294929164750265129}
   - component: {fileID: 5560189790697599799}
   - component: {fileID: 8513978467914489205}
+  - component: {fileID: 991856337}
+  - component: {fileID: 991856339}
   m_Layer: 5
   m_Name: Inventory UI
   m_TagString: Inventory
@@ -1420,6 +1406,48 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &991856337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4007642236324277252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7562f20c4f1c42a4bb2a8c2cc9b20c88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 11400000, guid: c74e862eee54478449bd6f6705f1e966, type: 2}
+  inventorySlotTemplate: {fileID: 3550665164378718264, guid: b918eb6a7439b9c4fb4b49689881128e,
+    type: 3}
+--- !u!114 &991856339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4007642236324277252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 517dcab070bccc44e8d5624ad8018432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 0783a6ffc9bc48a4c9258b4466ca63b8, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 991856337}
+        m_MethodName: RefreshInventoryItems
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4111161860878137217
 GameObject:
   m_ObjectHideFlags: 0
@@ -3148,26 +3176,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8848757092184692278, guid: b918eb6a7439b9c4fb4b49689881128e,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8848757092184692278, guid: b918eb6a7439b9c4fb4b49689881128e,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8848757092184692278, guid: b918eb6a7439b9c4fb4b49689881128e,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8848757092184692278, guid: b918eb6a7439b9c4fb4b49689881128e,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b918eb6a7439b9c4fb4b49689881128e, type: 3}

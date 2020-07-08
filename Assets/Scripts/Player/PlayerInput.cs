@@ -67,6 +67,8 @@ public class PlayerInput : MonoBehaviour
             StartCoroutine(player.Attack1Co());
         }
 
+        // TODO: Maybe move this into the InventoryUI script.
+        // Open/Close Inventory UI
         if (Input.GetButtonDown("Inventory"))
         {
             if (inventoryUI.GetComponent<Image>().color.a == 1)

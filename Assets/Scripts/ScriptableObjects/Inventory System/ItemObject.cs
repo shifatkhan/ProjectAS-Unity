@@ -20,4 +20,18 @@ public class ItemObject : ScriptableObject
 
     [TextArea(15,20)]
     public string description; // A short paragraph describing the item.
+
+    public bool IsStackable()
+    {
+        switch (type)
+        {
+            default:
+            case ItemType.Food:
+            case ItemType.Default:
+                return true;
+
+            case ItemType.Equipment:
+                return false;
+        }
+    }
 }

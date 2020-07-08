@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95c37fbf0d4fcb04287cf212ecfe1803, type: 3}
-  m_Name: Shield
+  m_Name: Barrel Helmet
   m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 0}
+  itemSprite: {fileID: 21300008, guid: 545e3f6ad65c48d40a96534d4c3ecd84, type: 3}
   type: 1
-  description: Cheap shield, but gets the job done.
+  description: Equip this on your head, I guess?
   attackBonus: 0
   defenceBonus: 1
