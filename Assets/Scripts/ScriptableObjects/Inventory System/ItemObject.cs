@@ -15,7 +15,8 @@ using UnityEngine;
 
 public class ItemObject : ScriptableObject
 {
-    public Sprite itemSprite;
+    //public Sprite itemSprite;
+    public GameObject itemPrefab;
     public ItemType type;
 
     [TextArea(15,20)]

@@ -70,7 +70,7 @@ public class Player : Movement2D
         Item item = other.GetComponent<Item>();
         if (item && inventory)
         {
-            inventory.AddItem(item.item, 1);
+            inventory.AddItem(item.item, item.amount);
             Destroy(other.gameObject);
 
             inventoryEvent.Raise();

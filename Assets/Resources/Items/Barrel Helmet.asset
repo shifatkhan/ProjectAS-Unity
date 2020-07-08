@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95c37fbf0d4fcb04287cf212ecfe1803, type: 3}
   m_Name: Barrel Helmet
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 21300008, guid: 545e3f6ad65c48d40a96534d4c3ecd84, type: 3}
+  itemPrefab: {fileID: 2709102194866463434, guid: 0dad015069a35af46ac604a7b62215ac,
+    type: 3}
   type: 1
   description: Equip this on your head, I guess?
   attackBonus: 0

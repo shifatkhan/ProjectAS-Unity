@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de91b2b607a9d64e91a6fd7a7205308, type: 3}
   m_Name: Lantern
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 21300016, guid: 545e3f6ad65c48d40a96534d4c3ecd84, type: 3}
+  itemPrefab: {fileID: 273546630234350484, guid: 43af5a0395d07be49898c50e246850cc,
+    type: 3}
   type: 2
   description: A lantern powerful enough to light up the skies!

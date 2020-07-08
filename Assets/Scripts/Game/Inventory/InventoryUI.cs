@@ -25,9 +25,11 @@ public class InventoryUI : MonoBehaviour
         {
             // TODO: Check how to change sprite and amount text.
             GameObject createdItem = Instantiate(inventorySlotTemplate);
-            createdItem.transform.Find("Item Image").GetComponent<Image>().sprite = itemSlot.item.itemSprite;
-            createdItem.transform.Find("Amount Text").GetComponent<TextMeshProUGUI>().text = itemSlot.amount.ToString();
-            createdItem.transform.parent = transform.Find("ItemSlotsContainer");
+            createdItem.transform.Find("Item Image").GetComponent<Image>().sprite = itemSlot.item.itemPrefab.GetComponent<SpriteRenderer>().sprite;//itemSlot.item.itemSprite;
+            
+            // Don't show numbers if there's only 1.
+            createdItem.transform.Find("Amount Text").GetComponent<TextMeshProUGUI>().text = itemSlot.amount == 1 ? "" : itemSlot.amount.ToString();
+            createdItem.transform.SetParent(transform.Find("ItemSlotsContainer"));
         }
     }
 }
