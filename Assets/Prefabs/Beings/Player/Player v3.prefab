@@ -235,10 +235,10 @@ GameObject:
   - component: {fileID: 6340813250160904924}
   - component: {fileID: 8522598305323188001}
   - component: {fileID: 8708929972176136281}
+  - component: {fileID: 2316649088589718212}
   - component: {fileID: 6128179487270560151}
   - component: {fileID: 6128179487270560150}
   - component: {fileID: 6128179487270560233}
-  - component: {fileID: 2316649088589718212}
   m_Layer: 13
   m_Name: Player v3
   m_TagString: Player
@@ -358,6 +358,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.34569454, y: 0.8304467}
   m_EdgeRadius: 0
+--- !u!50 &2316649088589718212
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6127249646400641012}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &6128179487270560151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,27 +435,6 @@ MonoBehaviour:
   distanceBetweenAfterImages: 0
   inventory: {fileID: 11400000, guid: c74e862eee54478449bd6f6705f1e966, type: 2}
   inventoryEvent: {fileID: 11400000, guid: 0783a6ffc9bc48a4c9258b4466ca63b8, type: 2}
---- !u!50 &2316649088589718212
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6127249646400641012}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &6128179486670121052
 GameObject:
   m_ObjectHideFlags: 0
