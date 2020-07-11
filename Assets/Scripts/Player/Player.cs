@@ -261,6 +261,7 @@ public class Player : Movement2D
     public void Die()
     {
         SetCurrentState(State.dead);
+        AudioManager.PlayDeathAudio();
         gameObject.SetActive(false);
     }
 

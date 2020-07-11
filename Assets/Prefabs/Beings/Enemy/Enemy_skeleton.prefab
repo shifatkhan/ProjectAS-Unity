@@ -223,7 +223,7 @@ MonoBehaviour:
   moveSpeed: 1
   currentState: 0
   health: 3
-  maxHealth: {fileID: 11400000, guid: a8d0d5261e6ba6a499497ccc3ec00351, type: 2}
+  currentHealth: {fileID: 11400000, guid: a8d0d5261e6ba6a499497ccc3ec00351, type: 2}
   enemyName: Skeleton
   attackDamage: 1
   attackSpeed: 0
