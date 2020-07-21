@@ -71,7 +71,6 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             jumpTimer = Time.time + jumpDelay;
-            //player.OnJumpInputDown();
         }
         if (Input.GetButtonUp("Jump"))
         {

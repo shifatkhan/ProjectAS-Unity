@@ -176,6 +176,12 @@ public class Player : Movement2D
                 AudioManager.PlayJumpAudio();
             }
         }
+
+        // Hot fix for when we TAP jump before landing and it makes a full jump instead of a hop.
+        if (!Input.GetButton("Jump"))
+        {
+            OnJumpInputUp();
+        }
     }
 
     /** Handle player velocity when jump is released.
