@@ -7,6 +7,7 @@ using UnityEngine;
  */
 public class Enemy : Movement2D
 {
+    [Header("Enemy vars")]
     [SerializeField] protected FloatVariable currentHealth;
     [SerializeField] protected string enemyName = "Enemy";
     [SerializeField] protected int attackDamage = 1;

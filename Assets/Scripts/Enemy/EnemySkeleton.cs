@@ -8,14 +8,17 @@ using UnityEngine;
 [RequireComponent(typeof(Controller2D))]
 public class EnemySkeleton : Enemy
 {
+    [Header("Attack")]
     [SerializeField] private float chaseDistance = 6; // Distance where enemy will chase target.
     [SerializeField] private float attackDistance = 0.8f; // Distance where enemy will attack target.
 
+    [Header("Location")]
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 homePosition; // Place to return to if player is gone.
 
     private bool followTarget;
 
+    [Header("Debug")]
     public bool showAttackRadius = true;
 
     public override void Start()
