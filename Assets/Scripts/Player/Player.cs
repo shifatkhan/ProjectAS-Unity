@@ -8,7 +8,7 @@ using UnityEngine;
  */
 public class Player : Movement2D
 {
-    // WALL JUMP VARS
+    [Header("Wall jumping")]
     [SerializeField] private bool wallJumpingEnabled = true; // Enable/Disable the ability to walljump.
     private bool wallSliding;
     private int wallDirX;
@@ -20,23 +20,24 @@ public class Player : Movement2D
     private float wallSlideSpeedMax = 3; // Velocity at which we will descend a wall slide.
     private float wallStickTime = .1f; // Time after which player gets off the wall when no jump inputs were given (instead just getting off)
     private float timeToWallUnstick;
-
-    // DEFAULT MOVEMENT VARS.
+    
+    [Header("Particle effects")]
     private float walkSpeed = 6;
     private float sprintSpeed = 10;
     private bool isSprinting = false;
 
+    [Header("Player vars")]
     [SerializeField] private float attackSpeed = 0.5f;
     
     [SerializeField] protected FloatVariable currentHealth;
     [SerializeField] protected GameEvent playerHealthEvent;
 
-    // EFFECTS VARS.
+    [Header("Particle effects")]
     public ParticleSystem dust;
     public float distanceBetweenAfterImages;
     private float lastAfterImageXPos;
-
-    // INVENTORY
+    
+    [Header("Inventory system")]
     public InventoryObject inventory; // TODO: Serialize
     [SerializeField] protected GameEvent inventoryEvent;
 
@@ -66,7 +67,7 @@ public class Player : Movement2D
     private void OnTriggerEnter2D(Collider2D other)
     {
         // TODO: Add button to pickup item.
-        // Check if we got an item.
+        // Check if other gameobject is an item.
         Item item = other.GetComponent<Item>();
         if (item && inventory)
         {
@@ -133,6 +134,11 @@ public class Player : Movement2D
         {
             moveSpeed = walkSpeed;
         }
+    }
+
+    public bool CanJump()
+    {
+        return controller.collisions.below || wallSliding;
     }
 
     /** Handle player jump velocity (takes into account for all 3 types of wall jumps)

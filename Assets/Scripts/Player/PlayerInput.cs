@@ -16,13 +16,29 @@ public class PlayerInput : MonoBehaviour
     // INVENTORY
     private GameObject inventoryUI;
 
+    // DOUBLE CLICK
     private float lastClickTime; // Used for double clicking.
     private const float DOUBLE_CLICK_TIME = .2f;
+
+    [Header("Jump buffer")]
+    public float jumpDelay = 0.25f;
+    private float jumpTimer;
 
     void Start()
     {
         player = GetComponent<Player>();
         inventoryUI = GameObject.FindGameObjectWithTag("Inventory"); ;
+    }
+
+    void FixedUpdate()
+    {
+        // Check jump.
+        if (jumpTimer > Time.time && player.CanJump())
+        {
+            player.OnJumpInputDown();
+            
+            jumpTimer = 0;
+        }
     }
 
     void Update()
@@ -54,7 +70,8 @@ public class PlayerInput : MonoBehaviour
         }
         if (Input.GetButtonDown("Jump"))
         {
-            player.OnJumpInputDown();
+            jumpTimer = Time.time + jumpDelay;
+            //player.OnJumpInputDown();
         }
         if (Input.GetButtonUp("Jump"))
         {

@@ -19,6 +19,7 @@ public enum State
 [RequireComponent(typeof(Controller2D))]
 public class Movement2D : MonoBehaviour
 {
+    [Header("Movement")]
     protected float maxJumpHeight = 2.5f; // Max height a jump can attain.
     protected float minJumpHeight = 0.5f;
     protected float timeToJumpApex = .35f; // How long (seconds) before reaching jumpHeight.
@@ -67,6 +68,11 @@ public class Movement2D : MonoBehaviour
         CalculateVelocity();
 
         Move();
+    }
+
+    public bool IsOnGround()
+    {
+        return controller.collisions.below;
     }
 
     public Vector3 GetVelocity()
