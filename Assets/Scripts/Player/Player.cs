@@ -69,20 +69,6 @@ public class Player : Movement2D
         UpdateCoyoteTime();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        // TODO: Add button to pickup item.
-        // Check if other gameobject is an item.
-        Item item = other.GetComponent<Item>();
-        if (item && inventory)
-        {
-            inventory.AddItem(item.item, item.amount);
-            Destroy(other.gameObject);
-
-            inventoryEvent.Raise();
-        }
-    }
-
     private void OnApplicationQuit()
     {
         // TODO: Might remove this for the actual build.
@@ -269,6 +255,16 @@ public class Player : Movement2D
             {
                 timeToWallUnstick = wallStickTime;
             }
+        }
+    }
+
+    public void PickUpItem(Item item)
+    {
+        if (inventory)
+        {
+            inventory.AddItem(item.item, item.amount);
+
+            inventoryEvent.Raise();
         }
     }
 
