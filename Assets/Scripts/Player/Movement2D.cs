@@ -70,7 +70,7 @@ public class Movement2D : MonoBehaviour
         Move();
     }
 
-    public bool IsOnGround()
+    public bool IsGrounded()
     {
         return controller.collisions.below;
     }

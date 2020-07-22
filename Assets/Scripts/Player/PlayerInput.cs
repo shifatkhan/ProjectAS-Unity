@@ -33,7 +33,8 @@ public class PlayerInput : MonoBehaviour
     void FixedUpdate()
     {
         // Check jump.
-        if (jumpTimer > Time.time && player.CanJump())
+        if (jumpTimer > Time.time
+            && (player.IsGrounded() || player.IsWallSliding() || player.CanCoyoteJump()))
         {
             player.OnJumpInputDown();
             

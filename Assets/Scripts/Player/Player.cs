@@ -32,6 +32,10 @@ public class Player : Movement2D
     [SerializeField] protected FloatVariable currentHealth;
     [SerializeField] protected GameEvent playerHealthEvent;
 
+    [Header("Coyote Jump")]
+    public float hangTime = 0.2f; // Variable for coyote jumping (when falling off ledge)
+    private float hangCounter;
+
     [Header("Particle effects")]
     public ParticleSystem dust;
     public float distanceBetweenAfterImages;
@@ -62,6 +66,7 @@ public class Player : Movement2D
     {
         base.Update();
         CheckSprint();
+        UpdateCoyoteTime();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -136,9 +141,32 @@ public class Player : Movement2D
         }
     }
 
-    public bool CanJump()
+    /** Updates Coyote jump timers.
+     */
+    private void UpdateCoyoteTime()
     {
-        return controller.collisions.below || wallSliding;
+        if (controller.collisions.below)
+        {
+            hangCounter = hangTime;
+        }
+        else
+        {
+            hangCounter -= Time.deltaTime;
+        }
+    }
+    
+    /** Check whether player can Coyote jump or not.
+     */
+    public bool CanCoyoteJump()
+    {
+        return hangCounter > 0;
+    }
+
+    /** Check if player is wall-sliding or grounded sto allow jumping.
+     */
+    public bool IsWallSliding()
+    {
+        return wallSliding;
     }
 
     /** Handle player jump velocity (takes into account for all 3 types of wall jumps)
@@ -175,6 +203,12 @@ public class Player : Movement2D
                 CreateDust();
                 AudioManager.PlayJumpAudio();
             }
+        }
+        else if (CanCoyoteJump())
+        {
+            velocity.y = maxJumpVelocity;
+            CreateDust();
+            AudioManager.PlayJumpAudio();
         }
 
         // Hot fix for when we TAP jump before landing and it makes a full jump instead of a hop.
