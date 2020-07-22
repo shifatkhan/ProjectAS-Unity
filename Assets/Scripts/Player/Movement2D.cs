@@ -40,6 +40,12 @@ public class Movement2D : MonoBehaviour
     protected Animator animator;
     protected SpriteRenderer spriteRenderer;
 
+    protected Shader defaultShader;
+    protected Shader hitShader;
+    protected bool hitStopped;
+    protected bool hitStopEnabled = false;
+    public float hitStopDuration = 0.1f;
+
     [SerializeField] // TODO: remove serialized
     protected State currentState;
 
@@ -48,6 +54,9 @@ public class Movement2D : MonoBehaviour
         controller = GetComponent<Controller2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        defaultShader = spriteRenderer.material.shader;
+        hitShader = Shader.Find("GUI/Text Shader"); // For all white sprite on Hit
 
         // Calculate gravity.
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
@@ -70,11 +79,15 @@ public class Movement2D : MonoBehaviour
         Move();
     }
 
+    /** Returns bool stating whether Being is grounded or not.
+     */
     public bool IsGrounded()
     {
         return controller.collisions.below;
     }
 
+    /** Return current velocity value.
+     */
     public Vector3 GetVelocity()
     {
         return this.velocity;
@@ -93,6 +106,10 @@ public class Movement2D : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
     }
 
+    /** Makes being move based on the directionalInput's value.
+     * If the being is grounded or hits a ceiling, it will stop moving 
+     * in the Y-axis.
+     */
     protected void Move()
     {
         controller.Move(velocity * Time.deltaTime, directionalInput);
@@ -104,30 +121,72 @@ public class Movement2D : MonoBehaviour
         }
     }
 
+    /** Applies a directional forced to the being's body.
+     */
     public virtual void ApplyForce(Vector3 direction)
     {
         velocity = direction;
     }
 
+    /** Makes current being knocked backwards. Used for when the being is hit.
+     * This also calls the HitStop function (if hit stop is enabled).
+     */
     public virtual void KnockBack(Vector3 direction, float knockTime)
     {
+        if(hitStopEnabled)
+            HitStop(hitStopDuration);
+
         ApplyForce(direction);
         SetCurrentState(State.stagger);
         StartCoroutine(KnockBackCo(knockTime));
     }
 
+    /** Returns the state to idle after a certain time.
+     */
     public virtual IEnumerator KnockBackCo(float knockTime)
     {
         yield return new WaitForSeconds(knockTime);
         SetCurrentState(State.idle);
     }
 
+    /** Applies a hit stop effect when hit by making the sprite White (flash)
+     * and stopping time.
+     * 
+     * We then call a coroutine to reset.
+     */
+    public void HitStop(float duration)
+    {
+        spriteRenderer.material.shader = hitShader;
+        spriteRenderer.material.color = Color.white;
+
+        if (hitStopped)
+            return;
+        Time.timeScale = 0.0f;
+        StartCoroutine(HitWait(duration));
+    }
+
+    /** Resets the hit stop so the sprite and timeScale goes back to normal.
+     */
+    IEnumerator HitWait(float duration)
+    {
+        hitStopped = true;
+        yield return new WaitForSecondsRealtime(duration);
+        spriteRenderer.material.shader = defaultShader;
+        spriteRenderer.material.color = Color.white;
+        Time.timeScale = 1.0f;
+        hitStopped = false;
+    }
+
+    /** Set beings state with a new state.
+     */
     public void SetCurrentState(State newState)
     {
         if (currentState != newState)
             currentState = newState;
     }
 
+    /** Updates being's state based on whether it is moving or not.
+     */
     public virtual void UpdateState()
     {
         SetCurrentState(directionalInput.x != 0 ? State.move : State.idle);
