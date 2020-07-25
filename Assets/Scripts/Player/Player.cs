@@ -22,9 +22,9 @@ public class Player : Movement2D
     private float timeToWallUnstick;
 
     [Header("Dash")]
-    [SerializeField] private float dashDistance = 5f;
+    [SerializeField] private float dashSpeed = 15f;
     [SerializeField] private float dashCooldown = 1f;
-    private float timeToReachDashVelocity = .05f;
+    [SerializeField] private float timeToReachDashVelocity = 1f;
     private float dashDuration = 0.2f;
     private bool isDashing;
     protected int faceDir = 1; // Hot fix. This is also in Controller2D, but this one is updated in Update().
@@ -48,6 +48,7 @@ public class Player : Movement2D
     public ParticleSystem dust;
     public float distanceBetweenAfterImages;
     private float lastAfterImageXPos;
+    private float lastAfterImageYPos;
     
     [Header("Inventory system")]
     public InventoryObject inventory; // TODO: Serialize
@@ -256,13 +257,17 @@ public class Player : Movement2D
      */
     IEnumerator Dashing(Vector2 direction)
     {
-        float targetX = (dashDistance * direction.x) / timeToReachDashVelocity;
-        float targetY = (dashDistance * direction.y) / timeToReachDashVelocity;
+        float targetX = (dashSpeed * direction.x) / timeToReachDashVelocity;
+        float targetY = (dashSpeed * direction.y) / timeToReachDashVelocity;
 
+        // Fix diagonal dashes going too far by multiplying x and y by 0.4f
+        // This is an approximate instead of using a circle function
+        // (x-h)^2 + (y-k)^2 = r^2
+        // To save compute time. (TODO: maybe use circle func, computing might not be big)
         if (Mathf.Abs(direction.x) > 0 && Mathf.Abs(direction.y) > 0)
         {
-            targetX /= 1.50f;
-            targetY /= 1.25f;
+            targetX *= 0.7f;
+            targetY *= 0.7f;
         }
 
         isDashing = true;
@@ -450,10 +455,12 @@ public class Player : Movement2D
 
     private void CreateAfterImage()
     {
-        if (Mathf.Abs(transform.position.x - lastAfterImageXPos) > distanceBetweenAfterImages)
+        if (Mathf.Abs(transform.position.x - lastAfterImageXPos) > distanceBetweenAfterImages
+            || Mathf.Abs(transform.position.y - lastAfterImageYPos) > distanceBetweenAfterImages)
         {
             PlayerAfterImagePool.Instance.GetFromPool(directionalInput.x < 0);
             lastAfterImageXPos = transform.position.x;
+            lastAfterImageYPos = transform.position.y;
         }
     }
 

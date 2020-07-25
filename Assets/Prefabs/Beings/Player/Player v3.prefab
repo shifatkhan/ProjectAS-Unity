@@ -430,8 +430,9 @@ MonoBehaviour:
   hitStopDuration: 0.1
   currentState: 0
   wallJumpingEnabled: 1
-  dashDistance: 1
+  dashSpeed: 15
   dashCooldown: 1
+  timeToReachDashVelocity: 1
   walkSpeed: 6
   sprintSpeed: 10
   attackSpeed: 0.5
