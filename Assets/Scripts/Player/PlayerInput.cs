@@ -24,7 +24,7 @@ public class PlayerInput : MonoBehaviour
     public float jumpDelay = 0.25f;
     private float jumpTimer;
     
-    private Item itemToPickup = null;
+    private Item itemToPickup = null; // Reference to the item we want to pickup.
 
     void Start()
     {
@@ -83,8 +83,14 @@ public class PlayerInput : MonoBehaviour
             player.OnJumpInputUp();
         }
 
+        // DASH
+        if (Input.GetButtonDown("Dash"))
+        {
+            player.OnDashInputDown();
+        }
+
         // TODO: Get player movement input if not attacking. Maybe make player stop moving when attacking
-        //ATTACKS
+        // ATTACKS
         if (Input.GetButtonDown("Attack1"))
         {
             StartCoroutine(player.Attack1Co());
@@ -121,6 +127,13 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    /** Get reference of the item in the world if the player gets near it.
+     * Then, when the player presses the Interact button, we will pickup the item.
+     * 
+     * TODO: We can't pickup multiple items that are overlapping.
+     *      Issue: Pickup one item, go out of the collision box of the other item, then come back in
+     *              to trigger this function.
+     */
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Check if other gameobject is an item.

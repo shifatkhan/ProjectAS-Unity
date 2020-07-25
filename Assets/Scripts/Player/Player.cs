@@ -20,10 +20,18 @@ public class Player : Movement2D
     private float wallSlideSpeedMax = 3; // Velocity at which we will descend a wall slide.
     private float wallStickTime = .1f; // Time after which player gets off the wall when no jump inputs were given (instead just getting off)
     private float timeToWallUnstick;
-    
-    [Header("Particle effects")]
-    private float walkSpeed = 6;
-    private float sprintSpeed = 10;
+
+    [Header("Dash")]
+    [SerializeField] private float dashDistance = 5f;
+    [SerializeField] private float dashCooldown = 1f;
+    private float timeToReachDashVelocity = .05f;
+    private float dashDuration = 0.2f;
+    private bool isDashing;
+    protected int faceDir = 1; // Hot fix. This is also in Controller2D, but this one is updated in Update().
+
+    [Header("Movement Speed")]
+    [SerializeField] private float walkSpeed = 6;
+    [SerializeField] private float sprintSpeed = 10;
     private bool isSprinting = false;
 
     [Header("Player vars")]
@@ -71,7 +79,7 @@ public class Player : Movement2D
 
     private void OnApplicationQuit()
     {
-        // TODO: Might remove this for the actual build.
+        // TODO: Remove this for the actual build.
 
         // Clear and delete the inventory.
         if(inventory)
@@ -90,6 +98,12 @@ public class Player : Movement2D
         }
 
         directionalInput = input;
+        
+        // Update facing direction.
+        if(directionalInput.x != 0)
+        {
+            faceDir = (int) directionalInput.x;
+        }
     }
 
     /** Set sprinting state.
@@ -214,6 +228,117 @@ public class Player : Movement2D
             velocity.y = minJumpVelocity;
         }
     }
+
+    /** Execute dash movement on the player towards the direction we are facing.
+     * If no directional input is pressed OnDash, we dash towards the direction we
+     * are currently facing.
+     */
+    public void OnDashInputDown()
+    {
+        if (!isDashing)
+        {
+            //if you're not holding any direction while dashing, default to facing direction.
+            //Ternary operator to avoid dashing in wrong direction if you don't hold left/right
+            float xdir = (directionalInput.x == 0 && directionalInput.y == 0) ? faceDir : directionalInput.x;
+
+            //keeps direction so that you can't change direction while dashing
+            Vector2 dir = new Vector2(xdir, directionalInput.y);
+
+            //playerSoundController.PlaySound("dash"); TODO: Implement.
+
+            StartCoroutine("Dashing", dir);
+        }
+    }
+
+    /** Coroutine for dashing. It has a slight build up to achieve max
+     * dash velocity. We also disable dashing (with isDashing) so we
+     * can't dashing in the middle of dashing.
+     */
+    IEnumerator Dashing(Vector2 direction)
+    {
+        float targetX = (dashDistance * direction.x) / timeToReachDashVelocity;
+        float targetY = (dashDistance * direction.y) / timeToReachDashVelocity;
+
+        if (Mathf.Abs(direction.x) > 0 && Mathf.Abs(direction.y) > 0)
+        {
+            targetX /= 1.50f;
+            targetY /= 1.25f;
+        }
+
+        isDashing = true;
+        float timer = 0; //Timer to check duration of dash
+
+        //PlayDashingAnimation(direction); TODO: Implement
+
+        while (dashDuration > timer) //how long to dash for i.e dashing for 0.1 sec
+        {
+            CreateAfterImage();
+            timer += Time.deltaTime;
+            velocity.x = targetX;
+            velocity.y = targetY;
+
+            yield return 0; //go to next frame
+        }
+
+
+        yield return new WaitForSeconds(dashCooldown); //cooldown for dashing
+        isDashing = false;
+    }
+
+    /** Setter for isDashing.
+     */
+    private void SetIsDashing(bool dashing)
+    {
+        isDashing = dashing;
+    }
+
+    /** TODO: Implement
+     */
+    //private void PlayDashingAnimation(Vector2 direction)
+    //{
+    //    string wBall = "";
+
+    //    if (ballCaught)
+    //    {
+    //        wBall = "_wBall";
+    //    }
+    //    //Dash Straight up
+    //    if (direction.x == 0 && direction.y > 0)
+    //    {
+    //        animator.Play("dash_up" + wBall);
+    //    }
+
+    //    //Dash diagonal up
+    //    else if (direction.x != 0 && direction.y > 0)
+    //    {
+    //        animator.Play("dash_diag_up" + wBall);
+    //    }
+
+    //    //Dash diagonal down
+    //    else if (direction.x != 0 && direction.y < 0 && !rc.collisions.below)
+    //    {
+    //        animator.Play("dash_diag_down" + wBall);
+    //    }
+
+    //    //Straight down
+    //    else if (direction.x == 0 && direction.y < 0 && !rc.collisions.below)
+    //    {
+    //        animator.Play("dash_down" + wBall);
+    //    }
+
+    //    //Dash straight ahead
+    //    else if (direction.x != 0 && direction.y == 0)
+    //    {
+    //        if (rc.collisions.below)
+    //        {
+    //            animator.Play("dash_ground" + wBall);
+    //        }
+    //        else
+    //        {
+    //            animator.Play("dash_air" + wBall);
+    //        }
+    //    }
+    //}
 
     /** Check wallsliding state and apply jumping physics to player.
      */
