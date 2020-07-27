@@ -27,7 +27,6 @@ public class Player : Movement2D
     [SerializeField] private float timeToReachDashVelocity = 1f;
     private float dashDuration = 0.2f;
     private bool isDashing;
-    protected int faceDir = 1; // Hot fix. This is also in Controller2D, but this one is updated in Update().
 
     [Header("Movement Speed")]
     [SerializeField] private float walkSpeed = 6;
@@ -89,7 +88,7 @@ public class Player : Movement2D
 
     /** Takes in player input and assigns it.
     */
-    public void SetDirectionalInput(Vector2 input)
+    public override void SetDirectionalInput(Vector2 input)
     {
         // Create dust when switching run direction.
         // Don't create dust if player comes to a halt.
@@ -98,13 +97,7 @@ public class Player : Movement2D
             CreateDust();
         }
 
-        directionalInput = input;
-        
-        // Update facing direction.
-        if(directionalInput.x != 0)
-        {
-            faceDir = (int) directionalInput.x;
-        }
+        base.SetDirectionalInput(input);
     }
 
     /** Set sprinting state.

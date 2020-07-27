@@ -37,6 +37,7 @@ public class Movement2D : MonoBehaviour
 
     protected Controller2D controller;
     protected Vector2 directionalInput;
+    protected int faceDir = 1; // Hot fix. This is also in Controller2D, but this one is updated in Update().
     protected Animator animator;
     protected SpriteRenderer spriteRenderer;
 
@@ -175,6 +176,19 @@ public class Movement2D : MonoBehaviour
         spriteRenderer.material.color = Color.white;
         Time.timeScale = 1.0f;
         hitStopped = false;
+    }
+
+    /** Takes in input and assigns it.
+    */
+    public virtual void SetDirectionalInput(Vector2 input)
+    {
+        directionalInput = input;
+
+        // Update facing direction.
+        if (directionalInput.x != 0)
+        {
+            faceDir = (int)directionalInput.x;
+        }
     }
 
     /** Set beings state with a new state.
