@@ -408,6 +408,21 @@ public class Player : Movement2D
         }
     }
 
+    public void SetInvulnerable(bool invulnerable)
+    {
+        this.invulnerable = invulnerable;
+    }
+
+    public void EnableInvulnerability()
+    {
+        invulnerable = true;
+    }
+
+    public void DisableInvulnerability()
+    {
+        invulnerable = false;
+    }
+
     public IEnumerator Attack1Co()
     {
         if(currentState != State.stagger && currentState != State.attack)
