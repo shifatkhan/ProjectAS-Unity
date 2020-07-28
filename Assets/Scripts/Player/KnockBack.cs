@@ -19,6 +19,7 @@ public class KnockBack : MonoBehaviour
             Vector2 direction = other.transform.position - transform.position;
             direction = direction.normalized * thrust;
             
+            // Knock back affected entity.
             other.GetComponent<Movement2D>().KnockBack(direction, knockTime);
 
             if (other.gameObject.CompareTag("Enemy"))

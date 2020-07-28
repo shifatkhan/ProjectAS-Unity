@@ -42,7 +42,14 @@ public class Player : Movement2D
     [Header("Coyote Jump")]
     public float coyoteTime = 0.2f; // Variable for coyote jumping (when falling off ledge)
     private float coyoteCounter;
-    [SerializeField] private bool jumping = false; // Fixes double jumping because of coyote time.
+    private bool jumping = false; // Fixes double jumping because of coyote time.
+
+    [Header("iFrame vars")]
+    [SerializeField] private float invulnerableDuration = 1f;
+    [SerializeField] private float flashPeriod = 0.16f; // Rate at which player sprite will flash.
+    private Color invulnerableColor;
+    private Color regularColor;
+    private bool invulnerable = false;
 
     [Header("Particle effects")]
     public ParticleSystem dust;
@@ -59,6 +66,11 @@ public class Player : Movement2D
         base.Start();
 
         dust = GetComponentInChildren<ParticleSystem>();
+
+        // iFrame color
+        regularColor = Color.white;
+        invulnerableColor = Color.white;
+        invulnerableColor.a = 0.5f;
     }
 
     public override void FixedUpdate()
@@ -411,23 +423,55 @@ public class Player : Movement2D
 
     public void TakeDamage(float damage)
     {
-        currentHealth.RuntimeValue -= damage;
-        playerHealthEvent.Raise();
-        AudioManager.PlayHurtAudio();
-
-        if (currentHealth.RuntimeValue <= 0)
+        if (!invulnerable)
         {
-            animator.SetTrigger("dead");
+            StartCoroutine(TakeDamageCo());
 
-            // TODO: Remove this and call Die() from animation "death"
-            AudioManager.PlayDeathAudio();
-            gameObject.SetActive(false);
+            currentHealth.RuntimeValue -= damage;
+            playerHealthEvent.Raise();
+            AudioManager.PlayHurtAudio();
+
+            if (currentHealth.RuntimeValue <= 0)
+            {
+                animator.SetTrigger("dead");
+
+                // TODO: Add "death" anim and Remove this and call Die() from animation "death"
+                AudioManager.PlayDeathAudio();
+                gameObject.SetActive(false);
+            }
         }
     }
 
-     /** We don't 'destroy' since it will call the garbage collector = inefficient.
-     * Instead, we set the gameObject to 'inactive'.
+    /** Flashes the player's sprite and makes it invulnerable for a period of time.
      */
+    private IEnumerator TakeDamageCo()
+    {
+        invulnerable = true;
+        
+        // Calculate how many times to flash to result in a total duration of "invulnerableDuration"
+        float numberOfFlashes = (invulnerableDuration / (flashPeriod * 2));
+
+        for (int i = 0; i < numberOfFlashes; i++)
+        {
+            spriteRenderer.color = invulnerableColor;
+            yield return new WaitForSeconds(flashPeriod);
+
+            spriteRenderer.color = regularColor;
+            yield return new WaitForSeconds(flashPeriod);
+        }
+
+        invulnerable = false;
+    }
+
+    public override void KnockBack(Vector3 direction, float knockTime)
+    {
+        if (!invulnerable)
+            base.KnockBack(direction, knockTime);
+    }
+
+    /** We don't 'destroy' since it will call the garbage collector = inefficient.
+    * Instead, we set the gameObject to 'inactive'.
+    */
     public void Die()
     {
         SetCurrentState(State.dead);

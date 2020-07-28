@@ -438,7 +438,9 @@ MonoBehaviour:
   attackSpeed: 0.5
   currentHealth: {fileID: 11400000, guid: 8f19276d46a2c1846a0e63ffb695224f, type: 2}
   playerHealthEvent: {fileID: 11400000, guid: f75bdf27a9b082042867327a1148da97, type: 2}
-  hangTime: 0.2
+  coyoteTime: 0.2
+  invulnerableDuration: 1
+  flashPeriod: 0.16
   dust: {fileID: 0}
   distanceBetweenAfterImages: 0
   inventory: {fileID: 11400000, guid: c74e862eee54478449bd6f6705f1e966, type: 2}
