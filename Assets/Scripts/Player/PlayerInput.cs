@@ -88,8 +88,7 @@ public class PlayerInput : MonoBehaviour
         {
             player.OnDashInputDown();
         }
-
-        // TODO: Get player movement input if not attacking. Maybe make player stop moving when attacking
+        
         // ATTACKS
         if (Input.GetButtonDown("Attack1"))
         {

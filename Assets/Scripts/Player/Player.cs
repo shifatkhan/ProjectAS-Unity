@@ -40,8 +40,9 @@ public class Player : Movement2D
     [SerializeField] protected GameEvent playerHealthEvent;
 
     [Header("Coyote Jump")]
-    public float hangTime = 0.2f; // Variable for coyote jumping (when falling off ledge)
-    private float hangCounter;
+    public float coyoteTime = 0.2f; // Variable for coyote jumping (when falling off ledge)
+    private float coyoteCounter;
+    [SerializeField] private bool jumping = false; // Fixes double jumping because of coyote time.
 
     [Header("Particle effects")]
     public ParticleSystem dust;
@@ -141,11 +142,11 @@ public class Player : Movement2D
     {
         if (controller.collisions.below)
         {
-            hangCounter = hangTime;
+            coyoteCounter = coyoteTime;
         }
         else
         {
-            hangCounter -= Time.deltaTime;
+            coyoteCounter -= Time.deltaTime;
         }
     }
     
@@ -153,7 +154,7 @@ public class Player : Movement2D
      */
     public bool CanCoyoteJump()
     {
-        return hangCounter > 0;
+        return coyoteCounter > 0;
     }
 
     /** Check if player is wall-sliding or grounded sto allow jumping.
@@ -196,13 +197,17 @@ public class Player : Movement2D
                 velocity.y = maxJumpVelocity;
                 CreateDust();
                 AudioManager.PlayJumpAudio();
+
+                jumping = true;
             }
         }
-        else if (CanCoyoteJump())
+        else if (CanCoyoteJump() && !jumping)
         {
             velocity.y = maxJumpVelocity;
             CreateDust();
             AudioManager.PlayJumpAudio();
+
+            jumping = true;
         }
 
         // Hot fix for when we TAP jump before landing and it makes a full jump instead of a hop.
@@ -429,14 +434,6 @@ public class Player : Movement2D
         AudioManager.PlayDeathAudio();
         gameObject.SetActive(false);
     }
-
-    public override void UpdateState()
-    {
-        if (currentState != State.attack)
-        {
-            base.UpdateState();
-        }
-    }
     
     /** This is mainly used by Animation Events since we can't call other game object's
      * functions through the animation event.
@@ -461,6 +458,19 @@ public class Player : Movement2D
     {
         if(dust != null)
             dust.Play();
+    }
+
+    public override void UpdateState()
+    {
+        if (currentState != State.attack)
+        {
+            base.UpdateState();
+        }
+
+        if (controller.collisions.below)
+        {
+            jumping = false;
+        }
     }
 
     public override void UpdateAnimator()
