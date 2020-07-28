@@ -12,7 +12,9 @@ public class Controller2D : RaycastController
 
     float maxClimbAngle = 80; // Up to which angle player can climb slope.
     float maxDescendAngle = 75;
-    
+
+    public bool canFallThrough { get; private set; } // States whether player is on a "Through" platform
+
     [HideInInspector]
     public CollisionInfo collisions;
 
@@ -184,6 +186,7 @@ public class Controller2D : RaycastController
                 // If we want to go through a platform that allows it.
                 if (hit.collider.tag == "Through")
                 {
+                    canFallThrough = true;
                     if (directionY == 1 || hit.distance == 0)
                     {
                         // Fix issue where player goes on top of platform even if it shouldn't.
@@ -202,6 +205,7 @@ public class Controller2D : RaycastController
 
                 // Reset previous platform we fell through if we hit a ground.
                 collisions.fallingThroughPlatform = null;
+                canFallThrough = false;
 
                 moveAmount.y = (hit.distance - skinWidth) * directionY;
                 rayLength = hit.distance;

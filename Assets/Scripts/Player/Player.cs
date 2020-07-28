@@ -192,7 +192,7 @@ public class Player : Movement2D
         }
         if (controller.collisions.below)
         {
-            if (directionalInput.y != -1) // If we're not falling through platform.
+            if (!controller.canFallThrough) // If we're not falling through platform.
             {
                 velocity.y = maxJumpVelocity;
                 CreateDust();
@@ -201,7 +201,7 @@ public class Player : Movement2D
                 jumping = true;
             }
         }
-        else if (CanCoyoteJump() && !jumping)
+        else if (CanCoyoteJump() && !jumping && !controller.canFallThrough)
         {
             velocity.y = maxJumpVelocity;
             CreateDust();
