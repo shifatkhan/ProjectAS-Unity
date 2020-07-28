@@ -465,7 +465,9 @@ public class Player : Movement2D
 
     public override void UpdateAnimator()
     {
-        base.UpdateAnimator();
+        if(currentState != State.attack)
+            base.UpdateAnimator();
+
         if(animator != null)
         {
             animator.SetBool("isWallsliding", wallSliding);
