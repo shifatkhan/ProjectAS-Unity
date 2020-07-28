@@ -44,7 +44,7 @@ public class Movement2D : MonoBehaviour
     protected Shader defaultShader;
     protected Shader hitShader;
     protected bool hitStopped;
-    protected bool hitStopEnabled = false;
+    [SerializeField] protected bool hitStopEnabled = false;
     public float hitStopDuration = 0.1f;
 
     [SerializeField] // TODO: remove serialized
@@ -134,6 +134,8 @@ public class Movement2D : MonoBehaviour
      */
     public virtual void KnockBack(Vector3 direction, float knockTime)
     {
+        // TODO: Change how hit stop is called. What if GameObject is destroyed before Time is set back to normal?
+        //      This will freeze the game. Need to call hitstop in hit animation maybe?
         if(hitStopEnabled)
             HitStop(hitStopDuration);
 
