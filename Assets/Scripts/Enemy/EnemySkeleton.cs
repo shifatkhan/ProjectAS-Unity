@@ -60,24 +60,24 @@ public class EnemySkeleton : Enemy
         if (Mathf.Abs(target.position.x - transform.position.x) <= chaseDistance
             && Mathf.Abs(target.position.x - transform.position.x) > attackDistance)
         {
-            directionalInput = (target.position - transform.position).normalized;
+            SetDirectionalInput((target.position - transform.position).normalized);
         }
         else if ((Mathf.Abs(homePosition.x - transform.position.x) <= chaseDistance && Mathf.Abs(homePosition.x - transform.position.x) > attackDistance)
             && Mathf.Abs(target.position.x - transform.position.x) >= chaseDistance)
         {
             // Target is gone, so return to home position.
-            directionalInput = (homePosition - transform.position).normalized;
+            SetDirectionalInput((homePosition - transform.position).normalized);
         }
         else if (Vector2.Distance(target.position, transform.position) <= attackDistance)
         {
             // TODO: Make enemy stop moving while attacking.
             // Target is in attack radius.
-            directionalInput.x = 0;
+            SetDirectionalInput(Vector2.zero);
             StartCoroutine(AttackCo());
         }
         else
         {
-            directionalInput.x = 0;
+            SetDirectionalInput(Vector2.zero);
         }
     }
 

@@ -6,23 +6,20 @@ using UnityEngine;
  * TODO: Find a better way to handle flying enemies.
  * @author ShifatKhan
  */
+[RequireComponent(typeof(Controller2D))]
 public class EnemySun : Enemy
 {
-    [SerializeField]
-    private float chaseDistance = 6; // Distance where enemy will chase target.
-    [SerializeField]
-    private float attackDistance = 0.8f; // Distance where enemy will attack target.
+    [Header("Attack")]
+    [SerializeField] private float chaseDistance = 6; // Distance where enemy will chase target.
+    [SerializeField] private float attackDistance = 0.8f; // Distance where enemy will attack target.
 
-    [SerializeField]
-    private Transform target;
-    [SerializeField]
-    private Vector3 homePosition; // Place to return to if player is gone.
-
-    Rigidbody2D rb;
+    [Header("Location")]
+    [SerializeField] private Transform target;
+    [SerializeField] private Vector3 homePosition; // Place to return to if player is gone.
 
     public override void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        base.Start();
         // Set default target to be the Player.
         if(target == null)
         {
@@ -60,18 +57,5 @@ public class EnemySun : Enemy
             directionalInput.x = 0;
             SetCurrentState(State.idle);
         }
-    }
-
-    public override void ApplyForce(Vector3 direction)
-    {
-        rb.isKinematic = false;
-        rb.AddForce(direction);
-        StartCoroutine(PushBack());
-    }
-
-    public IEnumerator PushBack()
-    {
-        yield return new WaitForSeconds(.33f);
-        rb.isKinematic = true;
     }
 }

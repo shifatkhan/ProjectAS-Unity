@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95c37fbf0d4fcb04287cf212ecfe1803, type: 3}
-  m_Name: Barrel Helmet
+  m_Name: Barrel
   m_EditorClassIdentifier: 
   itemPrefab: {fileID: 2709102194866463434, guid: 0dad015069a35af46ac604a7b62215ac,
     type: 3}

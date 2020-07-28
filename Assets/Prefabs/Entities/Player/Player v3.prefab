@@ -391,6 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8767c145bf6e2d240949bf426d7edc98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpDelay: 0.25
 --- !u!114 &6128179487270560150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,11 +427,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 6
+  hitStopDuration: 0.1
   currentState: 0
   wallJumpingEnabled: 1
+  dashSpeed: 15
+  dashCooldown: 1
+  timeToReachDashVelocity: 1
+  walkSpeed: 6
+  sprintSpeed: 10
   attackSpeed: 0.5
   currentHealth: {fileID: 11400000, guid: 8f19276d46a2c1846a0e63ffb695224f, type: 2}
   playerHealthEvent: {fileID: 11400000, guid: f75bdf27a9b082042867327a1148da97, type: 2}
+  coyoteTime: 0.2
+  invulnerableDuration: 1
+  flashPeriod: 0.16
   dust: {fileID: 0}
   distanceBetweenAfterImages: 0
   inventory: {fileID: 11400000, guid: c74e862eee54478449bd6f6705f1e966, type: 2}

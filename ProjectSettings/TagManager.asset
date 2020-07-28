@@ -42,7 +42,7 @@ TagManager:
   - 
   - 
   - PlayerDrop
-  - PlateformThrought
+  - PlateformThrough
   m_SortingLayers:
   - name: Back
     uniqueID: 3763708379

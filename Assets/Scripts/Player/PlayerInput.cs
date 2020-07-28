@@ -23,6 +23,8 @@ public class PlayerInput : MonoBehaviour
     [Header("Jump buffer")]
     public float jumpDelay = 0.25f;
     private float jumpTimer;
+    
+    private Item itemToPickup = null; // Reference to the item we want to pickup.
 
     void Start()
     {
@@ -53,6 +55,7 @@ public class PlayerInput : MonoBehaviour
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         player.SetDirectionalInput(directionalInput);
 
+        // HORIZONTAL MOVEMENTS
         if (Input.GetButtonDown("Horizontal"))
         {
             float timeSinceLastClick = Time.time - lastClickTime;
@@ -69,6 +72,8 @@ public class PlayerInput : MonoBehaviour
         {
             player.SetSprinting(false);
         }
+
+        // JUMPING
         if (Input.GetButtonDown("Jump"))
         {
             jumpTimer = Time.time + jumpDelay;
@@ -78,14 +83,20 @@ public class PlayerInput : MonoBehaviour
             player.OnJumpInputUp();
         }
 
-        // TODO: Get player movement input if not attacking. Maybe make player stop moving when attacking
+        // DASH
+        if (Input.GetButtonDown("Dash"))
+        {
+            player.OnDashInputDown();
+        }
+        
+        // ATTACKS
         if (Input.GetButtonDown("Attack1"))
         {
             StartCoroutine(player.Attack1Co());
         }
 
         // TODO: Maybe move this into the InventoryUI script.
-        // Open/Close Inventory UI
+        // INVENTORY
         if (Input.GetButtonDown("Inventory"))
         {
             if (inventoryUI.GetComponent<Image>().color.a == 1)
@@ -105,5 +116,26 @@ public class PlayerInput : MonoBehaviour
                 inventoryUI.transform.Find("ItemSlotsContainer").gameObject.SetActive(true);
             }
         }
+
+        // PICK UP ITEMS
+        if (Input.GetButtonDown("Interact") && itemToPickup != null)
+        {
+            player.PickUpItem(itemToPickup);
+            Destroy(itemToPickup.gameObject);
+            itemToPickup = null;
+        }
+    }
+
+    /** Get reference of the item in the world if the player gets near it.
+     * Then, when the player presses the Interact button, we will pickup the item.
+     * 
+     * TODO: We can't pickup multiple items that are overlapping.
+     *      Issue: Pickup one item, go out of the collision box of the other item, then come back in
+     *              to trigger this function.
+     */
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Check if other gameobject is an item.
+        itemToPickup = other.GetComponent<Item>();
     }
 }
