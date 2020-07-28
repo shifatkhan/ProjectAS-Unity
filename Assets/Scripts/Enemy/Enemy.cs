@@ -13,12 +13,6 @@ public class Enemy : Movement2D
     [SerializeField] protected int attackDamage = 1;
     [SerializeField] protected float attackSpeed = 0f;
 
-    public override void Start()
-    {
-        hitStopEnabled = true;
-        base.Start();
-    }
-
     public void TakeDamage(float damage)
     {
         currentHealth.RuntimeValue -= damage;

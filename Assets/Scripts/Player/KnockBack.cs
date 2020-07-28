@@ -10,6 +10,8 @@ public class KnockBack : MonoBehaviour
     public float thrust;
     public float knockTime;
     public float damage;
+    public bool hitStopEnabled;
+    public float hitStopDuration = 0.1f;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -20,7 +22,7 @@ public class KnockBack : MonoBehaviour
             direction = direction.normalized * thrust;
             
             // Knock back affected entity.
-            other.GetComponent<Movement2D>().KnockBack(direction, knockTime);
+            other.GetComponent<Movement2D>().KnockBack(direction, knockTime, hitStopEnabled, hitStopDuration);
 
             if (other.gameObject.CompareTag("Enemy"))
             {

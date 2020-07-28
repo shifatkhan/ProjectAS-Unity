@@ -478,10 +478,10 @@ public class Player : Movement2D
         invulnerable = false;
     }
 
-    public override void KnockBack(Vector3 direction, float knockTime)
+    public override void KnockBack(Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
     {
         if (!invulnerable)
-            base.KnockBack(direction, knockTime);
+            base.KnockBack(direction, knockTime, hitStopEnabled, hitStopDuration);
     }
 
     /** We don't 'destroy' since it will call the garbage collector = inefficient.

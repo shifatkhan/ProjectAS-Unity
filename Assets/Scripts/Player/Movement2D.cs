@@ -44,8 +44,6 @@ public class Movement2D : MonoBehaviour
     protected Shader defaultShader;
     protected Shader hitShader;
     protected bool hitStopped;
-    [SerializeField] protected bool hitStopEnabled = false;
-    public float hitStopDuration = 0.1f;
 
     [SerializeField] // TODO: remove serialized
     protected State currentState;
@@ -129,10 +127,12 @@ public class Movement2D : MonoBehaviour
         velocity = direction;
     }
 
+
+    // TODO: Move KnockBack to another script. Movement2D should be only for movement.
     /** Makes current being knocked backwards. Used for when the being is hit.
      * This also calls the HitStop function (if hit stop is enabled).
      */
-    public virtual void KnockBack(Vector3 direction, float knockTime)
+    public virtual void KnockBack(Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
     {
         // TODO: Change how hit stop is called. What if GameObject is destroyed before Time is set back to normal?
         //      This will freeze the game. Need to call hitstop in hit animation maybe?
@@ -157,7 +157,7 @@ public class Movement2D : MonoBehaviour
      * 
      * We then call a coroutine to reset.
      */
-    public void HitStop(float duration)
+    public virtual void HitStop(float duration)
     {
         spriteRenderer.material.shader = hitShader;
         spriteRenderer.material.color = Color.white;
@@ -170,7 +170,7 @@ public class Movement2D : MonoBehaviour
 
     /** Resets the hit stop so the sprite and timeScale goes back to normal.
      */
-    IEnumerator HitWait(float duration)
+    public virtual IEnumerator HitWait(float duration)
     {
         hitStopped = true;
         yield return new WaitForSecondsRealtime(duration);

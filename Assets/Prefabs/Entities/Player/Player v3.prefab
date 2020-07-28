@@ -223,6 +223,8 @@ MonoBehaviour:
   thrust: 10
   knockTime: 0.2
   damage: 1
+  hitStopEnabled: 1
+  hitStopDuration: 0.1
 --- !u!1 &6127249646400641012
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,7 +429,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 6
-  hitStopDuration: 0.1
   currentState: 0
   wallJumpingEnabled: 1
   dashSpeed: 15
