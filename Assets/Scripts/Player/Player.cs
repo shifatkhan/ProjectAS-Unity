@@ -565,7 +565,7 @@ public class Player : Movement2D
         if (Mathf.Abs(transform.position.x - lastAfterImageXPos) > distanceBetweenAfterImages
             || Mathf.Abs(transform.position.y - lastAfterImageYPos) > distanceBetweenAfterImages)
         {
-            PlayerAfterImagePool.Instance.GetFromPool(directionalInput.x < 0);
+            PlayerAfterImagePool.Instance.GetFromPool();
             lastAfterImageXPos = transform.position.x;
             lastAfterImageYPos = transform.position.y;
         }
