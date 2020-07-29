@@ -212,8 +212,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -808665489
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7928858964255100155, guid: 712a57753612214488d61017d7943198,
     type: 3}
@@ -290,14 +290,16 @@ MonoBehaviour:
   enemyName: Skeleton
   attackDamage: 1
   attackSpeed: 0
-  chaseDistance: 6
-  attackDistance: 0.8
-  target: {fileID: 0}
-  homePosition: {x: 0, y: 0, z: 0}
+  hitParticle: {fileID: 9018263298331118960, guid: b03def420aee98d4d82c6f222c5e538f,
+    type: 3}
   groundCheck: {fileID: 4335973834624473586}
   wallCheck: {fileID: 4335973833743051469}
   groundCheckDistance: 0.5
   wallCheckDistance: 0.2
+  chaseDistance: 6
+  attackDistance: 0.8
+  target: {fileID: 0}
+  homePosition: {x: 0, y: 0, z: 0}
   showAttackRadius: 0
 --- !u!114 &6361138615203864715
 MonoBehaviour:

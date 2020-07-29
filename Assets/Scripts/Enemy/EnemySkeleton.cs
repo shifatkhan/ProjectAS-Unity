@@ -38,19 +38,10 @@ public class EnemySkeleton : Enemy
         homePosition = gameObject.transform.position;
     }
 
-    // TODO: Separate update and fixed update functions (currently doing both in CheckDistance)
-    //public override void Update()
-    //{
-    //    We don't call base.Update() because we want to update the states ourselves.
-    //    UpdateAnimator();
-
-    //    if (currentState != State.dead || currentState != State.stagger)
-    //        CheckDistance();
-    //}
-
     /** Check if target is in radius. If so, enemy follows target until it is in attack range.
      * If player is out of sight, enemy returns to initial position.
      */
+    [System.Obsolete("This Skeleton AI is being replaced by a state machine AI from Enemy.cs class")]
     void CheckDistance()
     {
         // TODO: Change distance calculation to only check for X (not position) - fixes: skeleton keeps walking even when near home position but on a different Y level.

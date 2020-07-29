@@ -13,7 +13,8 @@ public class Enemy : Movement2D
     [SerializeField] protected int attackDamage = 1;
     [SerializeField] protected float attackSpeed = 0f;
 
-    [Header("Hit Stop")]
+    [Header("Hit")]
+    [SerializeField] private GameObject hitParticle;
     private Shader defaultShader; // Default color
     private Shader hitShader; // Color when hit
     private bool hitStopped; // Whether time is stopped or not
@@ -162,6 +163,10 @@ public class Enemy : Movement2D
     {
         // TODO: Change how hit stop is called. What if GameObject is destroyed before Time is set back to normal?
         //      This will freeze the game. Need to call hitstop in hit animation maybe?
+
+        // Display hit effect. If player is hitting from the right, we flip the effect.
+        Instantiate(hitParticle, transform.position, Quaternion.Euler(0.0f, direction.x < 0 ? 180.0f : 0.0f, Random.Range(0.0f, -90.0f)));
+
         if (hitStopEnabled)
             HitStop(hitStopDuration);
 
