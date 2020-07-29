@@ -437,18 +437,18 @@ public class Player : Movement2D
         if(currentState != State.stagger && currentState != State.attack)
         {
             animator.SetTrigger("attack1");
-            SetCurrentState(State.attack);
+            SwitchState(State.attack);
 
             yield return new WaitForSeconds(attackSpeed);
 
-            SetCurrentState(State.idle);
+            SwitchState(State.idle);
         }
     }
     
     /** Makes current being knocked backwards. Used for when the being is hit.
      * This also calls the HitStop function (if hit stop is enabled).
      */
-    public void KnockBack(float damage, Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
+    public void Damage(float damage, Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
     {
         if (!invulnerable)
         {
@@ -459,17 +459,17 @@ public class Player : Movement2D
 
             TakeDamage(damage);
             ApplyForce(direction);
-            SetCurrentState(State.stagger);
-            StartCoroutine(KnockBackCo(knockTime));
+            SwitchState(State.stagger);
+            StartCoroutine(DamageCo(knockTime));
         }
     }
 
     /** Returns the state to idle after a certain time.
      */
-    public IEnumerator KnockBackCo(float knockTime)
+    public IEnumerator DamageCo(float knockTime)
     {
         yield return new WaitForSeconds(knockTime);
-        SetCurrentState(State.idle);
+        SwitchState(State.idle);
     }
 
     /** Applies a hit stop effect when hit by making the sprite White (flash)
@@ -547,7 +547,7 @@ public class Player : Movement2D
     */
     public void Die()
     {
-        SetCurrentState(State.dead);
+        SwitchState(State.dead);
         AudioManager.PlayDeathAudio();
         gameObject.SetActive(false);
     }

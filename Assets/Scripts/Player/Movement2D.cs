@@ -55,7 +55,7 @@ public class Movement2D : MonoBehaviour
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
 
-        SetCurrentState(State.idle);
+        SwitchState(State.idle);
     }
     
     public virtual void Update()
@@ -135,7 +135,7 @@ public class Movement2D : MonoBehaviour
 
     /** Set beings state with a new state.
      */
-    public void SetCurrentState(State newState)
+    public virtual void SwitchState(State newState)
     {
         if (currentState != newState)
             currentState = newState;
@@ -145,7 +145,7 @@ public class Movement2D : MonoBehaviour
      */
     public virtual void UpdateState()
     {
-        SetCurrentState(directionalInput.x != 0 ? State.move : State.idle);
+        SwitchState(directionalInput.x != 0 ? State.move : State.idle);
     }
 
     /** Updates animation.

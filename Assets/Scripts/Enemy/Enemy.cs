@@ -14,9 +14,19 @@ public class Enemy : Movement2D
     [SerializeField] protected float attackSpeed = 0f;
 
     [Header("Hit Stop")]
-    private Shader defaultShader;
-    private Shader hitShader;
-    private bool hitStopped;
+    private Shader defaultShader; // Default color
+    private Shader hitShader; // Color when hit
+    private bool hitStopped; // Whether time is stopped or not
+    private Vector3 hitDirection; // Direction at which to be knocked back
+    private float knockTime; // Time Length of knockback
+
+    [Header("AI")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private Transform wallCheck;
+    [SerializeField] private float groundCheckDistance;
+    [SerializeField] private float wallCheckDistance;
+    private bool groundDetected, wallDetected;
+    private LayerMask groundLayerMask;
 
     public override void Start()
     {
@@ -25,30 +35,148 @@ public class Enemy : Movement2D
         // Hit stop color
         defaultShader = spriteRenderer.material.shader;
         hitShader = Shader.Find("GUI/Text Shader"); // For all white sprite on Hit
+
+        // AI
+        groundLayerMask = controller.GetCollisionMask();
+        SwitchState(State.move);
+    }
+
+    public override void Update()
+    {
+        // We don't call base.Update() because we want to update the states ourselves.
+        if (currentState != State.dead || currentState != State.stagger)
+        {
+            switch (currentState)
+            {
+                case State.move:
+                    UpdateMovingState();
+                    break;
+                case State.stagger:
+                    UpdateKnockbackState();
+                    break;
+                case State.dead:
+                    UpdateDeadState();
+                    break;
+            }
+        }
+        
+        UpdateAnimator();
+    }
+
+    //-- MOVING STATE --------------------------------------------------------------------------------
+
+    private void EnterMovingState()
+    {
+        directionalInput.x = 1;
+    }
+
+    private void UpdateMovingState()
+    {
+        groundDetected = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayerMask);
+        wallDetected = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, groundLayerMask);
+
+        if (!groundDetected || wallDetected)
+        {
+            SetDirectionalInput(new Vector2(directionalInput.x * -1, directionalInput.y));
+        }
+    }
+
+    private void ExitMovingState()
+    {
+
+    }
+
+    //-- KNOCKBACK STATE -------------------------------------------------------------------------------
+
+    private void EnterKnockbackState()
+    {
+        ApplyForce(hitDirection);
+        StartCoroutine(DamageCo(knockTime));
+    }
+
+    private void UpdateKnockbackState()
+    {
+
+    }
+
+    private void ExitKnockbackState()
+    {
+
+    }
+
+    //-- DEAD STATE ---------------------------------------------------------------------------------------
+
+    private void EnterDeadState()
+    {
+        // TODO: Instantiate death particles
+        animator.SetTrigger("dead");
+    }
+
+    private void UpdateDeadState()
+    {
+
+    }
+
+    private void ExitDeadState()
+    {
+
+    }
+
+    //-- OTHER FUNCTIONS --------------------------------------------------------------------------------
+
+    public override void SwitchState(State newState)
+    {
+        switch (currentState)
+        {
+            case State.move:
+                ExitMovingState();
+                break;
+            case State.stagger:
+                ExitKnockbackState();
+                break;
+            case State.dead:
+                ExitDeadState();
+                break;
+        }
+
+        switch (newState)
+        {
+            case State.move:
+                EnterMovingState();
+                break;
+            case State.stagger:
+                EnterKnockbackState();
+                break;
+            case State.dead:
+                EnterDeadState();
+                break;
+        }
+
+        currentState = newState;
     }
 
     /** Makes current being knocked backwards. Used for when the being is hit.
      * This also calls the HitStop function (if hit stop is enabled).
      */
-    public void KnockBack(float damage, Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
+    public void Damage(float damage, Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
     {
         // TODO: Change how hit stop is called. What if GameObject is destroyed before Time is set back to normal?
         //      This will freeze the game. Need to call hitstop in hit animation maybe?
         if (hitStopEnabled)
             HitStop(hitStopDuration);
 
+        this.hitDirection = direction;
+        this.knockTime = knockTime;
+
         TakeDamage(damage);
-        ApplyForce(direction);
-        SetCurrentState(State.stagger);
-        StartCoroutine(KnockBackCo(knockTime));
     }
 
     /** Returns the state to idle after a certain time.
      */
-    public IEnumerator KnockBackCo(float knockTime)
+    public IEnumerator DamageCo(float knockTime)
     {
         yield return new WaitForSeconds(knockTime);
-        SetCurrentState(State.idle);
+        SwitchState(State.move);
     }
 
     /** Applies a hit stop effect when hit by making the sprite White (flash)
@@ -82,9 +210,13 @@ public class Enemy : Movement2D
     public void TakeDamage(float damage)
     {
         currentHealth.RuntimeValue -= damage;
-        if(currentHealth.RuntimeValue <= 0)
+        if(currentHealth.RuntimeValue > 0)
         {
-            animator.SetTrigger("dead");
+            SwitchState(State.stagger);
+        }
+        else
+        {
+            SwitchState(State.dead);
         }
     }
 
@@ -93,7 +225,16 @@ public class Enemy : Movement2D
      */
     public void Die()
     {
-        SetCurrentState(State.dead);
+        SwitchState(State.dead);
         gameObject.SetActive(false);
+    }
+
+    /** Debug: Draw checks
+     */
+    public virtual void OnDrawGizmos()
+    {
+        // AI
+        Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
+        Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
     }
 }

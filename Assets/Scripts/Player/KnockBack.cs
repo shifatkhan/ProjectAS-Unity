@@ -23,11 +23,11 @@ public class KnockBack : MonoBehaviour
 
             if (other.gameObject.CompareTag("Enemy"))
             {
-                other.GetComponent<Enemy>().KnockBack(damage, direction, knockTime, hitStopEnabled, hitStopDuration); ;
+                other.GetComponent<Enemy>().Damage(damage, direction, knockTime, hitStopEnabled, hitStopDuration); ;
             }
             else if (other.gameObject.CompareTag("Player"))
             {
-                other.GetComponent<Player>().KnockBack(damage, direction, knockTime, hitStopEnabled, hitStopDuration); ;
+                other.GetComponent<Player>().Damage(damage, direction, knockTime, hitStopEnabled, hitStopDuration); ;
             }
         }
     }
