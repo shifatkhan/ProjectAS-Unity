@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2975154074542182604}
   - component: {fileID: 2975154074542182606}
   m_Layer: 0
-  m_Name: AfterImage
+  m_Name: PlayerAfterImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,4 +95,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeTime: 0.25
   alphaSet: 0.8
-  alphaMultiplier: 0.75
+  alphaDecay: 5
