@@ -13,7 +13,7 @@ public class KnockBack : MonoBehaviour
     public bool hitStopEnabled;
     public float hitStopDuration = 0.1f;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public virtual void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player"))
         {
