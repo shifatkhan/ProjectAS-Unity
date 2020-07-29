@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 /** This class holds basic data for an Enemy object.
  * @author ShifatKhan
@@ -14,7 +15,16 @@ public class Enemy : Movement2D
     [SerializeField] protected float attackSpeed = 0f;
 
     [Header("Hit")]
+    public bool enableDeathParticle;
+    public bool enableDeathAnimation;
+
     [SerializeField] private GameObject hitParticle;
+    [SerializeField] private GameObject deathChunkParticle;
+    [SerializeField] private GameObject deathBloodParticle;
+
+    [SerializeField] private Color deathChunkColor;
+    [SerializeField] private Color deathBloodColor;
+
     private Shader defaultShader; // Default color
     private Shader hitShader; // Color when hit
     private bool hitStopped; // Whether time is stopped or not
@@ -33,7 +43,7 @@ public class Enemy : Movement2D
     {
         base.Start();
 
-        // Hit stop color
+        // Hit
         defaultShader = spriteRenderer.material.shader;
         hitShader = Shader.Find("GUI/Text Shader"); // For all white sprite on Hit
 
@@ -109,8 +119,36 @@ public class Enemy : Movement2D
 
     private void EnterDeadState()
     {
-        // TODO: Instantiate death particles
-        animator.SetTrigger("dead");
+        if (enableDeathParticle)
+        {
+            GameObject chunks = Instantiate(deathChunkParticle, transform.position, deathChunkParticle.transform.rotation);
+            GameObject blood = Instantiate(deathBloodParticle, transform.position, deathChunkParticle.transform.rotation);
+
+            // Change Direction
+            if (hitDirection.x < 0)
+            {
+                // TODO: Fix flipping. Currently affects y as well.
+                chunks.transform.Rotate(new Vector3(180, 0, 0));
+                blood.transform.Rotate(new Vector3(180, 0, 0));
+            }
+
+            // Change color
+            MainModule mainChunk = chunks.GetComponent<ParticleSystem>().main;
+            mainChunk.startColor = deathChunkColor;
+
+            MainModule mainBlood = blood.GetComponent<ParticleSystem>().main;
+            mainBlood.startColor = deathBloodColor;
+        }
+
+        if (enableDeathAnimation)
+        {
+            animator.SetTrigger("dead");
+        }
+        else
+        {
+            Time.timeScale = 1.0f;
+            gameObject.SetActive(false);
+        }
     }
 
     private void UpdateDeadState()
@@ -230,7 +268,6 @@ public class Enemy : Movement2D
      */
     public void Die()
     {
-        SwitchState(State.dead);
         gameObject.SetActive(false);
     }
 

@@ -290,8 +290,16 @@ MonoBehaviour:
   enemyName: Skeleton
   attackDamage: 1
   attackSpeed: 0
+  enableDeathParticle: 0
+  enableDeathAnimation: 0
   hitParticle: {fileID: 9018263298331118960, guid: b03def420aee98d4d82c6f222c5e538f,
     type: 3}
+  deathChunkParticle: {fileID: 6705888288594514956, guid: 33cbf8fc2f76baa4b8fecb1a67f88406,
+    type: 3}
+  deathBloodParticle: {fileID: 3544970903853184531, guid: e37f452802f50684c88e8ba16f0196b7,
+    type: 3}
+  deathChunkColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+  deathBloodColor: {r: 1, g: 1, b: 1, a: 1}
   groundCheck: {fileID: 4335973834624473586}
   wallCheck: {fileID: 4335973833743051469}
   groundCheckDistance: 0.5
