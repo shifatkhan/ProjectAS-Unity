@@ -44,6 +44,11 @@ public class Player : Movement2D
     private float coyoteCounter;
     private bool jumping = false; // Fixes double jumping because of coyote time.
 
+    [Header("Hit Stop")]
+    private Shader defaultShader;
+    private Shader hitShader;
+    private bool hitStopped;
+
     [Header("iFrame vars")]
     [SerializeField] private float invulnerableDuration = 1f;
     [SerializeField] private float flashPeriod = 0.16f; // Rate at which player sprite will flash.
@@ -66,6 +71,10 @@ public class Player : Movement2D
         base.Start();
 
         dust = GetComponentInChildren<ParticleSystem>();
+
+        // Hit stop color
+        defaultShader = spriteRenderer.material.shader;
+        hitShader = Shader.Find("GUI/Text Shader"); // For all white sprite on Hit
 
         // iFrame color
         regularColor = Color.white;
@@ -435,6 +444,61 @@ public class Player : Movement2D
             SetCurrentState(State.idle);
         }
     }
+    
+    /** Makes current being knocked backwards. Used for when the being is hit.
+     * This also calls the HitStop function (if hit stop is enabled).
+     */
+    public void KnockBack(float damage, Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
+    {
+        if (!invulnerable)
+        {
+            // TODO: Change how hit stop is called. What if GameObject is destroyed before Time is set back to normal?
+            //      This will freeze the game. Need to call hitstop in hit animation maybe?
+            if (hitStopEnabled)
+                HitStop(hitStopDuration);
+
+            TakeDamage(damage);
+            ApplyForce(direction);
+            SetCurrentState(State.stagger);
+            StartCoroutine(KnockBackCo(knockTime));
+        }
+    }
+
+    /** Returns the state to idle after a certain time.
+     */
+    public IEnumerator KnockBackCo(float knockTime)
+    {
+        yield return new WaitForSeconds(knockTime);
+        SetCurrentState(State.idle);
+    }
+
+    /** Applies a hit stop effect when hit by making the sprite White (flash)
+     * and stopping time.
+     * 
+     * We then call a coroutine to reset.
+     */
+    public virtual void HitStop(float duration)
+    {
+        spriteRenderer.material.shader = hitShader;
+        spriteRenderer.material.color = Color.white;
+
+        if (hitStopped)
+            return;
+        Time.timeScale = 0.0f;
+        StartCoroutine(HitWait(duration));
+    }
+
+    /** Resets the hit stop so the sprite and timeScale goes back to normal.
+     */
+    public virtual IEnumerator HitWait(float duration)
+    {
+        hitStopped = true;
+        yield return new WaitForSecondsRealtime(duration);
+        spriteRenderer.material.shader = defaultShader;
+        spriteRenderer.material.color = Color.white;
+        Time.timeScale = 1.0f;
+        hitStopped = false;
+    }
 
     public void TakeDamage(float damage)
     {
@@ -476,12 +540,6 @@ public class Player : Movement2D
         }
 
         invulnerable = false;
-    }
-
-    public override void KnockBack(Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
-    {
-        if (!invulnerable)
-            base.KnockBack(direction, knockTime, hitStopEnabled, hitStopDuration);
     }
 
     /** We don't 'destroy' since it will call the garbage collector = inefficient.

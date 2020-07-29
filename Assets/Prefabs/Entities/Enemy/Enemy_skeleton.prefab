@@ -77,6 +77,8 @@ MonoBehaviour:
   thrust: 5
   knockTime: 0.2
   damage: 1
+  hitStopEnabled: 0
+  hitStopDuration: 0.1
 --- !u!1 &6361138616171045938
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,8 +150,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -888973317
-  m_SortingLayer: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7928858964255100155, guid: 712a57753612214488d61017d7943198,
     type: 3}
@@ -222,7 +224,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1
   currentState: 0
-  health: 3
   currentHealth: {fileID: 11400000, guid: a8d0d5261e6ba6a499497ccc3ec00351, type: 2}
   enemyName: Skeleton
   attackDamage: 1

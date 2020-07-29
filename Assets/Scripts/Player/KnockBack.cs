@@ -20,17 +20,14 @@ public class KnockBack : MonoBehaviour
             // Get Direction (by normalizing) and multiply the attack with thrust power.
             Vector2 direction = other.transform.position - transform.position;
             direction = direction.normalized * thrust;
-            
-            // Knock back affected entity.
-            other.GetComponent<Movement2D>().KnockBack(direction, knockTime, hitStopEnabled, hitStopDuration);
 
             if (other.gameObject.CompareTag("Enemy"))
             {
-                other.GetComponent<Enemy>().TakeDamage(damage);
+                other.GetComponent<Enemy>().KnockBack(damage, direction, knockTime, hitStopEnabled, hitStopDuration); ;
             }
             else if (other.gameObject.CompareTag("Player"))
             {
-                other.GetComponent<Player>().TakeDamage(damage);
+                other.GetComponent<Player>().KnockBack(damage, direction, knockTime, hitStopEnabled, hitStopDuration); ;
             }
         }
     }

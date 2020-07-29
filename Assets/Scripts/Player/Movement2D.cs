@@ -41,10 +41,6 @@ public class Movement2D : MonoBehaviour
     protected Animator animator;
     protected SpriteRenderer spriteRenderer;
 
-    protected Shader defaultShader;
-    protected Shader hitShader;
-    protected bool hitStopped;
-
     [SerializeField] // TODO: remove serialized
     protected State currentState;
 
@@ -53,9 +49,6 @@ public class Movement2D : MonoBehaviour
         controller = GetComponent<Controller2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        defaultShader = spriteRenderer.material.shader;
-        hitShader = Shader.Find("GUI/Text Shader"); // For all white sprite on Hit
 
         // Calculate gravity.
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
@@ -125,59 +118,6 @@ public class Movement2D : MonoBehaviour
     public virtual void ApplyForce(Vector3 direction)
     {
         velocity = direction;
-    }
-
-
-    // TODO: Move KnockBack to another script. Movement2D should be only for movement.
-    /** Makes current being knocked backwards. Used for when the being is hit.
-     * This also calls the HitStop function (if hit stop is enabled).
-     */
-    public virtual void KnockBack(Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
-    {
-        // TODO: Change how hit stop is called. What if GameObject is destroyed before Time is set back to normal?
-        //      This will freeze the game. Need to call hitstop in hit animation maybe?
-        if(hitStopEnabled)
-            HitStop(hitStopDuration);
-
-        ApplyForce(direction);
-        SetCurrentState(State.stagger);
-        StartCoroutine(KnockBackCo(knockTime));
-    }
-
-    /** Returns the state to idle after a certain time.
-     */
-    public virtual IEnumerator KnockBackCo(float knockTime)
-    {
-        yield return new WaitForSeconds(knockTime);
-        SetCurrentState(State.idle);
-    }
-
-    /** Applies a hit stop effect when hit by making the sprite White (flash)
-     * and stopping time.
-     * 
-     * We then call a coroutine to reset.
-     */
-    public virtual void HitStop(float duration)
-    {
-        spriteRenderer.material.shader = hitShader;
-        spriteRenderer.material.color = Color.white;
-
-        if (hitStopped)
-            return;
-        Time.timeScale = 0.0f;
-        StartCoroutine(HitWait(duration));
-    }
-
-    /** Resets the hit stop so the sprite and timeScale goes back to normal.
-     */
-    public virtual IEnumerator HitWait(float duration)
-    {
-        hitStopped = true;
-        yield return new WaitForSecondsRealtime(duration);
-        spriteRenderer.material.shader = defaultShader;
-        spriteRenderer.material.color = Color.white;
-        Time.timeScale = 1.0f;
-        hitStopped = false;
     }
 
     /** Takes in input and assigns it.
