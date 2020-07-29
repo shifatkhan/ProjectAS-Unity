@@ -10,6 +10,7 @@ TagManager:
   - Name
   - Portrait
   - Inventory
+  - GameManager
   layers:
   - Default
   - TransparentFX

@@ -66,6 +66,8 @@ public class Player : Movement2D
     public InventoryObject inventory; // TODO: Serialize
     [SerializeField] protected GameEvent inventoryEvent;
 
+    private GameManager GM;
+
     public override void Start()
     {
         base.Start();
@@ -80,6 +82,8 @@ public class Player : Movement2D
         regularColor = Color.white;
         invulnerableColor = Color.white;
         invulnerableColor.a = 0.5f;
+
+        GM = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     public override void FixedUpdate()
@@ -456,11 +460,11 @@ public class Player : Movement2D
             //      This will freeze the game. Need to call hitstop in hit animation maybe?
             if (hitStopEnabled)
                 HitStop(hitStopDuration);
-
-            TakeDamage(damage);
+            
             ApplyForce(direction);
             SwitchState(State.stagger);
             StartCoroutine(DamageCo(knockTime));
+            TakeDamage(damage);
         }
     }
 
@@ -515,8 +519,7 @@ public class Player : Movement2D
                 animator.SetTrigger("dead");
 
                 // TODO: Add "death" anim and Remove this and call Die() from animation "death"
-                AudioManager.PlayDeathAudio();
-                gameObject.SetActive(false);
+                Die();
             }
         }
     }
@@ -547,6 +550,8 @@ public class Player : Movement2D
     */
     public void Die()
     {
+        GM.Respawn();
+        StopAllCoroutines(); // Stop the knockBack coroutine
         SwitchState(State.dead);
         AudioManager.PlayDeathAudio();
         gameObject.SetActive(false);
