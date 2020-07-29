@@ -37,15 +37,9 @@ public class EnemySkeleton : Enemy
     // TODO: Separate update and fixed update functions (currently doing both in CheckDistance)
     public override void Update()
     {
-        //CheckDistance();
         base.Update();
-    }
 
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-
-        if(currentState != State.dead && currentState != State.stagger)
+        if (currentState != State.dead && currentState != State.stagger)
             CheckDistance();
     }
 

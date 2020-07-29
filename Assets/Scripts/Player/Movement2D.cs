@@ -161,25 +161,34 @@ public class Movement2D : MonoBehaviour
             animator.SetBool("isStaggered", currentState == State.stagger);
         }
 
-        if (spriteRenderer != null)
-        {
-            if (directionalInput.x > 0) // Facing right
-            {
-                spriteRenderer.flipX = false;
-            }
-            else if (directionalInput.x < 0) // Facing left
-            {
-                spriteRenderer.flipX = true;
-            }
+        //if (spriteRenderer != null)
+        //{
+        //    if (directionalInput.x > 0) // Facing right
+        //    {
+        //        spriteRenderer.flipX = false;
+        //    }
+        //    else if (directionalInput.x < 0) // Facing left
+        //    {
+        //        spriteRenderer.flipX = true;
+        //    }
 
-            // TODO: Change approach since we might want some children not to change.
-            // Flip CHILD gameObjects according to where the gameobject is facing.
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                Quaternion rotation = transform.GetChild(i).localRotation;
-                rotation.y = spriteRenderer.flipX ? 180 : 0;
-                transform.GetChild(i).localRotation = rotation;
-            }
+        //    // TODO: Change approach since we might want some children not to change.
+        //    // Flip CHILD gameObjects according to where the gameobject is facing.
+        //    for (int i = 0; i < transform.childCount; i++)
+        //    {
+        //        Quaternion rotation = transform.GetChild(i).localRotation;
+        //        rotation.y = spriteRenderer.flipX ? 180 : 0;
+        //        transform.GetChild(i).localRotation = rotation;
+        //    }
+        //}
+
+        if (directionalInput.x > 0) // Facing right
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if (directionalInput.x < 0) // Facing left
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
         }
     }
 }
