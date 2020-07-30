@@ -414,7 +414,7 @@ MonoBehaviour:
   horizontalRaySpacing: 0
   verticalRaySpacing: 0
   boxCollider2D: {fileID: 0}
-  showRaycast: 1
+  showRaycast: 0
   playerInput: {x: 0, y: 0}
 --- !u!114 &6128179487270560233
 MonoBehaviour:
@@ -429,16 +429,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 6
+  directionalInput: {x: 0, y: 0}
   currentState: 0
+  attackSpeed: 0.5
+  currentHealth: {fileID: 11400000, guid: 8f19276d46a2c1846a0e63ffb695224f, type: 2}
+  playerHealthEvent: {fileID: 11400000, guid: f75bdf27a9b082042867327a1148da97, type: 2}
   wallJumpingEnabled: 1
   dashSpeed: 15
   dashCooldown: 1
   timeToReachDashVelocity: 1
   walkSpeed: 6
   sprintSpeed: 10
-  attackSpeed: 0.5
-  currentHealth: {fileID: 11400000, guid: 8f19276d46a2c1846a0e63ffb695224f, type: 2}
-  playerHealthEvent: {fileID: 11400000, guid: f75bdf27a9b082042867327a1148da97, type: 2}
   coyoteTime: 0.2
   invulnerableDuration: 1
   flashPeriod: 0.16

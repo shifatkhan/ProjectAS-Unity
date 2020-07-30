@@ -4,13 +4,16 @@ using UnityEngine;
 using static UnityEngine.ParticleSystem;
 
 /** This class holds basic data for an Enemy object.
+ * 
+ * TODO: Move state machine and AI into a separate parent class called "Entity" or "AI"
+ * 
  * @author ShifatKhan
  */
-public class Enemy : Movement2D
+public class Enemy : Entity
 {
     [Header("Enemy vars")]
-    [SerializeField] protected FloatVariable currentHealth;
-    [SerializeField] protected string enemyName = "Enemy";
+    [SerializeField] protected FloatVariable currentHealth; // TODO: Move to Entity script?
+    [SerializeField] protected string enemyName = "Enemy"; // TODO: Move to Entity script?
     [SerializeField] protected int attackDamage = 1;
     [SerializeField] protected float attackSpeed = 0f;
 
@@ -32,167 +35,55 @@ public class Enemy : Movement2D
     private float knockTime; // Time Length of knockback
 
     [Header("AI")]
-    [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform wallCheck;
-    [SerializeField] private float groundCheckDistance;
-    [SerializeField] private float wallCheckDistance;
-    private bool groundDetected, wallDetected;
+    [SerializeField] private Transform groundCheck;
     private LayerMask groundLayerMask;
+
+    [Header("AI State machine")]
+    public FiniteStateMachine stateMachine;
+    public EnemyObject entityData;
 
     public override void Start()
     {
         base.Start();
 
-        // Hit
-        defaultShader = spriteRenderer.material.shader;
-        hitShader = Shader.Find("GUI/Text Shader"); // For all white sprite on Hit
+        //// Hit
+        //defaultShader = spriteRenderer.material.shader;
+        //hitShader = Shader.Find("GUI/Text Shader"); // For all white sprite on Hit
 
         // AI
+        SetDirectionalInput(new Vector2(1,0));
+
         groundLayerMask = controller.GetCollisionMask();
-        SwitchState(State.move);
+
+        stateMachine = new FiniteStateMachine();
     }
 
     public override void Update()
     {
-        // We don't call base.Update() because we want to update the states ourselves.
-        if (currentState != State.dead || currentState != State.stagger)
-        {
-            switch (currentState)
-            {
-                case State.move:
-                    UpdateMovingState();
-                    break;
-                case State.stagger:
-                    UpdateKnockbackState();
-                    break;
-                case State.dead:
-                    UpdateDeadState();
-                    break;
-            }
-        }
-        
-        UpdateAnimator();
+        base.Update();
+
+        stateMachine.currentState.LogicUpdate();
     }
 
-    //-- MOVING STATE --------------------------------------------------------------------------------
-
-    private void EnterMovingState()
+    public override void FixedUpdate()
     {
-        directionalInput.x = 1;
+        base.FixedUpdate();
+
+        stateMachine.currentState.PhysicsUpdate();
     }
 
-    private void UpdateMovingState()
+    public virtual bool CheckWall()
     {
-        groundDetected = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayerMask);
-        wallDetected = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, groundLayerMask);
-
-        if (!groundDetected || wallDetected)
-        {
-            SetDirectionalInput(new Vector2(directionalInput.x * -1, directionalInput.y));
-        }
+        return Physics2D.Raycast(wallCheck.position, transform.right, entityData.wallCheckDistance, groundLayerMask);
     }
 
-    private void ExitMovingState()
+    public virtual bool CheckGround()
     {
-
+        return Physics2D.Raycast(groundCheck.position, Vector2.down, entityData.groundCheckDistance, groundLayerMask);
     }
-
-    //-- KNOCKBACK STATE -------------------------------------------------------------------------------
-
-    private void EnterKnockbackState()
-    {
-        ApplyForce(hitDirection);
-        StartCoroutine(DamageCo(knockTime));
-    }
-
-    private void UpdateKnockbackState()
-    {
-
-    }
-
-    private void ExitKnockbackState()
-    {
-
-    }
-
-    //-- DEAD STATE ---------------------------------------------------------------------------------------
-
-    private void EnterDeadState()
-    {
-        if (enableDeathParticle)
-        {
-            GameObject chunks = Instantiate(deathChunkParticle, transform.position, deathChunkParticle.transform.rotation);
-            GameObject blood = Instantiate(deathBloodParticle, transform.position, deathChunkParticle.transform.rotation);
-
-            // Change Direction
-            if (hitDirection.x < 0)
-            {
-                // TODO: Fix flipping. Currently affects y as well.
-                chunks.transform.Rotate(new Vector3(180, 0, 0));
-                blood.transform.Rotate(new Vector3(180, 0, 0));
-            }
-
-            // Change color
-            MainModule mainChunk = chunks.GetComponent<ParticleSystem>().main;
-            mainChunk.startColor = deathChunkColor;
-
-            MainModule mainBlood = blood.GetComponent<ParticleSystem>().main;
-            mainBlood.startColor = deathBloodColor;
-        }
-
-        if (enableDeathAnimation)
-        {
-            animator.SetTrigger("dead");
-        }
-        else
-        {
-            Time.timeScale = 1.0f;
-            gameObject.SetActive(false);
-        }
-    }
-
-    private void UpdateDeadState()
-    {
-
-    }
-
-    private void ExitDeadState()
-    {
-
-    }
-
+    
     //-- OTHER FUNCTIONS --------------------------------------------------------------------------------
-
-    public override void SwitchState(State newState)
-    {
-        switch (currentState)
-        {
-            case State.move:
-                ExitMovingState();
-                break;
-            case State.stagger:
-                ExitKnockbackState();
-                break;
-            case State.dead:
-                ExitDeadState();
-                break;
-        }
-
-        switch (newState)
-        {
-            case State.move:
-                EnterMovingState();
-                break;
-            case State.stagger:
-                EnterKnockbackState();
-                break;
-            case State.dead:
-                EnterDeadState();
-                break;
-        }
-
-        currentState = newState;
-    }
 
     /** Makes current being knocked backwards. Used for when the being is hit.
      * This also calls the HitStop function (if hit stop is enabled).
@@ -219,7 +110,7 @@ public class Enemy : Movement2D
     public IEnumerator DamageCo(float knockTime)
     {
         yield return new WaitForSeconds(knockTime);
-        SwitchState(State.move);
+        SwitchState(EntityState.move);
     }
 
     /** Applies a hit stop effect when hit by making the sprite White (flash)
@@ -255,11 +146,11 @@ public class Enemy : Movement2D
         currentHealth.RuntimeValue -= damage;
         if(currentHealth.RuntimeValue > 0)
         {
-            SwitchState(State.stagger);
+            SwitchState(EntityState.stagger);
         }
         else
         {
-            SwitchState(State.dead);
+            SwitchState(EntityState.dead);
         }
     }
 
@@ -276,7 +167,7 @@ public class Enemy : Movement2D
     public virtual void OnDrawGizmos()
     {
         // AI
-        Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
-        Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
+        Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x, groundCheck.position.y - entityData.groundCheckDistance));
+        Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + entityData.wallCheckDistance, wallCheck.position.y));
     }
 }

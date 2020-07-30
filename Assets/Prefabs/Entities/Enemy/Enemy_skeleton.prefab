@@ -286,6 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
+  directionalInput: {x: 0, y: 0}
   currentState: 0
   currentHealth: {fileID: 11400000, guid: a8d0d5261e6ba6a499497ccc3ec00351, type: 2}
   enemyName: Skeleton
@@ -301,14 +302,15 @@ MonoBehaviour:
     type: 3}
   deathChunkColor: {r: 1, g: 1, b: 1, a: 1}
   deathBloodColor: {r: 0.3803922, g: 0.36862746, b: 0.43921572, a: 1}
-  groundCheck: {fileID: 4335973834624473586}
   wallCheck: {fileID: 4335973833743051469}
-  groundCheckDistance: 0.5
-  wallCheckDistance: 0.2
+  groundCheck: {fileID: 4335973834624473586}
+  entityData: {fileID: 11400000, guid: 4245bc876bfb5e644944b07038c37ea6, type: 2}
   chaseDistance: 6
   attackDistance: 0.8
   target: {fileID: 0}
   homePosition: {x: 0, y: 0, z: 0}
+  idleStateData: {fileID: 11400000, guid: 7ca1abf9d5efa4c41937ab7d10d6731d, type: 2}
+  moveStateData: {fileID: 11400000, guid: 6ac360b2e3e44a1419b5508c7b39d0ac, type: 2}
   showAttackRadius: 0
 --- !u!114 &6361138615203864715
 MonoBehaviour:
@@ -330,7 +332,7 @@ MonoBehaviour:
   horizontalRaySpacing: 0
   verticalRaySpacing: 0
   boxCollider2D: {fileID: 0}
-  showRaycast: 1
+  showRaycast: 0
   playerInput: {x: 0, y: 0}
 --- !u!114 &2477367
 MonoBehaviour:

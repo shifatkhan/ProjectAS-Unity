@@ -7,7 +7,7 @@ using UnityEngine;
  * Not for flying entities e.g.: birds, helicopters, etc.
  * @author ShifatKhan
  */
-public enum State
+public enum EntityState
 {
     idle,
     move, // Indicates state of when enemy is moving, which includes flying, running, walking, etc.
@@ -17,7 +17,7 @@ public enum State
 }
 
 [RequireComponent(typeof(Controller2D))]
-public class Movement2D : MonoBehaviour
+public class Entity : MonoBehaviour
 {
     [Header("Movement")]
     protected float maxJumpHeight = 2.5f; // Max height a jump can attain.
@@ -36,13 +36,13 @@ public class Movement2D : MonoBehaviour
     protected float velocityXSmoothing;
 
     protected Controller2D controller;
-    protected Vector2 directionalInput;
+    [SerializeField] protected Vector2 directionalInput;
     protected int faceDir = 1; // Hot fix. This is also in Controller2D, but this one is updated in Update().
-    protected Animator animator;
+    public Animator animator { get; protected set; }
     protected SpriteRenderer spriteRenderer;
 
     [SerializeField] // TODO: remove serialized
-    protected State currentState;
+    protected EntityState currentState;
 
     public virtual void Start()
     {
@@ -55,7 +55,7 @@ public class Movement2D : MonoBehaviour
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
 
-        SwitchState(State.idle);
+        SwitchState(EntityState.idle);
     }
     
     public virtual void Update()
@@ -113,6 +113,11 @@ public class Movement2D : MonoBehaviour
         }
     }
 
+    public void SetMoveSpeed(float moveSpeed)
+    {
+        this.moveSpeed = moveSpeed;
+    }
+
     /** Applies a directional forced to the being's body.
      */
     public virtual void ApplyForce(Vector3 direction)
@@ -131,11 +136,31 @@ public class Movement2D : MonoBehaviour
         {
             faceDir = (int)directionalInput.x;
         }
+
+        UpdateSpriteDirection();
+    }
+
+    public virtual void FlipDirectionalInput()
+    {
+        SetDirectionalInput(new Vector2(directionalInput.x == 0 ? faceDir * -1 : directionalInput.x * -1, directionalInput.y));
+    }
+
+    public void MoveInFaceDir()
+    {
+        if(directionalInput.x == 0)
+        {
+            directionalInput.x = faceDir == 1 ? 1 : -1;
+        }
+    }
+
+    public int GetFaceDir()
+    {
+        return this.faceDir;
     }
 
     /** Set beings state with a new state.
      */
-    public virtual void SwitchState(State newState)
+    public virtual void SwitchState(EntityState newState)
     {
         if (currentState != newState)
             currentState = newState;
@@ -145,7 +170,7 @@ public class Movement2D : MonoBehaviour
      */
     public virtual void UpdateState()
     {
-        SwitchState(directionalInput.x != 0 ? State.move : State.idle);
+        SwitchState(directionalInput.x != 0 ? EntityState.move : EntityState.idle);
     }
 
     /** Updates animation.
@@ -158,30 +183,14 @@ public class Movement2D : MonoBehaviour
 
             animator.SetBool("isAirborne", !controller.collisions.below);
 
-            animator.SetBool("isStaggered", currentState == State.stagger);
+            animator.SetBool("isStaggered", currentState == EntityState.stagger);
         }
 
-        //if (spriteRenderer != null)
-        //{
-        //    if (directionalInput.x > 0) // Facing right
-        //    {
-        //        spriteRenderer.flipX = false;
-        //    }
-        //    else if (directionalInput.x < 0) // Facing left
-        //    {
-        //        spriteRenderer.flipX = true;
-        //    }
+        UpdateSpriteDirection();
+    }
 
-        //    // TODO: Change approach since we might want some children not to change.
-        //    // Flip CHILD gameObjects according to where the gameobject is facing.
-        //    for (int i = 0; i < transform.childCount; i++)
-        //    {
-        //        Quaternion rotation = transform.GetChild(i).localRotation;
-        //        rotation.y = spriteRenderer.flipX ? 180 : 0;
-        //        transform.GetChild(i).localRotation = rotation;
-        //    }
-        //}
-
+    protected void UpdateSpriteDirection()
+    {
         if (directionalInput.x > 0) // Facing right
         {
             transform.localScale = new Vector3(1, 1, 1);
@@ -189,6 +198,31 @@ public class Movement2D : MonoBehaviour
         else if (directionalInput.x < 0) // Facing left
         {
             transform.localScale = new Vector3(-1, 1, 1);
+        }
+    }
+
+    [System.Obsolete("This function has been replaced by 'UpdateSpriteDirection()'")]
+    protected void UpdateSpriteDirectionAndChildren()
+    {
+        if (spriteRenderer != null)
+        {
+            if (directionalInput.x > 0) // Facing right
+            {
+                spriteRenderer.flipX = false;
+            }
+            else if (directionalInput.x < 0) // Facing left
+            {
+                spriteRenderer.flipX = true;
+            }
+
+            // TODO: Change approach since we might want some children not to change.
+            // Flip CHILD gameObjects according to where the gameobject is facing.
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Quaternion rotation = transform.GetChild(i).localRotation;
+                rotation.y = spriteRenderer.flipX ? 180 : 0;
+                transform.GetChild(i).localRotation = rotation;
+            }
         }
     }
 }

@@ -39,23 +39,23 @@ public class EnemySun : Enemy
         // If target is inside chase radius and outside attack radius.
         if(Vector2.Distance(target.position, transform.position) <= chaseDistance
             && Vector2.Distance(target.position, transform.position) > attackDistance
-            && currentState != State.stagger && currentState != State.attack)
+            && currentState != EntityState.stagger && currentState != EntityState.attack)
         {
             transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
-            SwitchState(State.move);
+            SwitchState(EntityState.move);
         }
         else if ((Vector2.Distance(homePosition, transform.position) <= chaseDistance && Vector2.Distance(homePosition, transform.position) > attackDistance)
             && Vector2.Distance(target.position, transform.position) >= chaseDistance
-            && currentState != State.stagger && currentState != State.attack)
+            && currentState != EntityState.stagger && currentState != EntityState.attack)
         {
             // Target is gone, so return to home position.
             transform.position = Vector2.MoveTowards(transform.position, homePosition, moveSpeed * Time.deltaTime);
-            SwitchState(State.move);
+            SwitchState(EntityState.move);
         }
         else
         {
             directionalInput.x = 0;
-            SwitchState(State.idle);
+            SwitchState(EntityState.idle);
         }
     }
 }

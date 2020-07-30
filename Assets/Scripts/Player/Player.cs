@@ -6,8 +6,14 @@ using UnityEngine;
  * @author ShifatKhan
  * @Special thanks to Sebastian Lague
  */
-public class Player : Movement2D
+public class Player : Entity
 {
+    [Header("Player vars")]
+    [SerializeField] private float attackSpeed = 0.5f;
+
+    [SerializeField] protected FloatVariable currentHealth; // TODO: Move to Entity script?
+    [SerializeField] protected GameEvent playerHealthEvent;
+
     [Header("Wall jumping")]
     [SerializeField] private bool wallJumpingEnabled = true; // Enable/Disable the ability to walljump.
     private bool wallSliding;
@@ -32,12 +38,6 @@ public class Player : Movement2D
     [SerializeField] private float walkSpeed = 6;
     [SerializeField] private float sprintSpeed = 10;
     private bool isSprinting = false;
-
-    [Header("Player vars")]
-    [SerializeField] private float attackSpeed = 0.5f;
-    
-    [SerializeField] protected FloatVariable currentHealth;
-    [SerializeField] protected GameEvent playerHealthEvent;
 
     [Header("Coyote Jump")]
     public float coyoteTime = 0.2f; // Variable for coyote jumping (when falling off ledge)
@@ -438,14 +438,14 @@ public class Player : Movement2D
 
     public IEnumerator Attack1Co()
     {
-        if(currentState != State.stagger && currentState != State.attack)
+        if(currentState != EntityState.stagger && currentState != EntityState.attack)
         {
             animator.SetTrigger("attack1");
-            SwitchState(State.attack);
+            SwitchState(EntityState.attack);
 
             yield return new WaitForSeconds(attackSpeed);
 
-            SwitchState(State.idle);
+            SwitchState(EntityState.idle);
         }
     }
     
@@ -462,7 +462,7 @@ public class Player : Movement2D
                 HitStop(hitStopDuration);
             
             ApplyForce(direction);
-            SwitchState(State.stagger);
+            SwitchState(EntityState.stagger);
             StartCoroutine(DamageCo(knockTime));
             TakeDamage(damage);
         }
@@ -473,7 +473,7 @@ public class Player : Movement2D
     public IEnumerator DamageCo(float knockTime)
     {
         yield return new WaitForSeconds(knockTime);
-        SwitchState(State.idle);
+        SwitchState(EntityState.idle);
     }
 
     /** Applies a hit stop effect when hit by making the sprite White (flash)
@@ -552,7 +552,7 @@ public class Player : Movement2D
     {
         GM.Respawn();
         StopAllCoroutines(); // Stop the knockBack coroutine
-        SwitchState(State.dead);
+        SwitchState(EntityState.dead);
         AudioManager.PlayDeathAudio();
         gameObject.SetActive(false);
     }
@@ -584,7 +584,7 @@ public class Player : Movement2D
 
     public override void UpdateState()
     {
-        if (currentState != State.attack)
+        if (currentState != EntityState.attack)
         {
             base.UpdateState();
         }
@@ -597,7 +597,7 @@ public class Player : Movement2D
 
     public override void UpdateAnimator()
     {
-        if(currentState != State.attack)
+        if(currentState != EntityState.attack)
             base.UpdateAnimator();
 
         if(animator != null)

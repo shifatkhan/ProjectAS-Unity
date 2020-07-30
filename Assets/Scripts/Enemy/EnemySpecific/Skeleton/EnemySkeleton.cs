@@ -20,6 +20,15 @@ public class EnemySkeleton : Enemy
 
     private bool followTarget;
 
+    //------------
+    public Skeleton_IdleState idleState { get; private set; }
+    public Skeleton_MoveState moveState { get; private set; }
+
+    [Header("States")]
+    [SerializeField] private IdleStateObject idleStateData;
+    [SerializeField] private MoveStateObject moveStateData;
+    //------------
+
     [Header("Debug")]
     public bool showAttackRadius = true;
 
@@ -30,12 +39,17 @@ public class EnemySkeleton : Enemy
         base.Start();
 
         // Set default target to be the Player.
-        if (target == null)
-        {
-            target = GameObject.FindWithTag("Player").transform;
-        }
+        //if (target == null)
+        //{
+        //    target = GameObject.FindWithTag("Player").transform;
+        //}
 
-        homePosition = gameObject.transform.position;
+        //homePosition = gameObject.transform.position;
+
+        moveState = new Skeleton_MoveState(this, stateMachine, "isMoving", moveStateData, this);
+        idleState = new Skeleton_IdleState(this, stateMachine, "idle", idleStateData, this);
+
+        stateMachine.Initialize(moveState);
     }
 
     /** Check if target is in radius. If so, enemy follows target until it is in attack range.
@@ -81,21 +95,21 @@ public class EnemySkeleton : Enemy
 
     public IEnumerator AttackCo()
     {
-        if (currentState != State.attack)
+        if (currentState != EntityState.attack)
         {
             animator.SetTrigger("attack1");
-            base.SwitchState(State.attack);
+            base.SwitchState(EntityState.attack);
 
             yield return new WaitForSeconds(attackSpeed);
 
-            base.SwitchState(State.idle);
+            base.SwitchState(EntityState.idle);
         }
     }
 
     // TODO: remove since it's not used.
     public override void UpdateState()
     {
-        if(currentState != State.attack)
+        if(currentState != EntityState.attack)
         {
             base.UpdateState();
         }
