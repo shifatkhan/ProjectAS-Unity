@@ -42,7 +42,7 @@ public class EnemySun : Enemy
             && currentState != State.stagger && currentState != State.attack)
         {
             transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
-            SetCurrentState(State.move);
+            SwitchState(State.move);
         }
         else if ((Vector2.Distance(homePosition, transform.position) <= chaseDistance && Vector2.Distance(homePosition, transform.position) > attackDistance)
             && Vector2.Distance(target.position, transform.position) >= chaseDistance
@@ -50,12 +50,12 @@ public class EnemySun : Enemy
         {
             // Target is gone, so return to home position.
             transform.position = Vector2.MoveTowards(transform.position, homePosition, moveSpeed * Time.deltaTime);
-            SetCurrentState(State.move);
+            SwitchState(State.move);
         }
         else
         {
             directionalInput.x = 0;
-            SetCurrentState(State.idle);
+            SwitchState(State.idle);
         }
     }
 }

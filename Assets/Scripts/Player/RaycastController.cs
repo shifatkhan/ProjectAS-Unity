@@ -82,4 +82,9 @@ public class RaycastController : MonoBehaviour
         public Vector2 topLeft, topRight;
         public Vector2 bottomLeft, bottomRight;
     }
+
+    public LayerMask GetCollisionMask()
+    {
+        return this.collisionMask;
+    }
 }

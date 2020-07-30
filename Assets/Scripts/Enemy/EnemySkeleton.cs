@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /** This class takes care of the AI for Enemy Skeleton.
+ * 
+ * @Special thanks to Bardent (https://youtu.be/K2SbThbGw6w)
  * @author ShifatKhan
  */
 [RequireComponent(typeof(Controller2D))]
@@ -21,6 +23,8 @@ public class EnemySkeleton : Enemy
     [Header("Debug")]
     public bool showAttackRadius = true;
 
+    //-- LIFE CYCLES --------------------------------------------------------------------------------
+
     public override void Start()
     {
         base.Start();
@@ -34,24 +38,10 @@ public class EnemySkeleton : Enemy
         homePosition = gameObject.transform.position;
     }
 
-    // TODO: Separate update and fixed update functions (currently doing both in CheckDistance)
-    public override void Update()
-    {
-        //CheckDistance();
-        base.Update();
-    }
-
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-
-        if(currentState != State.dead && currentState != State.stagger)
-            CheckDistance();
-    }
-
     /** Check if target is in radius. If so, enemy follows target until it is in attack range.
      * If player is out of sight, enemy returns to initial position.
      */
+    [System.Obsolete("This Skeleton AI is being replaced by a state machine AI from Enemy.cs class")]
     void CheckDistance()
     {
         // TODO: Change distance calculation to only check for X (not position) - fixes: skeleton keeps walking even when near home position but on a different Y level.
@@ -94,14 +84,15 @@ public class EnemySkeleton : Enemy
         if (currentState != State.attack)
         {
             animator.SetTrigger("attack1");
-            SetCurrentState(State.attack);
+            base.SwitchState(State.attack);
 
             yield return new WaitForSeconds(attackSpeed);
 
-            SetCurrentState(State.idle);
+            base.SwitchState(State.idle);
         }
     }
 
+    // TODO: remove since it's not used.
     public override void UpdateState()
     {
         if(currentState != State.attack)
@@ -112,8 +103,10 @@ public class EnemySkeleton : Enemy
 
     /** Debug: Draw skelton's attack radius.
      */
-    void OnDrawGizmos()
+    public override void OnDrawGizmos()
     {
+        base.OnDrawGizmos();
+
         if (showAttackRadius)
         {
             Gizmos.color = new Color(1, 0, 0, .5f);

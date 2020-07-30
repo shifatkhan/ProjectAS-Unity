@@ -44,6 +44,11 @@ public class Player : Movement2D
     private float coyoteCounter;
     private bool jumping = false; // Fixes double jumping because of coyote time.
 
+    [Header("Hit Stop")]
+    private Shader defaultShader;
+    private Shader hitShader;
+    private bool hitStopped;
+
     [Header("iFrame vars")]
     [SerializeField] private float invulnerableDuration = 1f;
     [SerializeField] private float flashPeriod = 0.16f; // Rate at which player sprite will flash.
@@ -61,16 +66,24 @@ public class Player : Movement2D
     public InventoryObject inventory; // TODO: Serialize
     [SerializeField] protected GameEvent inventoryEvent;
 
+    private GameManager GM;
+
     public override void Start()
     {
         base.Start();
 
         dust = GetComponentInChildren<ParticleSystem>();
 
+        // Hit stop color
+        defaultShader = spriteRenderer.material.shader;
+        hitShader = Shader.Find("GUI/Text Shader"); // For all white sprite on Hit
+
         // iFrame color
         regularColor = Color.white;
         invulnerableColor = Color.white;
         invulnerableColor.a = 0.5f;
+
+        GM = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     public override void FixedUpdate()
@@ -428,12 +441,67 @@ public class Player : Movement2D
         if(currentState != State.stagger && currentState != State.attack)
         {
             animator.SetTrigger("attack1");
-            SetCurrentState(State.attack);
+            SwitchState(State.attack);
 
             yield return new WaitForSeconds(attackSpeed);
 
-            SetCurrentState(State.idle);
+            SwitchState(State.idle);
         }
+    }
+    
+    /** Makes current being knocked backwards. Used for when the being is hit.
+     * This also calls the HitStop function (if hit stop is enabled).
+     */
+    public void Damage(float damage, Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
+    {
+        if (!invulnerable)
+        {
+            // TODO: Change how hit stop is called. What if GameObject is destroyed before Time is set back to normal?
+            //      This will freeze the game. Need to call hitstop in hit animation maybe?
+            if (hitStopEnabled)
+                HitStop(hitStopDuration);
+            
+            ApplyForce(direction);
+            SwitchState(State.stagger);
+            StartCoroutine(DamageCo(knockTime));
+            TakeDamage(damage);
+        }
+    }
+
+    /** Returns the state to idle after a certain time.
+     */
+    public IEnumerator DamageCo(float knockTime)
+    {
+        yield return new WaitForSeconds(knockTime);
+        SwitchState(State.idle);
+    }
+
+    /** Applies a hit stop effect when hit by making the sprite White (flash)
+     * and stopping time.
+     * 
+     * We then call a coroutine to reset.
+     */
+    public virtual void HitStop(float duration)
+    {
+        spriteRenderer.material.shader = hitShader;
+        spriteRenderer.material.color = Color.white;
+
+        if (hitStopped)
+            return;
+        Time.timeScale = 0.0f;
+        StartCoroutine(HitWait(duration));
+    }
+
+    /** Resets the hit stop so the sprite and timeScale goes back to normal.
+     */
+    public virtual IEnumerator HitWait(float duration)
+    {
+        hitStopped = true;
+        yield return new WaitForSecondsRealtime(duration);
+        spriteRenderer.material.shader = defaultShader;
+        spriteRenderer.material.color = Color.white;
+        Time.timeScale = 1.0f;
+        hitStopped = false;
     }
 
     public void TakeDamage(float damage)
@@ -451,8 +519,7 @@ public class Player : Movement2D
                 animator.SetTrigger("dead");
 
                 // TODO: Add "death" anim and Remove this and call Die() from animation "death"
-                AudioManager.PlayDeathAudio();
-                gameObject.SetActive(false);
+                Die();
             }
         }
     }
@@ -478,18 +545,14 @@ public class Player : Movement2D
         invulnerable = false;
     }
 
-    public override void KnockBack(Vector3 direction, float knockTime)
-    {
-        if (!invulnerable)
-            base.KnockBack(direction, knockTime);
-    }
-
     /** We don't 'destroy' since it will call the garbage collector = inefficient.
     * Instead, we set the gameObject to 'inactive'.
     */
     public void Die()
     {
-        SetCurrentState(State.dead);
+        GM.Respawn();
+        StopAllCoroutines(); // Stop the knockBack coroutine
+        SwitchState(State.dead);
         AudioManager.PlayDeathAudio();
         gameObject.SetActive(false);
     }
@@ -507,7 +570,7 @@ public class Player : Movement2D
         if (Mathf.Abs(transform.position.x - lastAfterImageXPos) > distanceBetweenAfterImages
             || Mathf.Abs(transform.position.y - lastAfterImageYPos) > distanceBetweenAfterImages)
         {
-            PlayerAfterImagePool.Instance.GetFromPool(directionalInput.x < 0);
+            PlayerAfterImagePool.Instance.GetFromPool();
             lastAfterImageXPos = transform.position.x;
             lastAfterImageYPos = transform.position.y;
         }
