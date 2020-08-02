@@ -7,4 +7,7 @@ public class EnemyObject : ScriptableObject
 {
     public float wallCheckDistance = 0.2f;
     public float groundCheckDistance = 0.4f;
+
+    public float minAgroDistance = 3f;
+    public float maxAgroDistance = 4f;
 }

@@ -23,16 +23,13 @@ public class State
     public virtual void Enter()
     {
         startTime = Time.time;
-        //if(animBoolName.ToLower() != "idle")
-        //{
-        //    entity.animator.SetBool(animBoolName, true);
-        //}
-        
+        entity.animator.SetBool(animBoolName, true);
+
     }
 
     public virtual void Exit()
     {
-        //entity.animator.SetBool(animBoolName, false);
+        entity.animator.SetBool(animBoolName, false);
     }
 
     public virtual void LogicUpdate()

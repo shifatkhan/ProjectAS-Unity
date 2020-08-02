@@ -8,6 +8,7 @@ public class IdleState : State
 
     protected bool flipAfterIdle; // For when we want to keep walking straight after idle.
     protected bool isIdleTimeOver;
+    protected bool isPlayerInMinAgroRange;
 
     protected float idleTime;
 
@@ -19,9 +20,11 @@ public class IdleState : State
     public override void Enter()
     {
         base.Enter();
-        
+
         entity.SetDirectionalInput(Vector2.zero);
         isIdleTimeOver = false;
+        isPlayerInMinAgroRange = entity.CheckPlayerInMaxAgroRange();
+
         SetRandomIdleTime();
     }
 
@@ -49,6 +52,7 @@ public class IdleState : State
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     public void SetFlipAfterIdle(bool flipAfterIdle)

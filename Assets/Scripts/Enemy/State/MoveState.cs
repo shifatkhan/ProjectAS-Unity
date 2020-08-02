@@ -8,6 +8,7 @@ public class MoveState : State
 
     protected bool isDetectingWall;
     protected bool isDetectingGround;
+    protected bool isPlayerInMinAgroRange;
 
     public MoveState(Enemy entity, FiniteStateMachine stateMachine, string animBoolName, MoveStateObject stateData) : base(entity, stateMachine, animBoolName)
     {
@@ -21,6 +22,7 @@ public class MoveState : State
 
         isDetectingGround = entity.CheckGround();
         isDetectingWall = entity.CheckWall();
+        isPlayerInMinAgroRange = entity.CheckPlayerInMaxAgroRange();
     }
 
     public override void Exit()
@@ -39,5 +41,6 @@ public class MoveState : State
 
         isDetectingGround = entity.CheckGround();
         isDetectingWall = entity.CheckWall();
+        isPlayerInMinAgroRange = entity.CheckPlayerInMaxAgroRange();
     }
 }

@@ -25,7 +25,13 @@ public class Skeleton_MoveState : MoveState
     {
         base.LogicUpdate();
 
-        if (isDetectingWall || !isDetectingGround)
+        Debug.Log($"move: LogicUpdate() - playerInMin {isPlayerInMinAgroRange}");
+        if (isPlayerInMinAgroRange)
+        {
+            Debug.Log("move: PLAYER IN MIN");
+            stateMachine.ChangeState(enemy.playerDetectedState);
+        }
+        else if (isDetectingWall || !isDetectingGround)
         {
             enemy.idleState.SetFlipAfterIdle(true);
             stateMachine.ChangeState(enemy.idleState);

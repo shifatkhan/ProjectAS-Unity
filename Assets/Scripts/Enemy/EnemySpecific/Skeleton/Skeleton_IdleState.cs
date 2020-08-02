@@ -24,8 +24,12 @@ public class Skeleton_IdleState : IdleState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-
-        if (isIdleTimeOver)
+        if (isPlayerInMinAgroRange)
+        {
+            Debug.Log("idle: PLAYER IN MIN");
+            stateMachine.ChangeState(enemy.playerDetectedState);
+        }
+        else if (isIdleTimeOver)
         {
             stateMachine.ChangeState(enemy.moveState);
         }

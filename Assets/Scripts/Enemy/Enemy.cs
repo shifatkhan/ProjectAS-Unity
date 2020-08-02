@@ -37,7 +37,10 @@ public class Enemy : Entity
     [Header("AI")]
     [SerializeField] private Transform wallCheck;
     [SerializeField] private Transform groundCheck;
+    [SerializeField] private Transform playerCheck;
+
     private LayerMask groundLayerMask;
+    private LayerMask playerLayerMask;
 
     [Header("AI State machine")]
     public FiniteStateMachine stateMachine;
@@ -55,13 +58,14 @@ public class Enemy : Entity
         SetDirectionalInput(new Vector2(1,0));
 
         groundLayerMask = controller.GetCollisionMask();
+        playerLayerMask = LayerMask.GetMask("Player");
 
         stateMachine = new FiniteStateMachine();
     }
 
     public override void Update()
     {
-        base.Update();
+        //base.Update();
 
         stateMachine.currentState.LogicUpdate();
     }
@@ -75,14 +79,25 @@ public class Enemy : Entity
 
     public virtual bool CheckWall()
     {
-        return Physics2D.Raycast(wallCheck.position, transform.right, entityData.wallCheckDistance, groundLayerMask);
+        return Physics2D.Raycast(wallCheck.position, transform.right * faceDir, entityData.wallCheckDistance, groundLayerMask);
     }
 
     public virtual bool CheckGround()
     {
         return Physics2D.Raycast(groundCheck.position, Vector2.down, entityData.groundCheckDistance, groundLayerMask);
     }
-    
+
+    // TODO: FIX player detected. Doesn't work when in Move state.
+    public virtual bool CheckPlayerInMinAgroRange()
+    {
+        return Physics2D.Raycast(playerCheck.position, transform.right * faceDir, entityData.minAgroDistance, playerLayerMask);
+    }
+
+    public virtual bool CheckPlayerInMaxAgroRange()
+    {
+        return Physics2D.Raycast(playerCheck.position, transform.right * faceDir, entityData.maxAgroDistance, playerLayerMask);
+    }
+
     //-- OTHER FUNCTIONS --------------------------------------------------------------------------------
 
     /** Makes current being knocked backwards. Used for when the being is hit.
@@ -92,6 +107,8 @@ public class Enemy : Entity
     {
         // TODO: Change how hit stop is called. What if GameObject is destroyed before Time is set back to normal?
         //      This will freeze the game. Need to call hitstop in hit animation maybe?
+
+        // TODO: Turn enemy around if player attacks from behind.
 
         // Display hit effect. If player is hitting from the right, we flip the effect.
         Instantiate(hitParticle, transform.position, Quaternion.Euler(0.0f, direction.x < 0 ? 180.0f : 0.0f, Random.Range(0.0f, -90.0f)));
@@ -168,6 +185,8 @@ public class Enemy : Entity
     {
         // AI
         Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x, groundCheck.position.y - entityData.groundCheckDistance));
-        Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + entityData.wallCheckDistance, wallCheck.position.y));
+        Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + entityData.wallCheckDistance * faceDir, wallCheck.position.y));
+
+        Gizmos.DrawLine(playerCheck.position, new Vector2(playerCheck.position.x + entityData.maxAgroDistance * faceDir, playerCheck.position.y));
     }
 }

@@ -23,10 +23,12 @@ public class EnemySkeleton : Enemy
     //------------
     public Skeleton_IdleState idleState { get; private set; }
     public Skeleton_MoveState moveState { get; private set; }
+    public Skeleton_PlayerDetectedState playerDetectedState { get; private set; }
 
     [Header("States")]
     [SerializeField] private IdleStateObject idleStateData;
     [SerializeField] private MoveStateObject moveStateData;
+    [SerializeField] private PlayerDetectedObject playerDetectedData;
     //------------
 
     [Header("Debug")]
@@ -48,6 +50,7 @@ public class EnemySkeleton : Enemy
 
         moveState = new Skeleton_MoveState(this, stateMachine, "isMoving", moveStateData, this);
         idleState = new Skeleton_IdleState(this, stateMachine, "idle", idleStateData, this);
+        playerDetectedState = new Skeleton_PlayerDetectedState(this, stateMachine, "playerDetected", playerDetectedData, this);
 
         stateMachine.Initialize(moveState);
     }
