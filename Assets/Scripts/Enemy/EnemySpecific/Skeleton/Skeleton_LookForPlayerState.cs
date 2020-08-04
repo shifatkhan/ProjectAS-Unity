@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skeleton_MoveState : MoveState
+public class Skeleton_LookForPlayerState : LookForPlayerState
 {
-    public EnemySkeleton enemy;
+    private EnemySkeleton enemy;
 
-    public Skeleton_MoveState(Enemy entity, FiniteStateMachine stateMachine, string animBoolName, MoveStateObject stateData, EnemySkeleton enemy) : base(entity, stateMachine, animBoolName, stateData)
+    public Skeleton_LookForPlayerState(Enemy entity, FiniteStateMachine stateMachine, string animBoolName, LookForPlayerStateObject stateDate, EnemySkeleton enemy) : base(entity, stateMachine, animBoolName, stateDate)
     {
         this.enemy = enemy;
+    }
+
+    public override void DoChecks()
+    {
+        base.DoChecks();
     }
 
     public override void Enter()
@@ -24,15 +29,16 @@ public class Skeleton_MoveState : MoveState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        
+
         if (isPlayerInMinAgroRange)
         {
+            // If player was found.
             stateMachine.ChangeState(enemy.playerDetectedState);
         }
-        else if (isDetectingWall || !isDetectingGround)
+        else if (isAllTurnsTimeDone)
         {
-            enemy.idleState.SetFlipAfterIdle(true);
-            stateMachine.ChangeState(enemy.idleState);
+            // If no player was found.
+            stateMachine.ChangeState(enemy.moveState);
         }
     }
 

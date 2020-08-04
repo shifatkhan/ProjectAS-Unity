@@ -133,7 +133,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4335973833743051474}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: -0.3, z: 0}
+  m_LocalPosition: {x: 0.4, y: -0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6361138616171045936}
@@ -163,7 +163,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4335973834624473587}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: -0.3, z: 0}
+  m_LocalPosition: {x: 0.4, y: -0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6361138616171045936}
@@ -344,6 +344,9 @@ MonoBehaviour:
   idleStateData: {fileID: 11400000, guid: 7ca1abf9d5efa4c41937ab7d10d6731d, type: 2}
   moveStateData: {fileID: 11400000, guid: 6ac360b2e3e44a1419b5508c7b39d0ac, type: 2}
   playerDetectedData: {fileID: 11400000, guid: b4c034a48df8dfe449373686daa4d033, type: 2}
+  chargeStateData: {fileID: 11400000, guid: 53259834a47a0e64983f72869d0053a1, type: 2}
+  lookForPlayerStateData: {fileID: 11400000, guid: 47a25fa037e8c1d46afdaeeeee935d41,
+    type: 2}
   showAttackRadius: 0
 --- !u!114 &6361138615203864715
 MonoBehaviour:

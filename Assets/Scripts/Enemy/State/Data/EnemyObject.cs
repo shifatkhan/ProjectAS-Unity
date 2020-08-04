@@ -10,4 +10,6 @@ public class EnemyObject : ScriptableObject
 
     public float minAgroDistance = 3f;
     public float maxAgroDistance = 4f;
+
+    public float closeRangeActionDistance = 1.8f;
 }

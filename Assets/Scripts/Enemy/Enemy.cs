@@ -42,6 +42,8 @@ public class Enemy : Entity
     private LayerMask groundLayerMask;
     private LayerMask playerLayerMask;
 
+    public AnimationToStateMachine atsm { get; private set; }
+
     [Header("AI State machine")]
     public FiniteStateMachine stateMachine;
     public EnemyObject entityData;
@@ -59,6 +61,7 @@ public class Enemy : Entity
 
         groundLayerMask = controller.GetCollisionMask();
         playerLayerMask = LayerMask.GetMask("Player");
+        atsm = GetComponent<AnimationToStateMachine>();
 
         stateMachine = new FiniteStateMachine();
     }
@@ -86,8 +89,7 @@ public class Enemy : Entity
     {
         return Physics2D.Raycast(groundCheck.position, Vector2.down, entityData.groundCheckDistance, groundLayerMask);
     }
-
-    // TODO: FIX player detected. Doesn't work when in Move state.
+    
     public virtual bool CheckPlayerInMinAgroRange()
     {
         return Physics2D.Raycast(playerCheck.position, transform.right * faceDir, entityData.minAgroDistance, playerLayerMask);
@@ -96,6 +98,13 @@ public class Enemy : Entity
     public virtual bool CheckPlayerInMaxAgroRange()
     {
         return Physics2D.Raycast(playerCheck.position, transform.right * faceDir, entityData.maxAgroDistance, playerLayerMask);
+    }
+
+    /** Check if the player is in melee range for melee attacks or actions.
+     */
+    public virtual bool CheckPlayerInCloseRangeAction()
+    {
+        return Physics2D.Raycast(playerCheck.position, transform.right * faceDir, entityData.closeRangeActionDistance, playerLayerMask);
     }
 
     //-- OTHER FUNCTIONS --------------------------------------------------------------------------------
@@ -184,9 +193,14 @@ public class Enemy : Entity
     public virtual void OnDrawGizmos()
     {
         // AI
+        Gizmos.color = new Color(1, 1, 1, 1);
         Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x, groundCheck.position.y - entityData.groundCheckDistance));
         Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + entityData.wallCheckDistance * faceDir, wallCheck.position.y));
 
-        Gizmos.DrawLine(playerCheck.position, new Vector2(playerCheck.position.x + entityData.maxAgroDistance * faceDir, playerCheck.position.y));
+        Gizmos.color = new Color(1, 0, 0, 1);
+        //Gizmos.DrawLine(playerCheck.position, new Vector2(playerCheck.position.x + entityData.maxAgroDistance * faceDir, playerCheck.position.y));
+        Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(transform.right * faceDir * entityData.closeRangeActionDistance), 0.2f);
+        Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(transform.right * faceDir * entityData.minAgroDistance), 0.2f);
+        Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(transform.right * faceDir * entityData.maxAgroDistance), 0.2f);
     }
 }

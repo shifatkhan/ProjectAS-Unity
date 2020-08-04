@@ -25,11 +25,18 @@ public class Skeleton_PlayerDetectedState : PlayerDetectedState
     {
         base.LogicUpdate();
 
-        if (!isPlayerInMaxAgroRange)
+        if (performCloseRangeAction)
         {
-            Debug.Log("player detected: PLAYER NOT IN MAX");
-            enemy.idleState.SetFlipAfterIdle(false);
-            stateMachine.ChangeState(enemy.idleState);
+            stateMachine.ChangeState(enemy.meleeAttackState);
+
+        }
+        else if (performLongRangeAction)
+        {
+            stateMachine.ChangeState(enemy.chargeState);
+        }
+        else if (!isPlayerInMaxAgroRange)
+        {
+            stateMachine.ChangeState(enemy.lookForPlayerState);
         }
     }
 

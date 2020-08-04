@@ -24,7 +24,7 @@ public class State
     {
         startTime = Time.time;
         entity.animator.SetBool(animBoolName, true);
-
+        DoChecks();
     }
 
     public virtual void Exit()
@@ -39,11 +39,16 @@ public class State
 
     public virtual void PhysicsUpdate()
     {
-
+        DoChecks();
     }
 
     public string GetAnimBoolName()
     {
         return this.animBoolName;
+    }
+
+    public virtual void DoChecks()
+    {
+
     }
 }

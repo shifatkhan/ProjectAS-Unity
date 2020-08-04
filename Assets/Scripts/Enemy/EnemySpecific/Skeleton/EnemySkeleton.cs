@@ -24,11 +24,17 @@ public class EnemySkeleton : Enemy
     public Skeleton_IdleState idleState { get; private set; }
     public Skeleton_MoveState moveState { get; private set; }
     public Skeleton_PlayerDetectedState playerDetectedState { get; private set; }
+    public Skeleton_ChargeState chargeState { get; private set; }
+    public Skeleton_LookForPlayerState lookForPlayerState { get; private set; }
+    public Skeleton_MeleeAttackState meleeAttackState { get; private set; }
 
     [Header("States")]
     [SerializeField] private IdleStateObject idleStateData;
     [SerializeField] private MoveStateObject moveStateData;
     [SerializeField] private PlayerDetectedObject playerDetectedData;
+    [SerializeField] private ChargeStateObject chargeStateData;
+    [SerializeField] private LookForPlayerStateObject lookForPlayerStateData;
+    [SerializeField] private MeleeAttackStateObject meleeAttackStateData;
     //------------
 
     [Header("Debug")]
@@ -51,6 +57,9 @@ public class EnemySkeleton : Enemy
         moveState = new Skeleton_MoveState(this, stateMachine, "isMoving", moveStateData, this);
         idleState = new Skeleton_IdleState(this, stateMachine, "idle", idleStateData, this);
         playerDetectedState = new Skeleton_PlayerDetectedState(this, stateMachine, "playerDetected", playerDetectedData, this);
+        chargeState = new Skeleton_ChargeState(this, stateMachine, "charge", chargeStateData, this);
+        lookForPlayerState = new Skeleton_LookForPlayerState(this, stateMachine, "lookForPlayer", lookForPlayerStateData, this);
+        meleeAttackState = new Skeleton_MeleeAttackState(this, stateMachine, "attack1", meleeAttackStateData, this);
 
         stateMachine.Initialize(moveState);
     }

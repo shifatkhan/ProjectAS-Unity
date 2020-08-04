@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDetectedState : State
+public class ChargeState : State
 {
-    protected PlayerDetectedObject stateData;
+    protected ChargeStateObject stateData;
 
     protected bool isPlayerInMinAgroRange;
-    protected bool isPlayerInMaxAgroRange;
-    protected bool performLongRangeAction;
+    protected bool isDetectingGround;
+    protected bool isDetectingWall;
+    protected bool isChargeTimeOver;
     protected bool performCloseRangeAction;
 
-    public PlayerDetectedState(Enemy entity, FiniteStateMachine stateMachine, string animBoolName, PlayerDetectedObject stateData) : base(entity, stateMachine, animBoolName)
+    public ChargeState(Enemy entity, FiniteStateMachine stateMachine, string animBoolName, ChargeStateObject stateData) : base(entity, stateMachine, animBoolName)
     {
         this.stateData = stateData;
     }
@@ -20,8 +21,8 @@ public class PlayerDetectedState : State
     {
         base.DoChecks();
         isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
-        isPlayerInMaxAgroRange = entity.CheckPlayerInMaxAgroRange();
-
+        isDetectingGround = entity.CheckGround();
+        isDetectingWall = entity.CheckWall();
         performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();
     }
 
@@ -29,8 +30,9 @@ public class PlayerDetectedState : State
     {
         base.Enter();
 
-        performLongRangeAction = false;
-        entity.SetDirectionalInput(Vector2.zero);
+        isChargeTimeOver = false;
+        entity.SetMoveSpeed(stateData.chargeSpeed);
+        entity.MoveInFaceDir();
     }
 
     public override void Exit()
@@ -42,10 +44,9 @@ public class PlayerDetectedState : State
     {
         base.LogicUpdate();
 
-        // Check if we should perform long range action.
-        if(Time.time >= startTime + stateData.longRangeActionTime)
+        if(Time.time >= startTime + stateData.chargeTime)
         {
-            performLongRangeAction = true;
+            isChargeTimeOver = true;
         }
     }
 

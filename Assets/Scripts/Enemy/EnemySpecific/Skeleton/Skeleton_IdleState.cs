@@ -26,7 +26,6 @@ public class Skeleton_IdleState : IdleState
         base.LogicUpdate();
         if (isPlayerInMinAgroRange)
         {
-            Debug.Log("idle: PLAYER IN MIN");
             stateMachine.ChangeState(enemy.playerDetectedState);
         }
         else if (isIdleTimeOver)

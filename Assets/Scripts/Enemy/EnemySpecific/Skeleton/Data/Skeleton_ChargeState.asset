@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5610d1715d6aed41992b222a38b3f46, type: 3}
-  m_Name: Skeleton_BaseData
+  m_Script: {fileID: 11500000, guid: 56f80a1d965bba44590ec79b4b155b1a, type: 3}
+  m_Name: Skeleton_ChargeState
   m_EditorClassIdentifier: 
-  wallCheckDistance: 0.2
-  groundCheckDistance: 0.4
-  minAgroDistance: 3.3
-  maxAgroDistance: 4
-  closeRangeActionDistance: 0.8
+  chargeSpeed: 2
+  chargeTime: 0.5
