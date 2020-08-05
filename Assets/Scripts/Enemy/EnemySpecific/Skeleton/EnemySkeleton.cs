@@ -58,7 +58,7 @@ public class EnemySkeleton : Enemy
 
         //homePosition = gameObject.transform.position;
 
-        moveState = new Skeleton_MoveState(this, stateMachine, "isMoving", moveStateData, this);
+        moveState = new Skeleton_MoveState(this, stateMachine, "move", moveStateData, this);
         idleState = new Skeleton_IdleState(this, stateMachine, "idle", idleStateData, this);
         playerDetectedState = new Skeleton_PlayerDetectedState(this, stateMachine, "playerDetected", playerDetectedData, this);
         chargeState = new Skeleton_ChargeState(this, stateMachine, "charge", chargeStateData, this);

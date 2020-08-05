@@ -602,9 +602,9 @@ public class Player : Entity
 
         if(animator != null)
         {
-            animator.SetBool("isWallsliding", wallSliding);
+            animator.SetBool("wallslide", wallSliding);
 
-            animator.SetBool("isSprinting", isSprinting);
+            animator.SetBool("sprint", isSprinting);
         }
     }
 }

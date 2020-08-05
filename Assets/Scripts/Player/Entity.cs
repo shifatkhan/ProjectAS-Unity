@@ -179,11 +179,11 @@ public class Entity : MonoBehaviour
     {
         if (animator != null)
         {
-            animator.SetBool("isMoving", directionalInput.x != 0);
+            animator.SetBool("move", directionalInput.x != 0);
 
-            animator.SetBool("isAirborne", !controller.collisions.below);
+            animator.SetBool("airborne", !controller.collisions.below);
 
-            animator.SetBool("isStaggered", currentState == EntityState.stagger);
+            animator.SetBool("stagger", currentState == EntityState.stagger);
         }
 
         UpdateSpriteDirection();
