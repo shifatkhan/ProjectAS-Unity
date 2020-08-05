@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Skeleton_ChargeState
   m_EditorClassIdentifier: 
   chargeSpeed: 2
-  chargeTime: 0.5
+  chargeTime: 10

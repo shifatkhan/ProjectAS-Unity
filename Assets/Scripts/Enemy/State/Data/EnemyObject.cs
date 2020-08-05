@@ -12,4 +12,9 @@ public class EnemyObject : ScriptableObject
     public float maxAgroDistance = 4f;
 
     public float closeRangeActionDistance = 1.8f;
+
+    public float stunResistance = 3f; // How many hits until stunned.
+    public float stunRecoveryTime = 2f;
+
+    public GameObject hitParticle;
 }

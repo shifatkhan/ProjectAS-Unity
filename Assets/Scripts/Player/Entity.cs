@@ -118,7 +118,7 @@ public class Entity : MonoBehaviour
         this.moveSpeed = moveSpeed;
     }
 
-    /** Applies a directional forced to the being's body.
+    /** Applies a directional forced to the entity's body.
      */
     public virtual void ApplyForce(Vector3 direction)
     {

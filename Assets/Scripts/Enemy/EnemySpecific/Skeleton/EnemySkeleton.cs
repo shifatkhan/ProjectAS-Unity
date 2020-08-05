@@ -27,6 +27,8 @@ public class EnemySkeleton : Enemy
     public Skeleton_ChargeState chargeState { get; private set; }
     public Skeleton_LookForPlayerState lookForPlayerState { get; private set; }
     public Skeleton_MeleeAttackState meleeAttackState { get; private set; }
+    public Skeleton_StunState stunState { get; private set; }
+    public Skeleton_DeadState deadState { get; private set; }
 
     [Header("States")]
     [SerializeField] private IdleStateObject idleStateData;
@@ -35,6 +37,8 @@ public class EnemySkeleton : Enemy
     [SerializeField] private ChargeStateObject chargeStateData;
     [SerializeField] private LookForPlayerStateObject lookForPlayerStateData;
     [SerializeField] private MeleeAttackStateObject meleeAttackStateData;
+    [SerializeField] private StunStateObject stunStateData;
+    [SerializeField] private DeadStateObject deadStateData;
     //------------
 
     [Header("Debug")]
@@ -60,6 +64,8 @@ public class EnemySkeleton : Enemy
         chargeState = new Skeleton_ChargeState(this, stateMachine, "charge", chargeStateData, this);
         lookForPlayerState = new Skeleton_LookForPlayerState(this, stateMachine, "lookForPlayer", lookForPlayerStateData, this);
         meleeAttackState = new Skeleton_MeleeAttackState(this, stateMachine, "attack1", meleeAttackStateData, this);
+        stunState = new Skeleton_StunState(this, stateMachine, "stun", stunStateData, this);
+        deadState = new Skeleton_DeadState(this, stateMachine, "dead", deadStateData, this);
 
         stateMachine.Initialize(moveState);
     }
@@ -102,6 +108,20 @@ public class EnemySkeleton : Enemy
         if (controller.collisions.below)
         {
             velocity.y = maxJumpVelocity;
+        }
+    }
+
+    public override void Damage(float damage, Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
+    {
+        base.Damage(damage, direction, knockTime, hitStopEnabled, hitStopDuration);
+
+        if (isDead)
+        {
+            stateMachine.ChangeState(deadState);
+        }
+        else if (isStunned && stateMachine.currentState != stunState)
+        {
+            stateMachine.ChangeState(stunState);
         }
     }
 

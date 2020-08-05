@@ -38,6 +38,11 @@ public class Skeleton_PlayerDetectedState : PlayerDetectedState
         {
             stateMachine.ChangeState(enemy.lookForPlayerState);
         }
+        else if (!isDetectingGround)
+        {
+            entity.FlipDirectionalInput();
+            stateMachine.ChangeState(enemy.moveState);
+        }
     }
 
     public override void PhysicsUpdate()

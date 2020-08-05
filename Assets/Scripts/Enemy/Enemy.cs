@@ -17,6 +17,11 @@ public class Enemy : Entity
     [SerializeField] protected int attackDamage = 1;
     [SerializeField] protected float attackSpeed = 0f;
 
+    protected float currentStunResistance;
+    protected float lastDamageTime;
+    protected bool isStunned;
+    protected bool isDead;
+
     [Header("Hit")]
     public bool enableDeathParticle;
     public bool enableDeathAnimation;
@@ -52,9 +57,11 @@ public class Enemy : Entity
     {
         base.Start();
 
-        //// Hit
-        //defaultShader = spriteRenderer.material.shader;
-        //hitShader = Shader.Find("GUI/Text Shader"); // For all white sprite on Hit
+        currentStunResistance = entityData.stunResistance;
+
+        // Hit
+        defaultShader = spriteRenderer.material.shader;
+        hitShader = Shader.Find("GUI/Text Shader"); // For all white sprite on Hit
 
         // AI
         SetDirectionalInput(new Vector2(1,0));
@@ -71,6 +78,12 @@ public class Enemy : Entity
         //base.Update();
 
         stateMachine.currentState.LogicUpdate();
+
+        // Check if enemy was hit fast enough or not for stun.
+        if(Time.time >= lastDamageTime + entityData.stunRecoveryTime)
+        {
+            ResetStunResistance();
+        }
     }
 
     public override void FixedUpdate()
@@ -112,7 +125,7 @@ public class Enemy : Entity
     /** Makes current being knocked backwards. Used for when the being is hit.
      * This also calls the HitStop function (if hit stop is enabled).
      */
-    public void Damage(float damage, Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
+    public virtual void Damage(float damage, Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
     {
         // TODO: Change how hit stop is called. What if GameObject is destroyed before Time is set back to normal?
         //      This will freeze the game. Need to call hitstop in hit animation maybe?
@@ -120,13 +133,26 @@ public class Enemy : Entity
         // TODO: Turn enemy around if player attacks from behind.
 
         // Display hit effect. If player is hitting from the right, we flip the effect.
-        Instantiate(hitParticle, transform.position, Quaternion.Euler(0.0f, direction.x < 0 ? 180.0f : 0.0f, Random.Range(0.0f, -90.0f)));
+        Instantiate(entityData.hitParticle, transform.position, Quaternion.Euler(0.0f, direction.x < 0 ? 180.0f : 0.0f, Random.Range(0.0f, -90.0f)));
 
         if (hitStopEnabled)
             HitStop(hitStopDuration);
 
+        // Apply knock back force.
         this.hitDirection = direction;
         this.knockTime = knockTime;
+
+        // Stun
+        lastDamageTime = Time.time;
+        currentStunResistance--;
+        
+        if (currentStunResistance <= 0)
+        {
+            isStunned = true;
+        }
+
+        ApplyForce(direction);
+        StartCoroutine(DamageCo(knockTime));
 
         TakeDamage(damage);
     }
@@ -167,6 +193,12 @@ public class Enemy : Entity
         hitStopped = false;
     }
 
+    public virtual void ResetStunResistance()
+    {
+        isStunned = false;
+        currentStunResistance = entityData.stunResistance;
+    }
+
     public void TakeDamage(float damage)
     {
         currentHealth.RuntimeValue -= damage;
@@ -177,6 +209,8 @@ public class Enemy : Entity
         else
         {
             SwitchState(EntityState.dead);
+            Time.timeScale = 1.0f;
+            isDead = true;
         }
     }
 
@@ -185,6 +219,7 @@ public class Enemy : Entity
      */
     public void Die()
     {
+        Time.timeScale = 1.0f;
         gameObject.SetActive(false);
     }
 

@@ -17,3 +17,7 @@ MonoBehaviour:
   minAgroDistance: 3.3
   maxAgroDistance: 4
   closeRangeActionDistance: 0.8
+  stunResistance: 3
+  stunRecoveryTime: 2
+  hitParticle: {fileID: 9018263298331118960, guid: b03def420aee98d4d82c6f222c5e538f,
+    type: 3}
