@@ -350,6 +350,8 @@ MonoBehaviour:
     type: 2}
   meleeAttackStateData: {fileID: 11400000, guid: 3ebc5266c5008dd4f8af9dbf8efa643e,
     type: 2}
+  stunStateData: {fileID: 11400000, guid: 1f421d0808174894a90ce13081035b38, type: 2}
+  deadStateData: {fileID: 11400000, guid: ce267cfc690c4b2438ed7ab1b9f5e614, type: 2}
   showAttackRadius: 0
 --- !u!114 &6361138615203864715
 MonoBehaviour:

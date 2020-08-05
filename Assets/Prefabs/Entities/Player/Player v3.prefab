@@ -224,7 +224,7 @@ MonoBehaviour:
   knockTime: 0.2
   damage: 1
   hitStopEnabled: 1
-  hitStopDuration: 0.1
+  hitStopDuration: 1
 --- !u!1 &6127249646400641012
 GameObject:
   m_ObjectHideFlags: 0
