@@ -6,6 +6,9 @@ public class DeadState : State
 {
     protected DeadStateObject stateData;
 
+    public bool enableDeathParticle;
+    public bool enableDeathAnimation;
+
     public DeadState(Enemy entity, FiniteStateMachine stateMachine, string animBoolName, DeadStateObject stateData) : base(entity, stateMachine, animBoolName)
     {
         this.stateData = stateData;
