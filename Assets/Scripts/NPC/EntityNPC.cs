@@ -27,17 +27,13 @@ public class EntityNPC : Entity
     public bool enableDeathParticle;
     public bool enableDeathAnimation;
 
-    [SerializeField] private GameObject hitParticle;
-    [SerializeField] private GameObject deathChunkParticle;
-    [SerializeField] private GameObject deathBloodParticle;
-
     [SerializeField] private Color deathChunkColor;
     [SerializeField] private Color deathBloodColor;
 
     private Shader defaultShader; // Default color
     private Shader hitShader; // Color when hit
     private bool hitStopped; // Whether time is stopped or not
-    private Vector3 hitDirection; // Direction at which to be knocked back
+    public Vector3 hitDirection { get; private set; } // Direction at which to be knocked back
     private float knockTime; // Time Length of knockback
 
     [Header("AI checks")]

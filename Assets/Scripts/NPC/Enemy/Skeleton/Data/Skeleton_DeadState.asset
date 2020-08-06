@@ -16,3 +16,5 @@ MonoBehaviour:
     type: 3}
   deathBloodParticle: {fileID: 3544970903853184531, guid: e37f452802f50684c88e8ba16f0196b7,
     type: 3}
+  deathChunkColor: {r: 0.95294124, g: 0.909804, b: 0.8235295, a: 1}
+  deathBloodColor: {r: 0.3803922, g: 0.36862746, b: 0.43921572, a: 1}
