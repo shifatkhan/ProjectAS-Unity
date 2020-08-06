@@ -555,6 +555,11 @@ public class Player : Entity
         AudioManager.PlayDeathAudio();
         gameObject.SetActive(false);
     }
+
+    private void NewCheckpointAcquired()
+    {
+        // TODO: Set Game Manager's respawn point to the checkpoint's position.
+    }
     
     /** This is mainly used by Animation Events since we can't call other game object's
      * functions through the animation event.
