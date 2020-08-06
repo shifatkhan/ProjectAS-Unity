@@ -78,7 +78,7 @@ public class D_Inventory : ScriptableObject
 public class InventorySlot
 {
     public D_Item item;
-    public int amount; // TODO: Move amount into D_Item?
+    public int amount;
 
     public InventorySlot(D_Item item, int amount)
     {

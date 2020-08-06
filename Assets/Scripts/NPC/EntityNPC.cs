@@ -90,6 +90,8 @@ public class EntityNPC : Entity
         stateMachine.currentState.PhysicsUpdate();
     }
 
+    // -- CHECKS ----------------------------------------------------------------------------------------------------------------
+    
     public virtual bool CheckWall()
     {
         return Physics2D.Raycast(wallCheck.position, transform.right * faceDir, entityData.wallCheckDistance, groundLayerMask);
@@ -117,12 +119,18 @@ public class EntityNPC : Entity
         return Physics2D.Raycast(playerCheck.position, transform.right * faceDir, entityData.closeRangeActionDistance, playerLayerMask);
     }
 
+    // -- DAMAGE ----------------------------------------------------------------------------------------------------------------
+
     /** Makes current being knocked backwards. Used for when the being is hit.
      * This also calls the HitStop function (if hit stop is enabled).
      */
     public virtual void Damage(float damage, Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
     {
-        // TODO: Turn enemy around if player attacks from behind.
+        // Turn enemy around if player attacks from behind.
+        if (direction.x > 0)
+            SetDirectionalInput(Vector2.left);
+        else
+            SetDirectionalInput(Vector2.right);
 
         // Display hit effect. If player is hitting from the right, we flip the effect.
         Instantiate(entityData.hitParticle, transform.position, Quaternion.Euler(0.0f, direction.x < 0 ? 180.0f : 0.0f, Random.Range(0.0f, -90.0f)));
@@ -191,7 +199,7 @@ public class EntityNPC : Entity
         currentStunResistance = entityData.stunResistance;
     }
 
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
         currentHealth.RuntimeValue -= damage;
         if(currentHealth.RuntimeValue > 0)
@@ -219,11 +227,13 @@ public class EntityNPC : Entity
     /** We don't 'destroy' since it will call the garbage collector = inefficient.
      * Instead, we set the gameObject to 'inactive'.
      */
-    public void Die()
+    public virtual void Die()
     {
         Time.timeScale = 1.0f;
         gameObject.SetActive(false);
     }
+
+    // -- OTHER ----------------------------------------------------------------------------------------------------------------
 
     /** Debug: Draw checks
      */

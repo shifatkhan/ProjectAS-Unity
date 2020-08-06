@@ -16,7 +16,6 @@ public class Interactable : MonoBehaviour
 
     public virtual void OnInteract()
     {
-        // TODO: Maybe use 'Interface' instead of class
     }
 
     private void OnTriggerEnter2D(Collider2D other)

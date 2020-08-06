@@ -33,6 +33,7 @@ public class EnemySkeleton : EntityNPC
     {
         base.Start();
 
+        // Initialize states.
         moveState = new Skeleton_MoveState(this, stateMachine, "move", moveStateData, this);
         idleState = new Skeleton_IdleState(this, stateMachine, "idle", idleStateData, this);
         playerDetectedState = new Skeleton_PlayerDetectedState(this, stateMachine, "playerDetected", playerDetectedData, this);
@@ -69,6 +70,8 @@ public class EnemySkeleton : EntityNPC
         }
     }
 
+    // TODO: Move attackSpeed into Skeleton_MeleeAttackState.
+    [System.Obsolete("This function has been replaced by 'Skeleton_MeleeAttackState'")]
     public IEnumerator AttackCo()
     {
         if (currentState != EntityState.attack)

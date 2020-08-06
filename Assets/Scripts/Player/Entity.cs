@@ -4,7 +4,7 @@ using UnityEngine;
 
 /** This class takes care of calculating the gravity and movement of a 2d Platformer entity.
  * This is mostly used for beings that are grounded (the player, humans, skeletons, etc.)
- * Not for flying entities e.g.: birds, helicopters, etc.
+ * Might need to override all functions if used for flying entities (birds, helicopters, etc.)
  * @author ShifatKhan
  */
 public enum EntityState
@@ -71,6 +71,8 @@ public class Entity : MonoBehaviour
         Move();
     }
 
+    // -- MOVEMENT ----------------------------------------------------------------------------------------------------------------
+
     /** Returns bool stating whether Being is grounded or not.
      */
     public bool IsGrounded()
@@ -125,6 +127,8 @@ public class Entity : MonoBehaviour
         velocity = direction;
     }
 
+    // -- UPDATE DIRECTION ----------------------------------------------------------------------------------------------------------------
+
     /** Takes in input and assigns it.
     */
     public virtual void SetDirectionalInput(Vector2 input)
@@ -165,6 +169,8 @@ public class Entity : MonoBehaviour
         if (currentState != newState)
             currentState = newState;
     }
+
+    // -- UPDATE VISUALS ----------------------------------------------------------------------------------------------------------------
 
     /** Updates being's state based on whether it is moving or not.
      */
@@ -214,8 +220,7 @@ public class Entity : MonoBehaviour
             {
                 spriteRenderer.flipX = true;
             }
-
-            // TODO: Change approach since we might want some children not to change.
+            
             // Flip CHILD gameObjects according to where the gameobject is facing.
             for (int i = 0; i < transform.childCount; i++)
             {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /** This class takes care of the AI for EntityNPC Sun.
- * TODO: Find a better way to handle flying enemies.
+ * 
  * @author ShifatKhan
  */
 [RequireComponent(typeof(Controller2D))]

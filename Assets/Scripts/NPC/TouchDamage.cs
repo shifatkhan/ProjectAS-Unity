@@ -11,9 +11,8 @@ public class TouchDamage : KnockBack
     {
         lastTouchDamageTime = Time.time;
     }
-
-    // TODO: Maybe use OnTriggerStay2D instead to fix Player not taking damage when already in hit box.
-    public override void OnTriggerEnter2D(Collider2D other)
+    
+    public void OnTriggerStay2D(Collider2D other)
     {
         if (Time.time >= lastTouchDamageTime + touchDamageCooldown)
         {

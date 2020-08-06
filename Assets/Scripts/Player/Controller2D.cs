@@ -8,8 +8,6 @@ using UnityEngine;
  */
 public class Controller2D : RaycastController
 {
-    // TODO: Change visibility of variables.
-
     float maxClimbAngle = 80; // Up to which angle player can climb slope.
     float maxDescendAngle = 75;
 

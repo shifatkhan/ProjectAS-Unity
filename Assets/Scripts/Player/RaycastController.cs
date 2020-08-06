@@ -9,12 +9,10 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class RaycastController : MonoBehaviour
 {
-    // TODO: Change visibility of variables.
     [SerializeField] protected LayerMask collisionMask; // Which objects to collide with.
 
     protected const float skinWidth = .015f;
-
-    // TODO: Make this a CONSTANT
+    
     protected float dstBetweenRays = .1f; // Specify spacing between each rays.
 
     [HideInInspector]

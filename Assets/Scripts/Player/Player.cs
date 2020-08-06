@@ -456,8 +456,6 @@ public class Player : Entity
     {
         if (!invulnerable)
         {
-            // TODO: Change how hit stop is called. What if GameObject is destroyed before Time is set back to normal?
-            //      This will freeze the game. Need to call hitstop in hit animation maybe?
             if (hitStopEnabled)
                 HitStop(hitStopDuration);
             
@@ -550,6 +548,7 @@ public class Player : Entity
     */
     public void Die()
     {
+        Time.timeScale = 1.0f;
         GM.Respawn();
         StopAllCoroutines(); // Stop the knockBack coroutine
         SwitchState(EntityState.dead);
