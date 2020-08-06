@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    public ItemObject item;
+    public D_Item item;
     public int amount = 1;
 
     public TextMeshPro amountText;

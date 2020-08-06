@@ -17,9 +17,9 @@ public class DialogueSystem : Interactable
     private Image portrait;
     private GameObject name;
 
-    public DialogueObject startDialogue;        // The Dialogue data to display
-    private DialogueObject responseDialogue;    // Resulting Dialogue from a response
-    private DialogueObject currentDialogue;
+    public D_Dialogue startDialogue;        // The Dialogue data to display
+    private D_Dialogue responseDialogue;    // Resulting Dialogue from a response
+    private D_Dialogue currentDialogue;
     private int currentDialogueIndex = 0;       // The Dialogue index
 
     private Color showDialogueColor;
@@ -72,7 +72,7 @@ public class DialogueSystem : Interactable
                 textMeshAnimator.text = currentDialogue.dialogue[currentDialogueIndex];
                 textToType = textMesh.text;
                 textMesh.text = "";
-                Debug.Log("TEXT LENGTH: "+ textToType.Length);
+                //Debug.Log("TEXT LENGTH: "+ textToType.Length);
                 ShowDialogueBox();
 
                 StopAllCoroutines(); // Stop previous typewriter.
@@ -200,10 +200,10 @@ public class DialogueSystem : Interactable
         currentDialogue = GetCurrentDialogue();
         
         string buttonPressed = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TextMeshProUGUI>().text;
-        ResponseObject selectedResponse = null;
+        D_Response selectedResponse = null;
 
         // Find response object with same text value.
-        foreach (ResponseObject response in currentDialogue.responseOptions)
+        foreach (D_Response response in currentDialogue.responseOptions)
         {
             if (response.responseText == buttonPressed)
             {
@@ -225,7 +225,7 @@ public class DialogueSystem : Interactable
      * Response Dialogue means a dialogue to show after the player chose
      * a response option.
      */
-    private DialogueObject GetCurrentDialogue()
+    private D_Dialogue GetCurrentDialogue()
     {
         return responsePressed ? responseDialogue : startDialogue;
     }

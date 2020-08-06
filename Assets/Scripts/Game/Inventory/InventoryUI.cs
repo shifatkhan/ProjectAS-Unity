@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
-    public InventoryObject inventory;
+    public D_Inventory inventory;
 
     [SerializeField]
     public GameObject inventorySlotTemplate;
@@ -37,7 +37,7 @@ public class InventoryUI : MonoBehaviour
 
     /** Event to remove item when it is Right-clicked.
      */
-    public void OnClickRemoveItem(ItemObject item, int amount)
+    public void OnClickRemoveItem(D_Item item, int amount)
     {
         inventory.RemoveItem(item, amount);
         DropItem(item, amount);
@@ -49,7 +49,7 @@ public class InventoryUI : MonoBehaviour
      * of said item.
      * This function will use a small factory design pattern to drop the appropriate item.
      */
-    private void DropItem(ItemObject item, int amount)
+    private void DropItem(D_Item item, int amount)
     {
         GameObject itemToDrop = item.itemPrefab;
         itemToDrop.GetComponent<Item>().amount = amount;

@@ -63,7 +63,7 @@ public class Player : Entity
     private float lastAfterImageYPos;
     
     [Header("Inventory system")]
-    public InventoryObject inventory; // TODO: Serialize
+    public D_Inventory inventory; // TODO: Serialize
     [SerializeField] protected GameEvent inventoryEvent;
 
     private GameManager GM;

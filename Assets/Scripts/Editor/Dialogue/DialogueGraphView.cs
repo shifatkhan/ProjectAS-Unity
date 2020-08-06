@@ -92,12 +92,12 @@ public class DialogueGraphView : GraphView
         {
             //title = nodeName,
             dialogueText = nodeName,
-            dialogueObject = new DialogueObject(),
+            dialogueObject = new D_Dialogue(),
             endPoint = true,
             GUID = Guid.NewGuid().ToString(),
         };
         dialogueNode.dialogueObject.dialogue = new List<string>();
-        dialogueNode.dialogueObject.responseOptions = new List<ResponseObject>();
+        dialogueNode.dialogueObject.responseOptions = new List<D_Response>();
         dialogueNode.dialogueObject.GUID = dialogueNode.GUID;
         dialogueNode.dialogueObject.dialogueID = nodeName + "DO";
 
@@ -155,7 +155,7 @@ public class DialogueGraphView : GraphView
     public void AddChoicePort(DialogueNode dialogueNode, string overridenPortName = "")
     {
         Port generatedPort = GeneratePort(dialogueNode, Direction.Output, Port.Capacity.Single);
-        ResponseObject responseObject = new ResponseObject();
+        D_Response responseObject = new D_Response();
 
         int outputPortCount = dialogueNode.outputContainer.Query("connector").ToList().Count;
 

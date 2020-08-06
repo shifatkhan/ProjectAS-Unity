@@ -14,7 +14,7 @@ public class DialogueNode : Node
 
     public string dialogueText;
 
-    public DialogueObject dialogueObject;
+    public D_Dialogue dialogueObject;
 
     public bool entryPoint = false; // Is this the START node or not.
 

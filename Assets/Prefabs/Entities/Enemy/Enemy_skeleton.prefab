@@ -184,7 +184,6 @@ GameObject:
   - component: {fileID: 6361138615203864714}
   - component: {fileID: 6361138615203864715}
   - component: {fileID: 2477367}
-  - component: {fileID: 1622930544}
   m_Layer: 9
   m_Name: Enemy_skeleton
   m_TagString: Enemy
@@ -338,10 +337,6 @@ MonoBehaviour:
   groundCheck: {fileID: 4335973834624473586}
   playerCheck: {fileID: 995027792}
   entityData: {fileID: 11400000, guid: 4245bc876bfb5e644944b07038c37ea6, type: 2}
-  chaseDistance: 6
-  attackDistance: 0.8
-  target: {fileID: 0}
-  homePosition: {x: 0, y: 0, z: 0}
   idleStateData: {fileID: 11400000, guid: 7ca1abf9d5efa4c41937ab7d10d6731d, type: 2}
   moveStateData: {fileID: 11400000, guid: 6ac360b2e3e44a1419b5508c7b39d0ac, type: 2}
   playerDetectedData: {fileID: 11400000, guid: b4c034a48df8dfe449373686daa4d033, type: 2}
@@ -352,7 +347,6 @@ MonoBehaviour:
     type: 2}
   stunStateData: {fileID: 11400000, guid: 1f421d0808174894a90ce13081035b38, type: 2}
   deadStateData: {fileID: 11400000, guid: ce267cfc690c4b2438ed7ab1b9f5e614, type: 2}
-  showAttackRadius: 0
 --- !u!114 &6361138615203864715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,15 +388,3 @@ MonoBehaviour:
   hitStopDuration: 0.1
   lastTouchDamageTime: 0
   touchDamageCooldown: 0
---- !u!114 &1622930544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6361138616171045938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2ab079805184a54b943e81aaed57be1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

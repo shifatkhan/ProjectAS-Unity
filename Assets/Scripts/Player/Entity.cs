@@ -20,14 +20,14 @@ public enum EntityState
 public class Entity : MonoBehaviour
 {
     [Header("Movement")]
+    [SerializeField] protected float moveSpeed = 6;
+
     protected float maxJumpHeight = 2.5f; // Max height a jump can attain.
     protected float minJumpHeight = 0.5f;
     protected float timeToJumpApex = .35f; // How long (seconds) before reaching jumpHeight.
 
     protected float accelerationTimeAirborne = .2f;
     protected float accelerationTimeGrounded = .1f;
-
-    [SerializeField] protected float moveSpeed = 6;
 
     protected float gravity;
     protected float maxJumpVelocity;
