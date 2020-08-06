@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &995027791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 995027792}
+  m_Layer: 9
+  m_Name: Player Check
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &995027792
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995027791}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.1, y: -0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6361138616171045936}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1827248480
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +133,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4335973833743051474}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: -0.3, z: 0}
+  m_LocalPosition: {x: 0.4, y: -0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6361138616171045936}
@@ -133,7 +163,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4335973834624473587}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: -0.3, z: 0}
+  m_LocalPosition: {x: 0.4, y: -0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6361138616171045936}
@@ -175,6 +205,7 @@ Transform:
   - {fileID: 1827248481}
   - {fileID: 4335973834624473586}
   - {fileID: 4335973833743051469}
+  - {fileID: 995027792}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -286,6 +317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
+  directionalInput: {x: 0, y: 0}
   currentState: 0
   currentHealth: {fileID: 11400000, guid: a8d0d5261e6ba6a499497ccc3ec00351, type: 2}
   enemyName: Skeleton
@@ -301,15 +333,20 @@ MonoBehaviour:
     type: 3}
   deathChunkColor: {r: 1, g: 1, b: 1, a: 1}
   deathBloodColor: {r: 0.3803922, g: 0.36862746, b: 0.43921572, a: 1}
-  groundCheck: {fileID: 4335973834624473586}
   wallCheck: {fileID: 4335973833743051469}
-  groundCheckDistance: 0.5
-  wallCheckDistance: 0.2
-  chaseDistance: 6
-  attackDistance: 0.8
-  target: {fileID: 0}
-  homePosition: {x: 0, y: 0, z: 0}
-  showAttackRadius: 0
+  groundCheck: {fileID: 4335973834624473586}
+  playerCheck: {fileID: 995027792}
+  entityData: {fileID: 11400000, guid: 4245bc876bfb5e644944b07038c37ea6, type: 2}
+  idleStateData: {fileID: 11400000, guid: 7ca1abf9d5efa4c41937ab7d10d6731d, type: 2}
+  moveStateData: {fileID: 11400000, guid: 6ac360b2e3e44a1419b5508c7b39d0ac, type: 2}
+  playerDetectedData: {fileID: 11400000, guid: b4c034a48df8dfe449373686daa4d033, type: 2}
+  chargeStateData: {fileID: 11400000, guid: 53259834a47a0e64983f72869d0053a1, type: 2}
+  lookForPlayerStateData: {fileID: 11400000, guid: 47a25fa037e8c1d46afdaeeeee935d41,
+    type: 2}
+  meleeAttackStateData: {fileID: 11400000, guid: 3ebc5266c5008dd4f8af9dbf8efa643e,
+    type: 2}
+  stunStateData: {fileID: 11400000, guid: 1f421d0808174894a90ce13081035b38, type: 2}
+  deadStateData: {fileID: 11400000, guid: ce267cfc690c4b2438ed7ab1b9f5e614, type: 2}
 --- !u!114 &6361138615203864715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,7 +367,7 @@ MonoBehaviour:
   horizontalRaySpacing: 0
   verticalRaySpacing: 0
   boxCollider2D: {fileID: 0}
-  showRaycast: 1
+  showRaycast: 0
   playerInput: {x: 0, y: 0}
 --- !u!114 &2477367
 MonoBehaviour:

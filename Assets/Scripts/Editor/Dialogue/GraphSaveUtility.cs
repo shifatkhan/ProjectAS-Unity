@@ -54,7 +54,7 @@ public class GraphSaveUtility
         }
 
         // TODO: Delete. Testing for dialogueobject saving and modifying after saving.
-        //DialogueObject d = new DialogueObject();
+        //D_Dialogue d = new D_Dialogue();
         //d.dialogue = new List<string>();
         //d.dialogue.Add("TEXT1");
         //d.dialogue.Add("TEXT2");
@@ -80,7 +80,7 @@ public class GraphSaveUtility
         //AssetDatabase.AddObjectToAsset(no, d);
 
         //yes.responseText = "HECK YEA";
-        //d = new DialogueObject() // COMPLETELY NEW -- PERFECT
+        //d = new D_Dialogue() // COMPLETELY NEW -- PERFECT
         //{
         //    dialogue = new List<string>() { "CHANGED" }
         //};
@@ -126,14 +126,14 @@ public class GraphSaveUtility
             DialogueNode inputNode = connectedPorts[i].input.node as DialogueNode;
 
             //TODO: TESTING
-            DialogueObject inputDO = inputNode.dialogueObject;
-            DialogueObject outputDO = outputNode.dialogueObject;
+            D_Dialogue inputDO = inputNode.dialogueObject;
+            D_Dialogue outputDO = outputNode.dialogueObject;
             Debug.Log($"Found {outputDO.responseOptions.Count()} choices");
-            foreach(ResponseObject r in outputDO.responseOptions)
+            foreach(D_Response r in outputDO.responseOptions)
             {
                 Debug.Log($"\tr: {r.responseText}");
             }
-            ResponseObject outputRO = outputDO.responseOptions[int.Parse(connectedPorts[i].output.portName)-1];
+            D_Response outputRO = outputDO.responseOptions[int.Parse(connectedPorts[i].output.portName)-1];
             outputRO.dialogueObject = inputNode.dialogueObject;
 
             if (AssetDatabase.Contains(inputDO))
