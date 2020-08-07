@@ -16,6 +16,8 @@ public class EnemyArcher : EntityNPC
     public Archer_LookForPlayerState lookForPlayerState { get; private set; }
     public Archer_StunState stunState { get; private set; }
     public Archer_DeadState deadState { get; private set; }
+    public Archer_DodgeState dodgeState { get; private set; }
+    public Archer_RangedAttackState rangedAttackState { get; private set; }
 
     [Header("States")]
     [SerializeField] private D_MoveState moveStateData;
@@ -25,6 +27,8 @@ public class EnemyArcher : EntityNPC
     [SerializeField] private D_LookForPlayerState lookForPlayerStateData;
     [SerializeField] private D_StunState stunStateData;
     [SerializeField] private D_DeadState deadStateData;
+    [SerializeField] private D_DodgeState dodgeStateData;
+    [SerializeField] private D_RangedAttackState rangedAttackStateData;
 
     public override void Start()
     {
@@ -38,6 +42,8 @@ public class EnemyArcher : EntityNPC
         lookForPlayerState = new Archer_LookForPlayerState(this, stateMachine, "lookForPlayer", lookForPlayerStateData, this);
         stunState = new Archer_StunState(this, stateMachine, "stun", stunStateData, this);
         deadState = new Archer_DeadState(this, stateMachine, "dead", deadStateData, this);
+        dodgeState = new Archer_DodgeState(this, stateMachine, "dodge", dodgeStateData, this);
+        rangedAttackState = new Archer_RangedAttackState(this, stateMachine, "rangedAttack", rangedAttackStateData, this);
 
         stateMachine.Initialize(moveState);
     }
@@ -54,5 +60,19 @@ public class EnemyArcher : EntityNPC
         {
             stateMachine.ChangeState(stunState);
         }
+        else if (CheckPlayerInMinAgroRange())
+        {
+            stateMachine.ChangeState(rangedAttackState);
+        }
+        else if (!CheckPlayerInMinAgroRange())
+        {
+            lookForPlayerState.SetTurnImmediately(true);
+            stateMachine.ChangeState(lookForPlayerState);
+        }
+    }
+
+    public float GetDodgeCooldown()
+    {
+        return dodgeStateData.dodgeCooldown;
     }
 }

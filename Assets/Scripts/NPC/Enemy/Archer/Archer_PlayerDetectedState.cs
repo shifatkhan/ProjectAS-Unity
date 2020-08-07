@@ -32,7 +32,18 @@ public class Archer_PlayerDetectedState : PlayerDetectedState
 
         if (performCloseRangeAction)
         {
-            stateMachine.ChangeState(enemy.meleeAttackState);
+            if(Time.time >= enemy.dodgeState.startTime + enemy.GetDodgeCooldown())
+            {
+                stateMachine.ChangeState(enemy.dodgeState);
+            }
+            else
+            {
+                stateMachine.ChangeState(enemy.meleeAttackState);
+            }
+        }
+        else if (performLongRangeAction)
+        {
+            stateMachine.ChangeState(enemy.rangedAttackState);
         }
         else if (!isPlayerInMaxAgroRange)
         {

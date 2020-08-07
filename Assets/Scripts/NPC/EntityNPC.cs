@@ -65,9 +65,10 @@ public class EntityNPC : Entity
     public override void Update()
     {
         stateMachine.currentState.LogicUpdate();
+        animator.SetFloat("yVelocity", velocity.y);
 
         // Check if enemy was hit fast enough or not for stun.
-        if(Time.time >= lastDamageTime + entityData.stunRecoveryTime)
+        if (Time.time >= lastDamageTime + entityData.stunRecoveryTime)
         {
             ResetStunResistance();
         }

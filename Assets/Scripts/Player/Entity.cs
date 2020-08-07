@@ -33,6 +33,7 @@ public class Entity : MonoBehaviour
     protected float maxJumpVelocity;
     protected float minJumpVelocity;
     protected Vector3 velocity;
+    private Vector2 velocityWorkspace; // Used as a temporary velocity to replace current velocity.
     protected float velocityXSmoothing;
 
     protected Controller2D controller;
@@ -120,11 +121,26 @@ public class Entity : MonoBehaviour
         this.moveSpeed = moveSpeed;
     }
 
-    /** Applies a directional forced to the entity's body.
+    /** Applies a fixed directional forced to the entity's body.
      */
     public virtual void ApplyForce(Vector3 direction)
     {
         velocity = direction;
+    }
+
+    public virtual void SetVelocity(float force)
+    {
+        velocityWorkspace.Set(faceDir * force, velocity.y);
+        velocity = velocityWorkspace;
+    }
+
+    /** A more sophisticated way of applying force to our body.
+     */
+    public virtual void SetVelocity(float force, Vector2 angle, int direction)
+    {
+        angle.Normalize();
+        velocityWorkspace.Set(angle.x * force * direction, angle.y * force);
+        velocity = velocityWorkspace;
     }
 
     // -- UPDATE DIRECTION ----------------------------------------------------------------------------------------------------------------
@@ -190,6 +206,8 @@ public class Entity : MonoBehaviour
             animator.SetBool("airborne", !controller.collisions.below);
 
             animator.SetBool("stagger", currentState == EntityState.stagger);
+
+            animator.SetFloat("yVelocity", velocity.y);
         }
 
         UpdateSpriteDirection();

@@ -2,17 +2,56 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DodgeState : MonoBehaviour
+// TODO: Don't dodge off ledge.
+public class DodgeState : State
 {
-    // Start is called before the first frame update
-    void Start()
+    protected D_DodgeState stateData;
+
+    protected bool performCloseRangeAction;
+    protected bool isPlayerInMaxAgroRange;
+    protected bool isDodgeOver; // Cooldown for dodging.
+
+    public DodgeState(EntityNPC entity, FiniteStateMachine stateMachine, string animBoolName, D_DodgeState stateData) : base(entity, stateMachine, animBoolName)
     {
-        
+        this.stateData = stateData;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void DoChecks()
     {
-        
+        base.DoChecks();
+
+        performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();
+        isPlayerInMaxAgroRange = entity.CheckPlayerInMaxAgroRange();
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+
+        isDodgeOver = false;
+
+        entity.SetVelocity(stateData.dodgeSpeed, stateData.dodgeAngle, -entity.GetFaceDir());
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+
+        //entity.SetVelocity(0);
+    }
+
+    public override void LogicUpdate()
+    {
+        base.LogicUpdate();
+
+        if (Time.time >= startTime + stateData.dodgeTime && entity.IsGrounded())
+        {
+            isDodgeOver = true;
+        }
+    }
+
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
     }
 }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Archer_DodgeState : DodgeState
+public class Archer_RangedAttackState : RangedAttackState
 {
     private EnemyArcher enemy;
 
-    public Archer_DodgeState(EntityNPC entity, FiniteStateMachine stateMachine, string animBoolName, D_DodgeState stateData, EnemyArcher enemy) : base(entity, stateMachine, animBoolName, stateData)
+    public Archer_RangedAttackState(EntityNPC entity, FiniteStateMachine stateMachine, string animBoolName, D_RangedAttackState stateData, EnemyArcher enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
         this.enemy = enemy;
     }
@@ -26,21 +26,22 @@ public class Archer_DodgeState : DodgeState
         base.Exit();
     }
 
+    public override void FinishAttack()
+    {
+        base.FinishAttack();
+    }
+
     public override void LogicUpdate()
     {
         base.LogicUpdate();
 
-        if (isDodgeOver)
+        if (isAnimationFinished)
         {
-            if(isPlayerInMaxAgroRange && performCloseRangeAction)
+            if (isPlayerInMinAgroRange)
             {
-                stateMachine.ChangeState(enemy.meleeAttackState);
+                stateMachine.ChangeState(enemy.playerDetectedState);
             }
-            else if(isPlayerInMaxAgroRange && !performCloseRangeAction)
-            {
-                stateMachine.ChangeState(enemy.rangedAttackState);
-            }
-            else if (!isPlayerInMaxAgroRange)
+            else
             {
                 stateMachine.ChangeState(enemy.lookForPlayerState);
             }
@@ -50,5 +51,10 @@ public class Archer_DodgeState : DodgeState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+    }
+
+    public override void TriggerAttack()
+    {
+        base.TriggerAttack();
     }
 }

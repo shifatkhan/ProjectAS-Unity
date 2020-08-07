@@ -2,17 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class D_DodgeState : MonoBehaviour
+[CreateAssetMenu(fileName = "New D_DodgeState", menuName = "EntityNPC/State/Dodge State")]
+public class D_DodgeState : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public float dodgeSpeed = 10f;
+    public float dodgeTime = 0.2f;
+    public float dodgeCooldown = 2f;
+    public Vector2 dodgeAngle;
 }

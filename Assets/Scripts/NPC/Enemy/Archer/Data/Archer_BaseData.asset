@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallCheckDistance: 0.2
   groundCheckDistance: 0.4
-  minAgroDistance: 3
-  maxAgroDistance: 4
+  minAgroDistance: 4
+  maxAgroDistance: 5
   closeRangeActionDistance: 0.5
   stunResistance: 3
   stunRecoveryTime: 2

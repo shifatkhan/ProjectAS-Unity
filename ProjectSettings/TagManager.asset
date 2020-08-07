@@ -11,6 +11,7 @@ TagManager:
   - Portrait
   - Inventory
   - GameManager
+  - Level
   layers:
   - Default
   - TransparentFX
