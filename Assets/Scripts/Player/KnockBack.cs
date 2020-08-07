@@ -5,12 +5,13 @@ using UnityEngine;
 /**
  * @author ShifatKhan
  */
+[RequireComponent(typeof(Collider2D))]
 public class KnockBack : MonoBehaviour
 {
-    public float thrust;
-    public float knockTime;
-    public float damage;
-    public bool hitStopEnabled;
+    public float thrust = 5f;
+    public float knockTime = 0.2f;
+    public float damage = 1;
+    public bool hitStopEnabled = false;
     public float hitStopDuration = 0.1f;
 
     public virtual void OnTriggerEnter2D(Collider2D other)

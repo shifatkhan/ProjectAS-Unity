@@ -7,7 +7,6 @@ using UnityEngine;
  * @Special thanks to Bardent (https://youtu.be/K2SbThbGw6w)
  * @author ShifatKhan
  */
-[RequireComponent(typeof(Controller2D))]
 public class EnemySkeleton : EntityNPC
 {
     public Skeleton_IdleState idleState { get; private set; }
@@ -44,16 +43,6 @@ public class EnemySkeleton : EntityNPC
         deadState = new Skeleton_DeadState(this, stateMachine, "dead", deadStateData, this);
 
         stateMachine.Initialize(moveState);
-    }
-
-    /** Makes enemy gameObject jump by adding force to its y-velocity.
-     */
-    public void Jump()
-    {
-        if (controller.collisions.below)
-        {
-            velocity.y = maxJumpVelocity;
-        }
     }
 
     public override void Damage(float damage, Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)

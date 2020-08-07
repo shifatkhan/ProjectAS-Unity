@@ -6,5 +6,5 @@ using UnityEngine;
 public class D_LookForPlayerState : ScriptableObject
 {
     public float timeBetweenTurns = 1f;
-    public int amountOfTurns = 3;
+    public int amountOfTurns = 2;
 }

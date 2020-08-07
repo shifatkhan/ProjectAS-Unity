@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New D_StunState", menuName = "EntityNPC/State/Stun State")]
 public class D_StunState : ScriptableObject
 {
-    public float stunTime = 3f;
+    public float stunTime = 2f;
 
     public float stunKnockbackTime = 0.2f;
     public float stunKnockbackSpeed = 20f;

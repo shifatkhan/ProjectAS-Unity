@@ -24,12 +24,6 @@ public class EntityNPC : Entity
     protected bool isDead;
 
     [Header("Hit")]
-    public bool enableDeathParticle;
-    public bool enableDeathAnimation;
-
-    [SerializeField] private Color deathChunkColor;
-    [SerializeField] private Color deathBloodColor;
-
     private Shader defaultShader; // Default color
     private Shader hitShader; // Color when hit
     private bool hitStopped; // Whether time is stopped or not
@@ -87,22 +81,30 @@ public class EntityNPC : Entity
     }
 
     // -- CHECKS ----------------------------------------------------------------------------------------------------------------
-    
+
+    /** Check if there is a wall in front of game object.
+    */
     public virtual bool CheckWall()
     {
         return Physics2D.Raycast(wallCheck.position, transform.right * faceDir, entityData.wallCheckDistance, groundLayerMask);
     }
 
+    /** Check if there is ground in front of game object.
+     */
     public virtual bool CheckGround()
     {
         return Physics2D.Raycast(groundCheck.position, Vector2.down, entityData.groundCheckDistance, groundLayerMask);
     }
-    
+
+    /** Check if the player is in agro range for actions.
+     */
     public virtual bool CheckPlayerInMinAgroRange()
     {
         return Physics2D.Raycast(playerCheck.position, transform.right * faceDir, entityData.minAgroDistance, playerLayerMask);
     }
 
+    /** Check if the player is in agro range for actions.
+     */
     public virtual bool CheckPlayerInMaxAgroRange()
     {
         return Physics2D.Raycast(playerCheck.position, transform.right * faceDir, entityData.maxAgroDistance, playerLayerMask);
@@ -122,13 +124,13 @@ public class EntityNPC : Entity
      */
     public virtual void Damage(float damage, Vector3 direction, float knockTime, bool hitStopEnabled, float hitStopDuration)
     {
-        // Turn enemy around if player attacks from behind.
+        // Turn Entity around if the attacker attacks from behind.
         if (direction.x > 0)
             SetDirectionalInput(Vector2.left);
         else
             SetDirectionalInput(Vector2.right);
 
-        // Display hit effect. If player is hitting from the right, we flip the effect.
+        // Display hit effect. If attacker is hitting from the right, we flip the effect.
         Instantiate(entityData.hitParticle, transform.position, Quaternion.Euler(0.0f, direction.x < 0 ? 180.0f : 0.0f, Random.Range(0.0f, -90.0f)));
 
         if (hitStopEnabled)
@@ -230,6 +232,16 @@ public class EntityNPC : Entity
     }
 
     // -- OTHER ----------------------------------------------------------------------------------------------------------------
+
+    /** Makes enemy gameObject jump by adding force to its y-velocity.
+     */
+    public virtual void Jump()
+    {
+        if (controller.collisions.below)
+        {
+            velocity.y = maxJumpVelocity;
+        }
+    }
 
     /** Debug: Draw checks
      */
