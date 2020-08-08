@@ -1,0 +1,188 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: samurai_axeKick
+  serializedVersion: 6
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.3
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.5
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: Attack Hitboxes/AxeKick Hitbox
+    classID: 60
+    script: {fileID: 0}
+  m_PPtrCurves:
+  - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: 40a7f2101f9132043a81a0565fa7d7c0, type: 3}
+    - time: 0.3
+      value: {fileID: 21300000, guid: fadca5ee7193ff946ae4f6cfc3792ebc, type: 3}
+    - time: 0.4
+      value: {fileID: 21300000, guid: 71aacb6b5f3f5f7489a472413978ee73, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+  - curve:
+    - time: 0.2
+      value: {fileID: 21300000, guid: 3ed593fe7884aab41ac613affabfcdcd, type: 3}
+    - time: 0.3
+      value: {fileID: 21300000, guid: 8d4984b68247fa74181b591edd435457, type: 3}
+    - time: 0.4
+      value: {fileID: 21300000, guid: 6a9c156e04778894d8fbc2be41474a13, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: e511dba89b8bce249b0aa2cc7f0daf66, type: 3}
+    - time: 0.6
+      value: {fileID: 21300000, guid: 52dac3ba927161d47a16fba745631b3b, type: 3}
+    - time: 0.7
+      value: {fileID: 21300000, guid: bf934222e640af14e94bac579ad470e3, type: 3}
+    - time: 0.8
+      value: {fileID: 0}
+    attribute: m_Sprite
+    path: Effects Anim
+    classID: 212
+    script: {fileID: 0}
+  m_SampleRate: 10
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - serializedVersion: 2
+      path: 1281868703
+      attribute: 3305885265
+      script: {fileID: 0}
+      typeID: 60
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 1301347674
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    pptrCurveMapping:
+    - {fileID: 21300000, guid: 40a7f2101f9132043a81a0565fa7d7c0, type: 3}
+    - {fileID: 21300000, guid: fadca5ee7193ff946ae4f6cfc3792ebc, type: 3}
+    - {fileID: 21300000, guid: 71aacb6b5f3f5f7489a472413978ee73, type: 3}
+    - {fileID: 21300000, guid: 3ed593fe7884aab41ac613affabfcdcd, type: 3}
+    - {fileID: 21300000, guid: 8d4984b68247fa74181b591edd435457, type: 3}
+    - {fileID: 21300000, guid: 6a9c156e04778894d8fbc2be41474a13, type: 3}
+    - {fileID: 21300000, guid: e511dba89b8bce249b0aa2cc7f0daf66, type: 3}
+    - {fileID: 21300000, guid: 52dac3ba927161d47a16fba745631b3b, type: 3}
+    - {fileID: 21300000, guid: bf934222e640af14e94bac579ad470e3, type: 3}
+    - {fileID: 0}
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 0.90000004
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 1
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.3
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.5
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: Attack Hitboxes/AxeKick Hitbox
+    classID: 60
+    script: {fileID: 0}
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_Events: []
