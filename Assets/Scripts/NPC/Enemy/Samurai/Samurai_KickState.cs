@@ -39,7 +39,7 @@ public class Samurai_KickState : MeleeAttackState
         {
             if (combo)
             {
-                enemy.punchState.SetCombo(enemy.GetRandomBool());
+                enemy.punchState.SetCombo(Utils.GetRandomBool());
                 stateMachine.ChangeState(enemy.punchState);
             }
             else if (isPlayerInMinAgroRange)

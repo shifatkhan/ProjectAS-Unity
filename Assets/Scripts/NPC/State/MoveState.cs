@@ -10,6 +10,8 @@ public class MoveState : State
     protected bool isDetectingGround;
     protected bool isPlayerInMinAgroRange;
 
+    protected bool followTarget;
+
     public MoveState(EntityNPC entity, FiniteStateMachine stateMachine, string animBoolName, D_MoveState stateData) : base(entity, stateMachine, animBoolName)
     {
         this.stateData = stateData;
@@ -21,11 +23,22 @@ public class MoveState : State
         isDetectingGround = entity.CheckGround();
         isDetectingWall = entity.CheckWall();
         isPlayerInMinAgroRange = entity.CheckPlayerInMaxAgroRange();
+
+        if (followTarget)
+        {
+            entity.SetDirectionalInput(new Vector2(entity.CheckTargetHorizontalDir(), 0));
+        }
     }
 
     public override void Enter()
     {
         base.Enter();
+
+        if (followTarget)
+        {
+            entity.SetDirectionalInput(new Vector2(entity.CheckTargetHorizontalDir(), 0));
+        }
+
         entity.SetMoveSpeed(stateData.movementSpeed);
         entity.MoveInFaceDir();
     }
@@ -43,5 +56,10 @@ public class MoveState : State
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+    }
+
+    public void SetFollowTarget(bool followTarget)
+    {
+        this.followTarget = followTarget;
     }
 }

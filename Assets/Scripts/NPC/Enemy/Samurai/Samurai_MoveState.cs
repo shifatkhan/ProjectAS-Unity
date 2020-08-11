@@ -14,13 +14,11 @@ public class Samurai_MoveState : MoveState
     public override void DoChecks()
     {
         base.DoChecks();
-
-        entity.SetDirectionalInput(new Vector2(enemy.CheckPlayerHorizontal(), 0));
     }
 
     public override void Enter()
     {
-        entity.SetDirectionalInput(new Vector2(enemy.CheckPlayerHorizontal(), 0));
+        SetFollowTarget(true);
 
         base.Enter();
     }
@@ -42,7 +40,7 @@ public class Samurai_MoveState : MoveState
             enemy.ResetStates();
             stateMachine.ChangeState(enemy.idleState);
         }
-        else if (enemy.isInStage2 && enemy.GetRandomBool())
+        else if (enemy.isInStage2 && Utils.GetRandomBool())
         {
             if(Time.time >= enemy.dodgeState.startTime + enemy.GetDodgeCooldown())
             {

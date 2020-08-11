@@ -34,7 +34,7 @@ public class EntityNPC : Entity
     [SerializeField] private Transform wallCheck;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform playerCheck;
-    private Transform playerPos;
+    private Transform followTargetPos;
 
     private LayerMask groundLayerMask;
     private LayerMask playerLayerMask;
@@ -60,7 +60,7 @@ public class EntityNPC : Entity
         groundLayerMask = controller.GetCollisionMask();
         playerLayerMask = LayerMask.GetMask("Player");
 
-        playerPos = GameObject.FindGameObjectWithTag("Player").transform; // To get player's position.
+        ResetFollowTargetPos(); // To get player's position.
 
         stateMachine = new FiniteStateMachine();
     }
@@ -123,21 +123,26 @@ public class EntityNPC : Entity
 
     /** Checks whether player is on the right or left side of the NPC.
      */
-    public virtual int CheckPlayerHorizontal()
+    public virtual int CheckTargetHorizontalDir()
     {
-        return playerPos.position.x <= transform.position.x ? -1 : 1;
+        return followTargetPos.position.x <= transform.position.x ? -1 : 1;
     }
     
     /** Checks whether player is above or below the NPC.
      */
-    public virtual int CheckPlayerVertical()
+    public virtual int CheckTargetVerticalDir()
     {
-        return playerPos.position.y <= transform.position.y ? -1 : 1;
+        return followTargetPos.position.y <= transform.position.y ? -1 : 1;
+    }
+
+    public virtual bool CheckPlayerInRadius()
+    {
+        return (followTargetPos.position - transform.position).magnitude <= entityData.radiusAgroDistance;
     }
 
     public Transform GetPlayerTransform()
     {
-        return playerPos;
+        return followTargetPos;
     }
 
     // -- DAMAGE ----------------------------------------------------------------------------------------------------------------
@@ -276,6 +281,16 @@ public class EntityNPC : Entity
         return currentHealth.InitialValue;
     }
 
+    public void SetFollowTarget(Transform followTargetPos)
+    {
+        this.followTargetPos = followTargetPos;
+    }
+
+    public void ResetFollowTargetPos()
+    {
+        followTargetPos = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
     /** Debug: Draw checks
      */
     public virtual void OnDrawGizmos()
@@ -293,5 +308,9 @@ public class EntityNPC : Entity
         Gizmos.color = new Color(0, 0, 1, 1);
         Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(transform.right * faceDir * entityData.minAgroDistance), 0.2f);
         Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(transform.right * faceDir * entityData.maxAgroDistance), 0.2f);
+
+        // Display player detection Radius check.
+        Gizmos.color = new Color(0, 1, 0, 0.25f);
+        Gizmos.DrawWireSphere(transform.position, entityData.radiusAgroDistance);
     }
 }

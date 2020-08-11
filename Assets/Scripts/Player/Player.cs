@@ -630,6 +630,8 @@ public class Player : Entity
             animator.SetBool("wallslide", wallSliding);
 
             animator.SetBool("sprint", isSprinting);
+
+            //animator.SetFloat("yVelocity", velocity.y); TODO: Add blend tree for jump
         }
     }
 }

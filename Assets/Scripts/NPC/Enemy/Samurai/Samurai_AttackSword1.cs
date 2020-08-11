@@ -39,7 +39,7 @@ public class Samurai_AttackSword1 : MeleeAttackState
         {
             if (combo)
             {
-                enemy.attackSwordState2.SetCombo(enemy.GetRandomBool());
+                enemy.attackSwordState2.SetCombo(Utils.GetRandomBool());
                 stateMachine.ChangeState(enemy.attackSwordState2);
             }
             else if (isPlayerInMinAgroRange)

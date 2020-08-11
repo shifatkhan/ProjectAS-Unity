@@ -96,15 +96,15 @@ public class EnemySamurai : EntityNPC
             switch (Random.Range(1, 4)) // Random moveset
             {
                 case 1: // KICK
-                    kickState.SetCombo(GetRandomBool());
+                    kickState.SetCombo(Utils.GetRandomBool());
                     stateMachine.ChangeState(kickState);
                     break;
                 case 2: // PUNCH
-                    punchState.SetCombo(GetRandomBool());
+                    punchState.SetCombo(Utils.GetRandomBool());
                     stateMachine.ChangeState(punchState);
                     break;
                 case 3: // AXE KICK
-                    axeKickState.SetCombo(GetRandomBool());
+                    axeKickState.SetCombo(Utils.GetRandomBool());
                     stateMachine.ChangeState(axeKickState);
                     break;
             }
@@ -112,15 +112,15 @@ public class EnemySamurai : EntityNPC
             switch (Random.Range(1, 4)) // Random moveset
             {
                 case 1: // Sword attack 1
-                    attackSwordState1.SetCombo(GetRandomBool());
+                    attackSwordState1.SetCombo(Utils.GetRandomBool());
                     stateMachine.ChangeState(attackSwordState1);
                     break;
                 case 2: // Sword attack 2
-                    attackSwordState2.SetCombo(GetRandomBool());
+                    attackSwordState2.SetCombo(Utils.GetRandomBool());
                     stateMachine.ChangeState(attackSwordState2);
                     break;
                 case 3: // Sword attack 3
-                    attackSwordState3.SetCombo(GetRandomBool());
+                    attackSwordState3.SetCombo(Utils.GetRandomBool());
                     stateMachine.ChangeState(attackSwordState3);
                     break;
             }
@@ -169,19 +169,5 @@ public class EnemySamurai : EntityNPC
             lastAfterImageXPos = transform.position.x;
             lastAfterImageYPos = transform.position.y;
         }
-    }
-
-    // -- TODO: MOVE TO A UTIL SCRIPT -----------------------------------------------------------
-
-    /** Returns true or false randomly.
-     */
-    public bool GetRandomBool()
-    {
-        return (Random.value > 0.5f);
-    }
-
-    public Vector2 Vector2ToAbs(Vector2 vec)
-    {
-        return new Vector2(Mathf.Abs(vec.x), Mathf.Abs(vec.y));
     }
 }

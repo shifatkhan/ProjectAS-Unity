@@ -6,6 +6,9 @@ public class Interactable : MonoBehaviour
 {
     protected bool playerInRange = false;
 
+    public bool interacted { get; protected set; }
+    [SerializeField] protected GameEvent interactEvent;
+
     void Update()
     {
         if (playerInRange && Input.GetButtonDown("Interact"))
@@ -16,6 +19,10 @@ public class Interactable : MonoBehaviour
 
     public virtual void OnInteract()
     {
+        if(interactEvent)
+            interactEvent.Raise();
+
+        interacted = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -31,6 +38,7 @@ public class Interactable : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             playerInRange = false;
+            interacted = false;
         }
     }
 }
