@@ -692,9 +692,12 @@ MonoBehaviour:
   punchStateData: {fileID: 11400000, guid: 13ea1c45572e2614dab9e2aabf50f1d9, type: 2}
   axeKickStateData: {fileID: 11400000, guid: 2a9bb965baec714429109aea2488b305, type: 2}
   chargeStateData: {fileID: 11400000, guid: 7b1129146ef7f6f4388bffdfc780e6f2, type: 2}
-  attackSword1StateData: {fileID: 0}
-  attackSword2StateData: {fileID: 0}
-  attackSword3StateData: {fileID: 0}
+  attackSword1StateData: {fileID: 11400000, guid: 206168853eb273e44859fcf4476b5135,
+    type: 2}
+  attackSword2StateData: {fileID: 11400000, guid: d343040aec5484744891935623341110,
+    type: 2}
+  attackSword3StateData: {fileID: 11400000, guid: 02f3dcaceae8e5a4e94eb32bcccc2b8e,
+    type: 2}
   isInStage2: 0
   distanceBetweenAfterImages: 0
   afterImagePool: {fileID: 0}

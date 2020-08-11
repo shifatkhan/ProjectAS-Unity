@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 /** Class that handles player physics and stats.
  * @author ShifatKhan
@@ -62,7 +63,12 @@ public class Player : Entity
     [SerializeField] private PlayerAfterImagePool afterImagePool;
     private float lastAfterImageXPos;
     private float lastAfterImageYPos;
-    
+
+    [SerializeField] private GameObject deathChunkParticle;
+    [SerializeField] private GameObject deathBloodParticle;
+    [SerializeField] private Color deathChunkColor;
+    [SerializeField] private Color deathBloodColor;
+
     [Header("Inventory system")]
     public D_Inventory inventory; // TODO: Serialize
     [SerializeField] protected GameEvent inventoryEvent;
@@ -556,6 +562,14 @@ public class Player : Entity
     public void Die()
     {
         Time.timeScale = 1.0f;
+
+        // Death particles
+        MainModule mainChunk = Instantiate(deathChunkParticle, transform.position, deathChunkParticle.transform.rotation).GetComponent<ParticleSystem>().main;
+        mainChunk.startColor = deathChunkColor;
+
+        MainModule mainBlood = Instantiate(deathBloodParticle, transform.position, deathBloodParticle.transform.rotation).GetComponent<ParticleSystem>().main;
+        mainBlood.startColor = deathBloodColor;
+
         GM.Respawn();
         StopAllCoroutines(); // Stop the knockBack coroutine
         SwitchState(EntityState.dead);

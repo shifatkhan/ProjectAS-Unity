@@ -46,10 +46,6 @@ public class Samurai_MoveState : MoveState
         {
             if(Time.time >= enemy.dodgeState.startTime + enemy.GetDodgeCooldown())
             {
-                Debug.Log($"player: {enemy.GetPlayerTransform().position.x}, {enemy.GetPlayerTransform().position.y}");
-                Debug.Log($"boss: {enemy.transform.position.x}, {enemy.transform.position.y}");
-                Debug.Log($"DashAngle: {enemy.GetPlayerTransform().position - enemy.transform.position}\n");
-
                 enemy.SetDodgeAngle(enemy.GetPlayerTransform().position - enemy.transform.position);
                 stateMachine.ChangeState(enemy.dodgeState);
             }
