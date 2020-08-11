@@ -34,6 +34,7 @@ public class EntityNPC : Entity
     [SerializeField] private Transform wallCheck;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform playerCheck;
+    private Transform playerPos;
 
     private LayerMask groundLayerMask;
     private LayerMask playerLayerMask;
@@ -58,6 +59,8 @@ public class EntityNPC : Entity
 
         groundLayerMask = controller.GetCollisionMask();
         playerLayerMask = LayerMask.GetMask("Player");
+
+        playerPos = GameObject.FindGameObjectWithTag("Player").transform; // To get player's position.
 
         stateMachine = new FiniteStateMachine();
     }
@@ -116,6 +119,25 @@ public class EntityNPC : Entity
     public virtual bool CheckPlayerInCloseRangeAction()
     {
         return Physics2D.Raycast(playerCheck.position, transform.right * faceDir, entityData.closeRangeActionDistance, playerLayerMask);
+    }
+
+    /** Checks whether player is on the right or left side of the NPC.
+     */
+    public virtual int CheckPlayerHorizontal()
+    {
+        return playerPos.position.x <= transform.position.x ? -1 : 1;
+    }
+    
+    /** Checks whether player is above or below the NPC.
+     */
+    public virtual int CheckPlayerVertical()
+    {
+        return playerPos.position.y <= transform.position.y ? -1 : 1;
+    }
+
+    public Transform GetPlayerTransform()
+    {
+        return playerPos;
     }
 
     // -- DAMAGE ----------------------------------------------------------------------------------------------------------------
@@ -242,6 +264,16 @@ public class EntityNPC : Entity
         {
             velocity.y = maxJumpVelocity;
         }
+    }
+
+    public float GetCurrentHealth()
+    {
+        return currentHealth.RuntimeValue;
+    }
+
+    public float GetMaxHealth()
+    {
+        return currentHealth.InitialValue;
     }
 
     /** Debug: Draw checks

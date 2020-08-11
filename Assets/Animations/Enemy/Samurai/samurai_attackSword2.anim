@@ -30,7 +30,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.3
+        time: 0.1
         value: 1
         inSlope: Infinity
         outSlope: Infinity
@@ -39,7 +39,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.5
+        time: 0.3
         value: 0
         inSlope: Infinity
         outSlope: Infinity
@@ -58,9 +58,9 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: 8917c7b692d32ff49bc9ffc63b5a9fa2, type: 3}
-    - time: 0.3
+    - time: 0.1
       value: {fileID: 21300000, guid: 00221940e20dcac41bc25588dc503254, type: 3}
-    - time: 0.4
+    - time: 0.2
       value: {fileID: 21300000, guid: ee6d50b456ee1b945a4ab53e6f1478e7, type: 3}
     attribute: m_Sprite
     path: 
@@ -69,15 +69,15 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: ff859593d28c1f649b3c783d660e0248, type: 3}
-    - time: 0.3
+    - time: 0.1
       value: {fileID: 21300000, guid: 90cd80ecae5d6354d9a485903b32635f, type: 3}
-    - time: 0.4
+    - time: 0.2
       value: {fileID: 21300000, guid: 0624da8f98e1f914781dd685ead7e8f3, type: 3}
-    - time: 0.5
+    - time: 0.3
       value: {fileID: 21300000, guid: 78c706e1af9a83d40b9812b54a919f7a, type: 3}
-    - time: 0.6
+    - time: 0.4
       value: {fileID: 21300000, guid: e2b4652009718ea4eb78ef11340f5425, type: 3}
-    - time: 0.7
+    - time: 0.5
       value: {fileID: 21300000, guid: 607384e02c67da444a5d335f0b749879, type: 3}
     attribute: m_Sprite
     path: Effects Anim
@@ -126,7 +126,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.8
+    m_StopTime: 0.6
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -155,7 +155,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.3
+        time: 0.1
         value: 1
         inSlope: Infinity
         outSlope: Infinity
@@ -164,7 +164,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.5
+        time: 0.3
         value: 0
         inSlope: Infinity
         outSlope: Infinity
@@ -182,4 +182,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.5
+    functionName: FinishAttack
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

@@ -30,7 +30,7 @@ public class DodgeState : State
 
         isDodgeOver = false;
 
-        entity.SetVelocity(stateData.dodgeSpeed, stateData.dodgeAngle, -entity.GetFaceDir());
+        entity.SetVelocity(stateData.dodgeSpeed, stateData.runtimeDodgeAngle, -entity.GetFaceDir());
     }
 
     public override void Exit()

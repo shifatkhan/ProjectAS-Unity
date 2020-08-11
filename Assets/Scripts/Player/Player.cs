@@ -58,7 +58,8 @@ public class Player : Entity
 
     [Header("Particle effects")]
     public ParticleSystem dust;
-    public float distanceBetweenAfterImages;
+    [SerializeField] private float distanceBetweenAfterImages;
+    [SerializeField] private PlayerAfterImagePool afterImagePool;
     private float lastAfterImageXPos;
     private float lastAfterImageYPos;
     
@@ -82,6 +83,12 @@ public class Player : Entity
         regularColor = Color.white;
         invulnerableColor = Color.white;
         invulnerableColor.a = 0.5f;
+
+        // After Image
+        if (!afterImagePool)
+        {
+            afterImagePool = GameObject.Find("PlayerAfterImagePool").GetComponent<PlayerAfterImagePool>();
+        }
 
         GM = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
@@ -574,7 +581,7 @@ public class Player : Entity
         if (Mathf.Abs(transform.position.x - lastAfterImageXPos) > distanceBetweenAfterImages
             || Mathf.Abs(transform.position.y - lastAfterImageYPos) > distanceBetweenAfterImages)
         {
-            PlayerAfterImagePool.Instance.GetFromPool();
+            afterImagePool.GetFromPool();
             lastAfterImageXPos = transform.position.x;
             lastAfterImageYPos = transform.position.y;
         }

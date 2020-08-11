@@ -5,24 +5,25 @@ using UnityEngine;
 public class PlayerAfterImagePool : MonoBehaviour
 {
     [SerializeField]
-    private GameObject afterImagePrefab;
+    protected GameObject afterImagePrefab;
 
-    private Queue<GameObject> availableObjects = new Queue<GameObject>();
+    protected Queue<GameObject> availableObjects = new Queue<GameObject>();
 
     // Have only instance of this pool.
-    public static PlayerAfterImagePool Instance { get; private set; }
+    //public static PlayerAfterImagePool Instance { get; private set; }
 
-    private void Awake()
+    public virtual void Awake()
     {
-        Instance = this;
+        //Instance = this;
         GrowPool();
     }
 
-    private void GrowPool()
+    public virtual void GrowPool()
     {
         for (int i = 0; i < 10; i++)
         {
             GameObject instanceToAdd = Instantiate(afterImagePrefab);
+            instanceToAdd.GetComponent<PlayerAfterImage>().afterImagePool = this;
             instanceToAdd.transform.SetParent(transform);
             AddToPool(instanceToAdd);
         }
@@ -30,15 +31,16 @@ public class PlayerAfterImagePool : MonoBehaviour
 
     /** Add game object to pool.
      */
-    public void AddToPool(GameObject instance)
+    public virtual void AddToPool(GameObject instance)
     {
+        //instance.GetComponent<PlayerAfterImage>().afterImagePool = this;
         instance.SetActive(false);
         availableObjects.Enqueue(instance);
     }
 
     /** Get front of pool queue.
      */
-    public GameObject GetFromPool(bool flipped = false)
+    public virtual GameObject GetFromPool(bool flipped = false)
     {
         if(availableObjects.Count == 0)
         {

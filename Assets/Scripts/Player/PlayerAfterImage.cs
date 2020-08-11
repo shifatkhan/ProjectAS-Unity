@@ -10,22 +10,24 @@ using UnityEngine;
 public class PlayerAfterImage : MonoBehaviour
 {
     // Variables for fading effect.
-    [SerializeField] private float activeTime = 0.1f;
-    private float timeActivated;
-    private float alpha;
-    [SerializeField] private float alphaSet = 0.8f;
-    [SerializeField] private float alphaDecay = 10f;
+    [SerializeField] protected float activeTime = 0.1f;
+    protected float timeActivated;
+    protected float alpha;
+    [SerializeField] protected float alphaSet = 0.8f;
+    [SerializeField] protected float alphaDecay = 10f;
 
-    private Transform player;
+    protected Transform player;
 
-    private SpriteRenderer spriteRenderer;
-    private SpriteRenderer playerSpriteRenderer;
+    protected SpriteRenderer spriteRenderer;
+    protected SpriteRenderer playerSpriteRenderer;
 
-    private Color color;
+    protected Color color;
+
+    public PlayerAfterImagePool afterImagePool;
 
     /** We use OnEnable since we'll be reusing this gameobject.
      */
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -40,7 +42,7 @@ public class PlayerAfterImage : MonoBehaviour
         timeActivated = Time.time;
     }
 
-    private void Update()
+    public virtual void Update()
     {
         // Reduce alpha value.
         alpha -= alphaDecay * Time.deltaTime;
@@ -50,7 +52,7 @@ public class PlayerAfterImage : MonoBehaviour
         // Add game object back to pool.
         if(Time.time >= (timeActivated + activeTime))
         {
-            PlayerAfterImagePool.Instance.AddToPool(gameObject);
+            afterImagePool.AddToPool(gameObject);
         }
     }
 }

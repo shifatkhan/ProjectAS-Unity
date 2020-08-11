@@ -6,6 +6,8 @@ public class MeleeAttackState : AttackState
 {
     protected D_MeleeAttackState stateData;
 
+    protected bool combo;
+
     public MeleeAttackState(EntityNPC entity, FiniteStateMachine stateMachine, string animBoolName, D_MeleeAttackState stateData) : base(entity, stateMachine, animBoolName)
     {
         this.stateData = stateData;
@@ -44,5 +46,10 @@ public class MeleeAttackState : AttackState
     public override void TriggerAttack()
     {
         base.TriggerAttack();
+    }
+
+    public virtual void SetCombo(bool combo)
+    {
+        this.combo = combo;
     }
 }
