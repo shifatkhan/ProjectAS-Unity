@@ -12,7 +12,7 @@ using static UnityEngine.ParticleSystem;
 public class EntityNPC : Entity
 {
     [Header("EntityNPC vars")]
-    [SerializeField] protected FloatVariable currentHealth; // TODO: Move to Entity script?
+    [SerializeField] protected float currentHealth; // TODO: Move to Entity script?
     [SerializeField] protected string enemyName = "NPC"; // TODO: Move to Entity script?
     [SerializeField] protected int attackDamage = 1; // TODO: Remove since it is in KnockBack script.
     [SerializeField] protected float attackSpeed = 0f;
@@ -51,6 +51,7 @@ public class EntityNPC : Entity
         base.Start();
 
         currentStunResistance = entityData.stunResistance;
+        currentHealth = entityData.maxHealth;
 
         // Hit
         defaultShader = spriteRenderer.material.shader;
@@ -58,9 +59,7 @@ public class EntityNPC : Entity
 
         // AI
         SetDirectionalInput(new Vector2(1,0));
-
         groundLayerMask = controller.GetCollisionMask();
-
         ResetTarget(); // To get player's position.
 
         stateMachine = new FiniteStateMachine();
@@ -182,12 +181,12 @@ public class EntityNPC : Entity
 
     public float GetCurrentHealth()
     {
-        return currentHealth.RuntimeValue;
+        return currentHealth;
     }
 
     public float GetMaxHealth()
     {
-        return currentHealth.InitialValue;
+        return entityData.maxHealth;
     }
 
     public bool GetAttackEnemy()
@@ -277,8 +276,8 @@ public class EntityNPC : Entity
 
     public virtual void TakeDamage(float damage)
     {
-        currentHealth.RuntimeValue -= damage;
-        if(currentHealth.RuntimeValue > 0)
+        currentHealth -= damage;
+        if(currentHealth > 0)
         {
             SwitchState(EntityState.stagger);
         }

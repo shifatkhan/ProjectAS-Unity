@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Entity Data", menuName = "EntityNPC/Base EntityNPC")]
 public class D_Entity : ScriptableObject
 {
+    public float maxHealth = 3f;
+
     public float wallCheckDistance = 0.2f;
     public float groundCheckDistance = 0.4f;
 

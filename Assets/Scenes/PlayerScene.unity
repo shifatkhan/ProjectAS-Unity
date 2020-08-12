@@ -3146,7 +3146,7 @@ MonoBehaviour:
   moveSpeed: 6
   directionalInput: {x: 0, y: 0}
   currentState: 0
-  currentHealth: {fileID: 11400000, guid: a8d0d5261e6ba6a499497ccc3ec00351, type: 2}
+  currentHealth: 0
   enemyName: Martial
   attackDamage: 1
   attackSpeed: 0
@@ -3435,12 +3435,12 @@ PrefabInstance:
     - target: {fileID: 6361138616171045936, guid: d3d9653e4a341734d82962ff79d57e97,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.95
+      value: 45.11
       objectReference: {fileID: 0}
     - target: {fileID: 6361138616171045936, guid: d3d9653e4a341734d82962ff79d57e97,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.69
+      value: 0.97
       objectReference: {fileID: 0}
     - target: {fileID: 6361138616171045936, guid: d3d9653e4a341734d82962ff79d57e97,
         type: 3}

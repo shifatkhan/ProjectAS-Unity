@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5610d1715d6aed41992b222a38b3f46, type: 3}
   m_Name: Skeleton_BaseData
   m_EditorClassIdentifier: 
+  maxHealth: 100
   wallCheckDistance: 0.2
   groundCheckDistance: 0.4
   minAgroDistance: 3.3
   maxAgroDistance: 4
+  radiusAgroDistance: 0
   closeRangeActionDistance: 0.8
   stunResistance: 3
   stunRecoveryTime: 2
