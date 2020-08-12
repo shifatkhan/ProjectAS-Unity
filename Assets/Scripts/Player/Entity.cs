@@ -37,10 +37,11 @@ public class Entity : MonoBehaviour
     protected float velocityXSmoothing;
 
     protected Controller2D controller;
-    [SerializeField] protected Vector2 directionalInput;
+    protected Vector2 directionalInput;
     protected int faceDir = 1; // Hot fix. This is also in Controller2D, but this one is updated in Update().
     public Animator animator { get; protected set; }
     protected SpriteRenderer spriteRenderer;
+    protected bool canFlip;
 
     [SerializeField] // TODO: remove serialized
     protected EntityState currentState;
@@ -50,6 +51,7 @@ public class Entity : MonoBehaviour
         controller = GetComponent<Controller2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        canFlip = true;
 
         // Calculate gravity.
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
@@ -162,7 +164,8 @@ public class Entity : MonoBehaviour
 
     public virtual void FlipDirectionalInput()
     {
-        SetDirectionalInput(new Vector2(directionalInput.x == 0 ? faceDir * -1 : directionalInput.x * -1, directionalInput.y));
+        if(canFlip)
+            SetDirectionalInput(new Vector2(directionalInput.x == 0 ? faceDir * -1 : directionalInput.x * -1, directionalInput.y));
     }
 
     public void MoveInFaceDir()
@@ -188,6 +191,16 @@ public class Entity : MonoBehaviour
 
     // -- UPDATE VISUALS ----------------------------------------------------------------------------------------------------------------
 
+    public void DisableFlip()
+    {
+        canFlip = false;
+    }
+
+    public void EnableFlip()
+    {
+        canFlip = true;
+    }
+
     /** Updates being's state based on whether it is moving or not.
      */
     public virtual void UpdateState()
@@ -203,7 +216,7 @@ public class Entity : MonoBehaviour
         {
             animator.SetBool("move", directionalInput.x != 0);
 
-            animator.SetBool("airborne", !controller.collisions.below);
+            animator.SetBool("grounded", controller.collisions.below);
 
             animator.SetBool("stagger", currentState == EntityState.stagger);
 
@@ -215,36 +228,15 @@ public class Entity : MonoBehaviour
 
     protected void UpdateSpriteDirection()
     {
-        if (directionalInput.x > 0) // Facing right
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
-        else if (directionalInput.x < 0) // Facing left
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-    }
-
-    [System.Obsolete("This function has been replaced by 'UpdateSpriteDirection()'")]
-    protected void UpdateSpriteDirectionAndChildren()
-    {
-        if (spriteRenderer != null)
+        if (canFlip)
         {
             if (directionalInput.x > 0) // Facing right
             {
-                spriteRenderer.flipX = false;
+                transform.localScale = new Vector3(1, 1, 1);
             }
             else if (directionalInput.x < 0) // Facing left
             {
-                spriteRenderer.flipX = true;
-            }
-            
-            // Flip CHILD gameObjects according to where the gameobject is facing.
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                Quaternion rotation = transform.GetChild(i).localRotation;
-                rotation.y = spriteRenderer.flipX ? 180 : 0;
-                transform.GetChild(i).localRotation = rotation;
+                transform.localScale = new Vector3(-1, 1, 1);
             }
         }
     }

@@ -88,12 +88,6 @@ public class PlayerInput : MonoBehaviour
         {
             player.OnDashInputDown();
         }
-        
-        // ATTACKS
-        if (Input.GetButtonDown("Attack1"))
-        {
-            StartCoroutine(player.Attack1Co());
-        }
 
         // TODO: Maybe move this into the InventoryUI script.
         // INVENTORY

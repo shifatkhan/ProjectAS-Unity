@@ -23,6 +23,7 @@ public class KnockBack : MonoBehaviour
         if(other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player"))
         {
             // TODO: Use new SetVelocity() function from Entity.cs
+            // TODO: Instantiate hit particle
 
             // Get Direction (by normalizing) and multiply the attack with thrust power.
             Vector2 direction = other.transform.position - transform.position;

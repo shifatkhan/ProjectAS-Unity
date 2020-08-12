@@ -10,8 +10,6 @@ using static UnityEngine.ParticleSystem;
 public class Player : Entity
 {
     [Header("Player vars")]
-    [SerializeField] private float attackSpeed = 0.5f;
-
     [SerializeField] protected FloatVariable currentHealth; // TODO: Move to Entity script?
     [SerializeField] protected GameEvent playerHealthEvent;
 
@@ -206,8 +204,6 @@ public class Player : Entity
      */
     public void OnJumpInputDown()
     {
-        animator.SetTrigger("jump");
-        
         if (wallJumpingEnabled && wallSliding)
         {
             if (wallDirX == directionalInput.x) // For wall climbing (moving at same direction as where the wall is)
@@ -448,19 +444,6 @@ public class Player : Entity
     {
         invulnerable = false;
     }
-
-    public IEnumerator Attack1Co()
-    {
-        if(currentState != EntityState.stagger && currentState != EntityState.attack)
-        {
-            animator.SetTrigger("attack1");
-            SwitchState(EntityState.attack);
-
-            yield return new WaitForSeconds(attackSpeed);
-
-            SwitchState(EntityState.idle);
-        }
-    }
     
     /** Makes current being knocked backwards. Used for when the being is hit.
      * This also calls the HitStop function (if hit stop is enabled).
@@ -630,8 +613,6 @@ public class Player : Entity
             animator.SetBool("wallslide", wallSliding);
 
             animator.SetBool("sprint", isSprinting);
-
-            //animator.SetFloat("yVelocity", velocity.y); TODO: Add blend tree for jump
         }
     }
 }
