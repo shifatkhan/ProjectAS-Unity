@@ -46,13 +46,13 @@ TagManager:
   - PlayerDrop
   - PlateformThrough
   m_SortingLayers:
-  - name: Background
+  - name: Sky
     uniqueID: 3763708379
     locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Back Decorations
+  - name: Background
     uniqueID: 1091535191
     locked: 0
   - name: Level
@@ -64,6 +64,6 @@ TagManager:
   - name: Player
     uniqueID: 1316116231
     locked: 0
-  - name: Front Decorations
+  - name: Foreground
     uniqueID: 3405993979
     locked: 0

@@ -16,11 +16,14 @@ public class PlayerCombatController : MonoBehaviour
     [SerializeField] private float inputTimer;
 
     private Player player;
+    private Animator animator;
 
     private void Start()
     {
         player = GetComponent<Player>();
-        player.animator.SetBool("canAttack", combatEnabled);
+
+        animator = GetComponent<Animator>();
+        animator.SetBool("canAttack", combatEnabled);
     }
 
     private void Update()
