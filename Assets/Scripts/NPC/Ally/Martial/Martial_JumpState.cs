@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Martial_MoveState : MoveState
+public class Martial_JumpState : JumpState
 {
     private AllyMartial ally;
 
-    public Martial_MoveState(EntityNPC entity, FiniteStateMachine stateMachine, string animBoolName, D_MoveState stateData, AllyMartial ally) : base(entity, stateMachine, animBoolName, stateData)
+    public Martial_JumpState(EntityNPC entity, FiniteStateMachine stateMachine, string animBoolName, D_JumpState stateData, AllyMartial ally) : base(entity, stateMachine, animBoolName, stateData)
     {
         this.ally = ally;
     }
@@ -30,13 +30,9 @@ public class Martial_MoveState : MoveState
     {
         base.LogicUpdate();
 
-        if (!ally.GetFollowPlayer() || ally.CheckPlayerInRadius())
+        if (ally.IsGrounded())
         {
-            stateMachine.ChangeState(ally.idleState);
-        }
-        else if (isDetectingWall || !isDetectingGround)
-        {
-            stateMachine.ChangeState(ally.jumpState);
+            stateMachine.ChangeState(ally.moveState);
         }
     }
 

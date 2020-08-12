@@ -3196,6 +3196,7 @@ MonoBehaviour:
   entityData: {fileID: 11400000, guid: ea11133d8b88cfd4297ba2d9b2419fc8, type: 2}
   moveStateData: {fileID: 11400000, guid: aa21a0c9208205041963b7777999671a, type: 2}
   idleStateData: {fileID: 11400000, guid: 850eb65b69a2ff34abe7091c0b1a512e, type: 2}
+  jumpStateData: {fileID: 11400000, guid: 7b9427410ae190e47895d8ccb3e81495, type: 2}
 --- !u!114 &1392460088
 MonoBehaviour:
   m_ObjectHideFlags: 0
