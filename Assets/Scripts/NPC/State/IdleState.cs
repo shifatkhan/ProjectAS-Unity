@@ -20,7 +20,7 @@ public class IdleState : State
     public override void DoChecks()
     {
         base.DoChecks();
-        isPlayerInMinAgroRange = entity.CheckPlayerInMaxAgroRange();
+        isPlayerInMinAgroRange = entity.CheckTargetInMaxAgroRange();
     }
 
     public override void Enter()

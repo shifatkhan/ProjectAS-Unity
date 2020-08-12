@@ -32,7 +32,7 @@ public class Martial_IdleState : IdleState
 
         if (ally.GetFollowPlayer())
         {
-            if (!ally.CheckPlayerInRadius())
+            if (!ally.CheckTargetInRadius())
             {
                 ally.moveState.SetFollowTarget(true);
                 stateMachine.ChangeState(ally.moveState);

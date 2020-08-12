@@ -21,8 +21,8 @@ public class StunState : State
     {
         base.DoChecks();
 
-        performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
+        performCloseRangeAction = entity.CheckTargetInCloseRangeAction();
+        isPlayerInMinAgroRange = entity.CheckTargetInMinAgroRange();
     }
 
     public override void Enter()

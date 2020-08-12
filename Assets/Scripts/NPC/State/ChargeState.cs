@@ -20,10 +20,10 @@ public class ChargeState : State
     public override void DoChecks()
     {
         base.DoChecks();
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
+        isPlayerInMinAgroRange = entity.CheckTargetInMinAgroRange();
         isDetectingGround = entity.CheckGround();
         isDetectingWall = entity.CheckWall();
-        performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();
+        performCloseRangeAction = entity.CheckTargetInCloseRangeAction();
     }
 
     public override void Enter()

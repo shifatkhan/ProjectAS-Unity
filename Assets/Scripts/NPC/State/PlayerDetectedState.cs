@@ -20,11 +20,11 @@ public class PlayerDetectedState : State
     public override void DoChecks()
     {
         base.DoChecks();
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
-        isPlayerInMaxAgroRange = entity.CheckPlayerInMaxAgroRange();
+        isPlayerInMinAgroRange = entity.CheckTargetInMinAgroRange();
+        isPlayerInMaxAgroRange = entity.CheckTargetInMaxAgroRange();
         isDetectingGround = entity.CheckGround();
 
-        performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();
+        performCloseRangeAction = entity.CheckTargetInCloseRangeAction();
     }
 
     public override void Enter()

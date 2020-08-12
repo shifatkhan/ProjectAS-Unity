@@ -20,8 +20,8 @@ public class DodgeState : State
     {
         base.DoChecks();
 
-        performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();
-        isPlayerInMaxAgroRange = entity.CheckPlayerInMaxAgroRange();
+        performCloseRangeAction = entity.CheckTargetInCloseRangeAction();
+        isPlayerInMaxAgroRange = entity.CheckTargetInMaxAgroRange();
     }
 
     public override void Enter()

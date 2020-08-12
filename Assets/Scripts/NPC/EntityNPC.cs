@@ -13,8 +13,8 @@ public class EntityNPC : Entity
 {
     [Header("EntityNPC vars")]
     [SerializeField] protected FloatVariable currentHealth; // TODO: Move to Entity script?
-    [SerializeField] protected string enemyName = "Enemy"; // TODO: Move to Entity script?
-    [SerializeField] protected int attackDamage = 1;
+    [SerializeField] protected string enemyName = "NPC"; // TODO: Move to Entity script?
+    [SerializeField] protected int attackDamage = 1; // TODO: Remove since it is in KnockBack script.
     [SerializeField] protected float attackSpeed = 0f;
 
     // Checks for when stunned.
@@ -33,11 +33,10 @@ public class EntityNPC : Entity
     [Header("AI checks")]
     [SerializeField] private Transform wallCheck;
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private Transform playerCheck;
-    private Transform followTargetPos;
+    [SerializeField] private Transform targetCheck;
+    private Transform target;
 
     private LayerMask groundLayerMask;
-    private LayerMask playerLayerMask;
     
     [Header("AI State machine")]
     public FiniteStateMachine stateMachine;
@@ -58,9 +57,8 @@ public class EntityNPC : Entity
         SetDirectionalInput(new Vector2(1,0));
 
         groundLayerMask = controller.GetCollisionMask();
-        playerLayerMask = LayerMask.GetMask("Player");
 
-        ResetFollowTargetPos(); // To get player's position.
+        ResetTarget(); // To get player's position.
 
         stateMachine = new FiniteStateMachine();
     }
@@ -102,50 +100,72 @@ public class EntityNPC : Entity
 
     /** Check if the player is in agro range for actions.
      */
-    public virtual bool CheckPlayerInMinAgroRange()
+    public virtual bool CheckTargetInMinAgroRange()
     {
-        return Physics2D.Raycast(playerCheck.position, transform.right * faceDir, entityData.minAgroDistance, playerLayerMask);
+        return Physics2D.Raycast(targetCheck.position, transform.right * faceDir, entityData.minAgroDistance, LayerMask.GetMask(LayerMask.LayerToName(target.gameObject.layer)));
     }
 
     /** Check if the player is in agro range for actions.
      */
-    public virtual bool CheckPlayerInMaxAgroRange()
+    public virtual bool CheckTargetInMaxAgroRange()
     {
-        return Physics2D.Raycast(playerCheck.position, transform.right * faceDir, entityData.maxAgroDistance, playerLayerMask);
+        return Physics2D.Raycast(targetCheck.position, transform.right * faceDir, entityData.maxAgroDistance, LayerMask.GetMask(LayerMask.LayerToName(target.gameObject.layer)));
     }
 
     /** Check if the player is in melee range for melee attacks or actions.
      */
-    public virtual bool CheckPlayerInCloseRangeAction()
+    public virtual bool CheckTargetInCloseRangeAction()
     {
-        return Physics2D.Raycast(playerCheck.position, transform.right * faceDir, entityData.closeRangeActionDistance, playerLayerMask);
+        return Physics2D.Raycast(targetCheck.position, transform.right * faceDir, entityData.closeRangeActionDistance, LayerMask.GetMask(LayerMask.LayerToName(target.gameObject.layer)));
     }
 
     /** Checks whether player is on the right or left side of the NPC.
      */
     public virtual int CheckTargetHorizontalDir()
     {
-        return followTargetPos.position.x <= transform.position.x ? -1 : 1;
+        return target.position.x <= transform.position.x ? -1 : 1;
     }
     
     /** Checks whether player is above or below the NPC.
      */
     public virtual int CheckTargetVerticalDir()
     {
-        return followTargetPos.position.y <= transform.position.y ? -1 : 1;
+        return target.position.y <= transform.position.y ? -1 : 1;
     }
 
-    public virtual bool CheckPlayerInRadius()
+    public virtual bool CheckTargetInRadius()
     {
-        return (followTargetPos.position - transform.position).magnitude <= entityData.radiusAgroDistance;
+        return (target.position - transform.position).magnitude <= entityData.radiusAgroDistance;
     }
 
-    public Transform GetPlayerTransform()
+    // -- GETTERS & SETTERS ----------------------------------------------------------------------------------------------------------------
+
+    public Transform GetTargetTransform()
     {
-        return followTargetPos;
+        return target;
     }
 
-    // -- DAMAGE ----------------------------------------------------------------------------------------------------------------
+    public void SetTarget(Transform followTargetPos)
+    {
+        this.target = followTargetPos;
+    }
+
+    public void ResetTarget()
+    {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
+    public float GetCurrentHealth()
+    {
+        return currentHealth.RuntimeValue;
+    }
+
+    public float GetMaxHealth()
+    {
+        return currentHealth.InitialValue;
+    }
+
+    // -- ACTIONS ----------------------------------------------------------------------------------------------------------------
 
     /** Makes current being knocked backwards. Used for when the being is hit.
      * This also calls the HitStop function (if hit stop is enabled).
@@ -259,8 +279,6 @@ public class EntityNPC : Entity
         gameObject.SetActive(false);
     }
 
-    // -- OTHER ----------------------------------------------------------------------------------------------------------------
-
     /** Makes enemy gameObject jump by adding force to its y-velocity.
      */
     public virtual void Jump()
@@ -271,25 +289,8 @@ public class EntityNPC : Entity
         }
     }
 
-    public float GetCurrentHealth()
-    {
-        return currentHealth.RuntimeValue;
-    }
+    // -- OTHER ----------------------------------------------------------------------------------------------------------------
 
-    public float GetMaxHealth()
-    {
-        return currentHealth.InitialValue;
-    }
-
-    public void SetFollowTarget(Transform followTargetPos)
-    {
-        this.followTargetPos = followTargetPos;
-    }
-
-    public void ResetFollowTargetPos()
-    {
-        followTargetPos = GameObject.FindGameObjectWithTag("Player").transform;
-    }
 
     /** Debug: Draw checks
      */
@@ -302,12 +303,12 @@ public class EntityNPC : Entity
 
         // Display melee attack check.
         Gizmos.color = new Color(1, 0, 0, 1);
-        Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(transform.right * faceDir * entityData.closeRangeActionDistance), 0.2f);
+        Gizmos.DrawWireSphere(targetCheck.position + (Vector3)(transform.right * faceDir * entityData.closeRangeActionDistance), 0.2f);
 
         // Display player detection check.
         Gizmos.color = new Color(0, 0, 1, 1);
-        Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(transform.right * faceDir * entityData.minAgroDistance), 0.2f);
-        Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(transform.right * faceDir * entityData.maxAgroDistance), 0.2f);
+        Gizmos.DrawWireSphere(targetCheck.position + (Vector3)(transform.right * faceDir * entityData.minAgroDistance), 0.2f);
+        Gizmos.DrawWireSphere(targetCheck.position + (Vector3)(transform.right * faceDir * entityData.maxAgroDistance), 0.2f);
 
         // Display player detection Radius check.
         Gizmos.color = new Color(0, 1, 0, 0.25f);

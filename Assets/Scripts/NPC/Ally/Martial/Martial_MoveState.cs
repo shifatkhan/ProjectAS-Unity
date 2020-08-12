@@ -30,7 +30,7 @@ public class Martial_MoveState : MoveState
     {
         base.LogicUpdate();
 
-        if (!ally.GetFollowPlayer() || ally.CheckPlayerInRadius())
+        if (!ally.GetFollowPlayer() || ally.CheckTargetInRadius())
         {
             stateMachine.ChangeState(ally.idleState);
         }

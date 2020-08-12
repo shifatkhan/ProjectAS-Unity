@@ -23,7 +23,7 @@ public class LookForPlayerState : State
     {
         base.DoChecks();
 
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
+        isPlayerInMinAgroRange = entity.CheckTargetInMinAgroRange();
     }
 
     public override void Enter()

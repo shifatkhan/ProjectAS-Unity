@@ -316,7 +316,7 @@ MonoBehaviour:
   attackSpeed: 0
   wallCheck: {fileID: 1324701907871921790}
   groundCheck: {fileID: 1324701907994992650}
-  playerCheck: {fileID: 1324701908297876921}
+  targetCheck: {fileID: 1324701908297876921}
   entityData: {fileID: 11400000, guid: e2159e47cfdca634cb467b96880100f2, type: 2}
   moveStateData: {fileID: 11400000, guid: 8a9059de3671e9f4a8df67d0743f3125, type: 2}
   idleStateData: {fileID: 11400000, guid: b8d0b6bf875d15047b8f4cfa0f8b7407, type: 2}
@@ -341,7 +341,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1324701908297876921}
   m_Layer: 9
-  m_Name: Player Check
+  m_Name: Target Check
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

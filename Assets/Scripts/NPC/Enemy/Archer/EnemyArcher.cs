@@ -60,11 +60,11 @@ public class EnemyArcher : EntityNPC
         {
             stateMachine.ChangeState(stunState);
         }
-        else if (CheckPlayerInMinAgroRange())
+        else if (CheckTargetInMinAgroRange())
         {
             stateMachine.ChangeState(rangedAttackState);
         }
-        else if (!CheckPlayerInMinAgroRange())
+        else if (!CheckTargetInMinAgroRange())
         {
             lookForPlayerState.SetTurnImmediately(true);
             stateMachine.ChangeState(lookForPlayerState);

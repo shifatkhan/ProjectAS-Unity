@@ -15,7 +15,7 @@ public class AttackState : State
     {
         base.DoChecks();
 
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
+        isPlayerInMinAgroRange = entity.CheckTargetInMinAgroRange();
     }
 
     public override void Enter()

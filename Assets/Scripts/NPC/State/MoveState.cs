@@ -22,7 +22,7 @@ public class MoveState : State
         base.DoChecks();
         isDetectingGround = entity.CheckGround();
         isDetectingWall = entity.CheckWall();
-        isPlayerInMinAgroRange = entity.CheckPlayerInMaxAgroRange();
+        isPlayerInMinAgroRange = entity.CheckTargetInMaxAgroRange();
 
         if (followTarget)
         {
