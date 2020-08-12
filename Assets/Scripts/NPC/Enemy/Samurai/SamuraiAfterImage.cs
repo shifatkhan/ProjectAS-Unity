@@ -7,7 +7,7 @@ public class SamuraiAfterImage : PlayerAfterImage
     public override void OnEnable()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        player = GameObject.Find("Boss_Samurai").transform;
+        player = GameObject.Find("Samurai").transform;
         playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
 
         alpha = alphaSet;

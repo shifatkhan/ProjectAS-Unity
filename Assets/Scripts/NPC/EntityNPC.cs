@@ -34,14 +34,17 @@ public class EntityNPC : Entity
     [SerializeField] private Transform wallCheck;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform targetCheck;
+
     private Transform target;
+    public AgroEvent playerAgroEvent;
+    protected bool attackEnemy;
 
     private LayerMask groundLayerMask;
     
     [Header("AI State machine")]
     public FiniteStateMachine stateMachine;
     public D_Entity entityData;
-    public AttackState attackState;
+    public AttackState attackState; // TODO: Remove
 
     public override void Start()
     {
@@ -150,9 +153,31 @@ public class EntityNPC : Entity
         this.target = followTargetPos;
     }
 
+    public void SetTargetToPlayersTarget()
+    {
+        if (playerAgroEvent != null)
+        {
+            attackEnemy = true;
+
+            if (target != playerAgroEvent.target || target.GetComponent<EntityNPC>().GetCurrentHealth() <= 0)
+            {
+                target = playerAgroEvent.target;
+            }
+        }
+    }
+
+    public void CheckIfPlayersTargetDead()
+    {
+        if(target && target.GetComponent<EntityNPC>() && target.GetComponent<EntityNPC>().GetCurrentHealth() <= 0)
+        {
+            ResetTarget();
+        }
+    }
+
     public void ResetTarget()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
+        attackEnemy = false;
     }
 
     public float GetCurrentHealth()
@@ -163,6 +188,11 @@ public class EntityNPC : Entity
     public float GetMaxHealth()
     {
         return currentHealth.InitialValue;
+    }
+
+    public bool GetAttackEnemy()
+    {
+        return attackEnemy;
     }
 
     // -- ACTIONS ----------------------------------------------------------------------------------------------------------------

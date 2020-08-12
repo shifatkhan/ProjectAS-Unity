@@ -30,9 +30,9 @@ public class Martial_IdleState : IdleState
     {
         base.LogicUpdate();
 
-        if (ally.GetFollowPlayer())
+        if (ally.GetJoinedPlayer())
         {
-            if (!ally.CheckTargetInRadius())
+            if (!ally.CheckTargetInRadius() || ally.GetAttackEnemy())
             {
                 ally.moveState.SetFollowTarget(true);
                 stateMachine.ChangeState(ally.moveState);

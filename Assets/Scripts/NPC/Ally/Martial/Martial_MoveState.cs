@@ -14,6 +14,8 @@ public class Martial_MoveState : MoveState
     public override void DoChecks()
     {
         base.DoChecks();
+
+        ally.CheckIfPlayersTargetDead();
     }
 
     public override void Enter()
@@ -30,7 +32,11 @@ public class Martial_MoveState : MoveState
     {
         base.LogicUpdate();
 
-        if (!ally.GetFollowPlayer() || ally.CheckTargetInRadius())
+        if (ally.GetAttackEnemy() && performCloseRangeAction)
+        {
+            ally.ChooseCombo();
+        }
+        else if (!ally.GetJoinedPlayer() || ally.CheckTargetInRadius())
         {
             stateMachine.ChangeState(ally.idleState);
         }

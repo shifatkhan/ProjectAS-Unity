@@ -14,6 +14,10 @@ public class KnockBack : MonoBehaviour
     public bool hitStopEnabled = false;
     public float hitStopDuration = 0.1f;
 
+    public AgroEvent agroEvent;
+
+    public bool damagePlayer = true;
+
     public virtual void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player"))
@@ -26,11 +30,17 @@ public class KnockBack : MonoBehaviour
 
             if (other.gameObject.CompareTag("Enemy"))
             {
-                other.GetComponent<EntityNPC>().Damage(damage, direction, knockTime, hitStopEnabled, hitStopDuration); ;
+                other.GetComponent<EntityNPC>().Damage(damage, direction, knockTime, hitStopEnabled, hitStopDuration);
+
+                if (agroEvent)
+                {
+                    agroEvent.SetTarget(other.transform);
+                    agroEvent.Raise();
+                }
             }
-            else if (other.gameObject.CompareTag("Player"))
+            else if (damagePlayer && other.gameObject.CompareTag("Player"))
             {
-                other.GetComponent<Player>().Damage(damage, direction, knockTime, hitStopEnabled, hitStopDuration); ;
+                other.GetComponent<Player>().Damage(damage, direction, knockTime, hitStopEnabled, hitStopDuration);
             }
         }
     }

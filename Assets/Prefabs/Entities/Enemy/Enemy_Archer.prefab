@@ -79,6 +79,8 @@ MonoBehaviour:
   damage: 1
   hitStopEnabled: 0
   hitStopDuration: 0.1
+  agroEvent: {fileID: 0}
+  damagePlayer: 1
 --- !u!1 &1324701907871921789
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,6 +319,7 @@ MonoBehaviour:
   wallCheck: {fileID: 1324701907871921790}
   groundCheck: {fileID: 1324701907994992650}
   targetCheck: {fileID: 1324701908297876921}
+  playerAgroEvent: {fileID: 0}
   entityData: {fileID: 11400000, guid: e2159e47cfdca634cb467b96880100f2, type: 2}
   moveStateData: {fileID: 11400000, guid: 8a9059de3671e9f4a8df67d0743f3125, type: 2}
   idleStateData: {fileID: 11400000, guid: b8d0b6bf875d15047b8f4cfa0f8b7407, type: 2}

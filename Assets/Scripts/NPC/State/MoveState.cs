@@ -9,6 +9,7 @@ public class MoveState : State
     protected bool isDetectingWall;
     protected bool isDetectingGround;
     protected bool isPlayerInMinAgroRange;
+    protected bool performCloseRangeAction;
 
     protected bool followTarget;
 
@@ -23,6 +24,7 @@ public class MoveState : State
         isDetectingGround = entity.CheckGround();
         isDetectingWall = entity.CheckWall();
         isPlayerInMinAgroRange = entity.CheckTargetInMaxAgroRange();
+        performCloseRangeAction = entity.CheckTargetInCloseRangeAction();
 
         if (followTarget)
         {
