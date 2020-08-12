@@ -5298,5 +5298,5 @@ MonoBehaviour:
   damage: 1
   hitStopEnabled: 1
   hitStopDuration: 0.1
-  agroEvent: {fileID: 0}
+  agroEvent: {fileID: 11400000, guid: d6e6b4070cda31a4bb54788f52ada556, type: 2}
   damagePlayer: 1
