@@ -32,8 +32,7 @@ public class DialogueSystem : Interactable
     private Color hideColor;
 
     private string textToType = "";
-    private string typedText = "";
-    public float typingSpeed = 0.1f;
+    public float typingSpeed = 40f;
     private bool finishedTyping = true;
 
     // TODO: Might need to change how we get hold of the dialogue UI.
@@ -117,7 +116,7 @@ public class DialogueSystem : Interactable
             textMesh.text += textToType[i];
             textMeshAnimator.SyncToTextMesh();
 
-            yield return new WaitForSeconds(typingSpeed);
+            yield return new WaitForSeconds(1/typingSpeed);
         }
 
         finishedTyping = true;

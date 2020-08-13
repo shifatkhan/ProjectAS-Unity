@@ -160,4 +160,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactEvent: {fileID: 0}
   startDialogue: {fileID: 11400000, guid: 801b0a18877cb6643906c7db396daa20, type: 2}
-  typingSpeed: 0.05
+  typingSpeed: 45
