@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4141a1c912024054c8bf531d49256ba4, type: 3}
-  m_Name: NPCTest
+  m_Name: NPCTest Character
   m_EditorClassIdentifier: 
   fullName: Lunari
-  portrait: {fileID: 21300000, guid: 967db6edac525e344ab85ec9bfe4f336, type: 3}
+  portrait: {fileID: 21300000, guid: daa866338d918e34e800b522aa5f8e1b, type: 3}
+  isLeftSpeaker: 0

@@ -5,17 +5,22 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
+/** Handles the flow of a conversation. It also takes care of displaying the relevant 
+ * dialogue information on the UI.
+ * 
+ * @author ShifatKhan
+ */
 public class DialogueSystem : Interactable
 {
     private GameObject dialogueBox;              // This is the dialogue box that has the box sprite
     private TextMeshProUGUI textMesh;            // The text
     private TextMeshAnimator textMeshAnimator;   // The text animator
 
-    private GameObject responses;
+    private GameObject responsesGameObject;
     private bool responsePressed = false;
 
-    private Image portrait;
-    private GameObject name;
+    private Image portraitImg;
+    private GameObject nameGameObject;
 
     public D_Dialogue startDialogue;        // The Dialogue data to display
     private D_Dialogue responseDialogue;    // Resulting Dialogue from a response
@@ -41,14 +46,14 @@ public class DialogueSystem : Interactable
         textMesh = dialogueBox.GetComponentInChildren<TextMeshProUGUI>();
         textMeshAnimator = dialogueBox.GetComponentInChildren<TextMeshAnimator>();
         
-        responses = GameObject.Find("Responses");
+        responsesGameObject = GameObject.Find("Responses");
 
-        portrait = GameObject.FindGameObjectWithTag("Portrait").GetComponent<Image>();
-        name = GameObject.FindGameObjectWithTag("Name");
+        portraitImg = GameObject.FindGameObjectWithTag("Portrait").GetComponent<Image>();
+        nameGameObject = GameObject.FindGameObjectWithTag("Name");
 
         // Set portrait and name
-        portrait.sprite = startDialogue.speaker.portrait;
-        name.GetComponentInChildren<TextMeshProUGUI>().text = startDialogue.speaker.fullName;
+        portraitImg.sprite = startDialogue.speaker.portrait;
+        nameGameObject.GetComponentInChildren<TextMeshProUGUI>().text = startDialogue.speaker.fullName;
 
         showDialogueColor = new Color(1, 1, 1, 1);
         showTextColor = textMesh.color;
@@ -132,9 +137,9 @@ public class DialogueSystem : Interactable
         dialogueBox.GetComponent<Image>().color = showDialogueColor;
         textMesh.color = showTextColor;
 
-        portrait.color = showDialogueColor;
-        name.GetComponent<Image>().color = showDialogueColor;
-        name.GetComponentInChildren<TextMeshProUGUI>().color = showTextColor;
+        portraitImg.color = showDialogueColor;
+        nameGameObject.GetComponent<Image>().color = showDialogueColor;
+        nameGameObject.GetComponentInChildren<TextMeshProUGUI>().color = showTextColor;
     }
 
     /** Make the dialogue box & text hidden.
@@ -145,9 +150,9 @@ public class DialogueSystem : Interactable
         dialogueBox.GetComponent<Image>().color = hideColor;
         textMesh.color = hideColor;
 
-        portrait.color = hideColor;
-        name.GetComponent<Image>().color = hideColor;
-        name.GetComponentInChildren<TextMeshProUGUI>().color = hideColor;
+        portraitImg.color = hideColor;
+        nameGameObject.GetComponent<Image>().color = hideColor;
+        nameGameObject.GetComponentInChildren<TextMeshProUGUI>().color = hideColor;
 
         currentDialogueIndex = 0;
         responsePressed = false;
@@ -162,13 +167,13 @@ public class DialogueSystem : Interactable
 
         if (currentDialogue.responseOptions.Count > 0)
         {
-            int children = responses.transform.childCount;
+            int children = responsesGameObject.transform.childCount;
 
             GameObject currentButton;
 
             for (int i = 0; i < children && i < currentDialogue.responseOptions.Count; i++)
             {
-                currentButton = responses.transform.GetChild(i).gameObject;
+                currentButton = responsesGameObject.transform.GetChild(i).gameObject;
                 currentButton.SetActive(true);
                 currentButton.GetComponent<Button>().onClick.AddListener(OnResponseClick);
                 currentButton.GetComponentInChildren<TextMeshProUGUI>().text = currentDialogue.responseOptions[i].responseText;
@@ -179,13 +184,13 @@ public class DialogueSystem : Interactable
     // TODO: Don't run this if responses are already hidden.
     private void HideResponses()
     {
-        int children = responses.transform.childCount;
+        int children = responsesGameObject.transform.childCount;
 
         GameObject currentButton;
 
         for (int i = 0; i < children; i++)
         {
-            currentButton = responses.transform.GetChild(i).gameObject;
+            currentButton = responsesGameObject.transform.GetChild(i).gameObject;
             currentButton.GetComponent<Button>().onClick.RemoveAllListeners();
             currentButton.SetActive(false);
         }

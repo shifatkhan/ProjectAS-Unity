@@ -3753,6 +3753,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d47144d7e1e3cae4999b38b995b14e92, type: 3}
+--- !u!1001 &841642220
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4901037292024418409, guid: dd76f3bada742684d8ff2d8b47208e7b,
+        type: 3}
+      propertyPath: m_Name
+      value: Game Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901037292024418415, guid: dd76f3bada742684d8ff2d8b47208e7b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.5711849
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901037292024418415, guid: dd76f3bada742684d8ff2d8b47208e7b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.38931072
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901037292024418415, guid: dd76f3bada742684d8ff2d8b47208e7b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901037292024418415, guid: dd76f3bada742684d8ff2d8b47208e7b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901037292024418415, guid: dd76f3bada742684d8ff2d8b47208e7b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901037292024418415, guid: dd76f3bada742684d8ff2d8b47208e7b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901037292024418415, guid: dd76f3bada742684d8ff2d8b47208e7b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901037292024418415, guid: dd76f3bada742684d8ff2d8b47208e7b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901037292024418415, guid: dd76f3bada742684d8ff2d8b47208e7b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901037292024418415, guid: dd76f3bada742684d8ff2d8b47208e7b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901037292024418415, guid: dd76f3bada742684d8ff2d8b47208e7b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dd76f3bada742684d8ff2d8b47208e7b, type: 3}
 --- !u!1001 &977402227
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3895,11 +3964,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cinemachine Camera
       objectReference: {fileID: 0}
-    - target: {fileID: 6923508522462751807, guid: 4038df6acad3e4a42a698ee5e8107421,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6923508522534886546, guid: 4038df6acad3e4a42a698ee5e8107421,
         type: 3}
       propertyPath: m_Follow
@@ -3913,7 +3977,7 @@ PrefabInstance:
     - target: {fileID: 6923508522534886557, guid: 4038df6acad3e4a42a698ee5e8107421,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.778533
+      value: 5.774067
       objectReference: {fileID: 0}
     - target: {fileID: 6923508523091176486, guid: 4038df6acad3e4a42a698ee5e8107421,
         type: 3}
@@ -3923,12 +3987,7 @@ PrefabInstance:
     - target: {fileID: 6923508523091176486, guid: 4038df6acad3e4a42a698ee5e8107421,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.778533
-      objectReference: {fileID: 0}
-    - target: {fileID: 6923508523091176487, guid: 4038df6acad3e4a42a698ee5e8107421,
-        type: 3}
-      propertyPath: orthographic
-      value: 0
+      value: 5.774067
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4038df6acad3e4a42a698ee5e8107421, type: 3}

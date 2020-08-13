@@ -15,7 +15,7 @@ MonoBehaviour:
   dialogueID: Testing
   speaker: {fileID: 11400000, guid: d03326ae827500345b757da1ee760527, type: 2}
   dialogue:
-  - <wiggle>Why hello there <color=yellow>handsome</color>~
+  - Why hello there <color=yellow>handsome</color>~
   - Can you show a girl a<color=#f0aef5> <wave>good</wave></color> time? ;)
   responseOptions:
   - {fileID: 11400000, guid: 02b88ab0b0a852a4aa8096c18a11d506, type: 2}
