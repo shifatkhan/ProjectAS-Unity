@@ -7,6 +7,4 @@ public class D_Character : ScriptableObject
 {
     public string fullName;
     public Sprite portrait;
-
-    public bool isLeftSpeaker;
 }

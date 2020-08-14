@@ -11,10 +11,16 @@ public class D_Dialogue : ScriptableObject
 {
     public string dialogueID;
 
+    [Header("Speaker")]
     public D_Character speaker;
+    public bool isLeftSpeaker;
 
+    [Header("Dialogues")]
+    public float typingSpeed = 40f; // Letters per second.
     [TextArea]
     public List<string> dialogue; //Are you shaking in your<color=red> <shake>Boots </color>!?
+    public D_Dialogue nextDialogue;
 
+    [Header("Responses")]
     public List<D_Response> responseOptions;
 }
