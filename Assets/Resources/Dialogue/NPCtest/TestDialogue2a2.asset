@@ -15,7 +15,7 @@ MonoBehaviour:
   dialogueID: yes
   speaker: {fileID: 11400000, guid: d03326ae827500345b757da1ee760527, type: 2}
   isLeftSpeaker: 0
-  typingSpeed: 5
+  typingSpeed: 10
   dialogue:
   - Indeed.
   - I'm you, but<color=red> <shake>STRONGER</shake> </color>
