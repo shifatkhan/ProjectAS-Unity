@@ -5,68 +5,84 @@ using UnityEngine;
 [RequireComponent(typeof(Player))]
 public class PlayerCombatController : MonoBehaviour
 {
-    [SerializeField] private bool combatEnabled;
-    [SerializeField] private float attackSpeed = 0.5f; // TODO: Implement attack cd
+    [SerializeField] private bool combatEnabled = true;
 
-    // Check if player pressed attack button too early.
-    private bool gotInputBuffer;
-    private bool isAttacking;
-
-    private float lastInputTime;
-    [SerializeField] private float inputTimer;
+    public int maxCombo = 3; // Number of times we can click for combos.
+    public int noOfClicks = 0;
+    private float lastClickedTime = 0f;
+    public float maxComboDelay = 0.9f;
 
     private Player player;
     private Animator animator;
 
-    private void Start()
+    void Start()
     {
         player = GetComponent<Player>();
-
         animator = GetComponent<Animator>();
         animator.SetBool("canAttack", combatEnabled);
     }
-
-    private void Update()
+    
+    void Update()
     {
-        CheckCombatInput();
-        CheckAttacks();
-    }
+        if(Time.time - lastClickedTime > maxComboDelay)
+        {
+            // Reset combo.
+            noOfClicks = 0;
+        }
 
-    private void CheckCombatInput()
-    {
         if (Input.GetButtonDown("Attack1"))
         {
-            // Attempt combat
-            gotInputBuffer = true;
-            lastInputTime = Time.time;
-        }
-    }
+            lastClickedTime = Time.time;
+            noOfClicks++;
 
-    private void CheckAttacks()
-    {
-        if (gotInputBuffer)
-        {
-            // Perform attack1
-            if (!isAttacking)
+            if(noOfClicks == 1)
             {
-                gotInputBuffer = false;
-                isAttacking = true;
-                player.animator.SetBool("attack1", true);
-                player.animator.SetBool("attacking", isAttacking);
+                animator.SetBool("attack1", true);
+                animator.SetBool("attacking", true);
             }
-        }
 
-        if(Time.time >= lastInputTime + inputTimer)
-        {
-            // Wait for new input
-            gotInputBuffer = false;
+            noOfClicks = Mathf.Clamp(noOfClicks, 0, maxCombo);
         }
     }
 
-    private void FinishAttack1()
+    public void FinishAttack1()
     {
-        isAttacking = false;
-        player.animator.SetBool("attacking", isAttacking);
-        player.animator.SetBool("attack1", false);
+        animator.SetBool("attack1", false);
+
+        if (noOfClicks >= 2)
+        {
+            animator.SetBool("attack2", true);
+            animator.SetBool("attacking", true);
+        }
+        else
+        {
+            animator.SetBool("attacking", false);
+            noOfClicks = 0;
+        }
+    }
+
+    public void FinishAttack2()
+    {
+        animator.SetBool("attack2", false);
+
+        if (noOfClicks >= 3)
+        {
+            animator.SetBool("attack3", true);
+            animator.SetBool("attacking", true);
+        }
+        else
+        {
+            animator.SetBool("attacking", false);
+            noOfClicks = 0;
+        }
+    }
+
+    public void FinishLastAttack()
+    {
+        animator.SetBool("attack1", false);
+        animator.SetBool("attack2", false);
+        animator.SetBool("attack3", false);
+        animator.SetBool("attacking", false);
+        noOfClicks = 0;
     }
 }
