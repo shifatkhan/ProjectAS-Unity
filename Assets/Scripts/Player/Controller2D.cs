@@ -242,7 +242,7 @@ public class Controller2D : RaycastController
         }
     }
 
-    /** Calculate distance to move player to climb slope.
+    /** Calculate distance to MOVE player to climb slope.
      */
     void ClimbSlope(ref Vector2 moveAmount, float slopeAngle)
     {
@@ -260,7 +260,7 @@ public class Controller2D : RaycastController
         }
     }
 
-    /** Calculate distance to move player to descend slope.
+    /** Calculate distance to MOVE player to descend slope.
      */
     void DescendSlope(ref Vector2 moveAmount)
     {

@@ -25,7 +25,7 @@ public class AllyMartial : EntityNPC
 
         // Initialize states.
         moveState = new Martial_MoveState(this, stateMachine, "move", moveStateData, this);
-        idleState = new Martial_IdleState(this, stateMachine, "idle", idleStateData, this);
+        idleState = new Martial_IdleState(this, stateMachine, "IDLE", idleStateData, this);
         jumpState = new Martial_JumpState(this, stateMachine, "jump", jumpStateData, this);
         attack1State = new Martial_Attack1State(this, stateMachine, "attack1", attack1StateData, this);
         attack2State = new Martial_Attack2State(this, stateMachine, "attack2", attack2StateData, this);

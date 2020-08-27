@@ -9,11 +9,11 @@ using UnityEngine;
  */
 public enum EntityState
 {
-    idle,
-    move, // Indicates state of when enemy is moving, which includes flying, running, walking, etc.
-    attack,
-    stagger,
-    dead
+    IDLE,
+    MOVE, // Indicates state of when enemy is moving, which includes flying, running, walking, etc.
+    ATTACK,
+    STAGGER,
+    DEAD
 }
 
 [RequireComponent(typeof(Controller2D))]
@@ -58,7 +58,7 @@ public class Entity : MonoBehaviour
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
 
-        SwitchState(EntityState.idle);
+        SwitchState(EntityState.IDLE);
     }
     
     public virtual void Update()
@@ -103,7 +103,7 @@ public class Entity : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
     }
 
-    /** Makes being move based on the directionalInput's value.
+    /** Makes being MOVE based on the directionalInput's value.
      * If the being is grounded or hits a ceiling, it will stop moving 
      * in the Y-axis.
      */
@@ -205,7 +205,7 @@ public class Entity : MonoBehaviour
      */
     public virtual void UpdateState()
     {
-        SwitchState(directionalInput.x != 0 ? EntityState.move : EntityState.idle);
+        SwitchState(directionalInput.x != 0 ? EntityState.MOVE : EntityState.IDLE);
     }
 
     /** Updates animation.
@@ -218,7 +218,7 @@ public class Entity : MonoBehaviour
 
             animator.SetBool("grounded", controller.collisions.below);
 
-            animator.SetBool("stagger", currentState == EntityState.stagger);
+            animator.SetBool("stagger", currentState == EntityState.STAGGER);
 
             animator.SetFloat("yVelocity", velocity.y);
         }

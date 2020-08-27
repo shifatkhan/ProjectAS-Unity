@@ -456,7 +456,7 @@ public class Player : Entity
                 HitStop(hitStopDuration);
             
             ApplyForce(direction);
-            SwitchState(EntityState.stagger);
+            SwitchState(EntityState.STAGGER);
             StartCoroutine(DamageCo(knockTime));
             TakeDamage(damage);
         }
@@ -467,7 +467,7 @@ public class Player : Entity
     public IEnumerator DamageCo(float knockTime)
     {
         yield return new WaitForSeconds(knockTime);
-        SwitchState(EntityState.idle);
+        SwitchState(EntityState.IDLE);
     }
 
     /** Applies a hit stop effect when hit by making the sprite White (flash)
@@ -555,7 +555,7 @@ public class Player : Entity
 
         GM.Respawn();
         StopAllCoroutines(); // Stop the knockBack coroutine
-        SwitchState(EntityState.dead);
+        SwitchState(EntityState.DEAD);
         AudioManager.PlayDeathAudio();
         gameObject.SetActive(false);
     }
@@ -592,7 +592,7 @@ public class Player : Entity
 
     public override void UpdateState()
     {
-        if (currentState != EntityState.attack)
+        if (currentState != EntityState.ATTACK)
         {
             base.UpdateState();
         }
@@ -605,7 +605,7 @@ public class Player : Entity
 
     public override void UpdateAnimator()
     {
-        if(currentState != EntityState.attack)
+        if(currentState != EntityState.ATTACK)
             base.UpdateAnimator();
 
         if(animator != null)

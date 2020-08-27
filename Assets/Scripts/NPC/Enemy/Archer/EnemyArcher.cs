@@ -36,7 +36,7 @@ public class EnemyArcher : EntityNPC
 
         // Initialize states.
         moveState = new Archer_MoveState(this, stateMachine, "move", moveStateData, this);
-        idleState = new Archer_IdleState(this, stateMachine, "idle", idleStateData, this);
+        idleState = new Archer_IdleState(this, stateMachine, "IDLE", idleStateData, this);
         playerDetectedState = new Archer_PlayerDetectedState(this, stateMachine, "playerDetected", playerDetectedStateData, this);
         meleeAttackState = new Archer_MeleeAttackState(this, stateMachine, "meleeAttack", meleeAttackStateData, this);
         lookForPlayerState = new Archer_LookForPlayerState(this, stateMachine, "lookForPlayer", lookForPlayerStateData, this);

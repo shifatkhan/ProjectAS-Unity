@@ -237,7 +237,7 @@ public class EntityNPC : Entity
     public IEnumerator DamageCo(float knockTime)
     {
         yield return new WaitForSeconds(knockTime);
-        SwitchState(EntityState.move);
+        SwitchState(EntityState.MOVE);
     }
 
     /** Applies a hit stop effect when hit by making the sprite White (flash)
@@ -279,11 +279,11 @@ public class EntityNPC : Entity
         currentHealth -= damage;
         if(currentHealth > 0)
         {
-            SwitchState(EntityState.stagger);
+            SwitchState(EntityState.STAGGER);
         }
         else
         {
-            SwitchState(EntityState.dead);
+            SwitchState(EntityState.DEAD);
             Time.timeScale = 1.0f;
             isDead = true;
         }

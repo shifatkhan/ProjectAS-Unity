@@ -60,7 +60,7 @@ public class PlatformController : RaycastController
         return Mathf.Pow(x, a) / (Mathf.Pow(x, a) + Mathf.Pow(1 - x, a)); // Make an "S" curve
     }
 
-    /** Calculate how the platform will move between waypoints.
+    /** Calculate how the platform will MOVE between waypoints.
      */
     Vector3 CalculatePlatformMovement()
     {
@@ -79,7 +79,7 @@ public class PlatformController : RaycastController
 
         Vector3 newPos = Vector3.Lerp(globalWaypoints[fromWaypointIndex], globalWaypoints[toWaypointIndex], easedPercentBetweenWaypoints);
 
-        // If platform reached next waypoint, we reset and make it move to next waypoint.
+        // If platform reached next waypoint, we reset and make it MOVE to next waypoint.
         if (percentBetweenWaypoints >= 1)
         {
             percentBetweenWaypoints = 0;
@@ -149,7 +149,7 @@ public class PlatformController : RaycastController
                         float pushX = (directionY == 1) ? velocity.x : 0; // Affect passenger's X if platform is going up.
                         float pushY = velocity.y - (hit.distance - skinWidth) * directionY;
 
-                        // If platform is moving up, we'll need to move passenger first then platform (directionY == 1)
+                        // If platform is moving up, we'll need to MOVE passenger first then platform (directionY == 1)
                         passengerMovement.Add(new PassengerMovement(hit.transform, new Vector3(pushX, pushY), directionY == 1, true));
                     }
                 }

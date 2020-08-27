@@ -34,7 +34,7 @@ public class EnemySkeleton : EntityNPC
 
         // Initialize states.
         moveState = new Skeleton_MoveState(this, stateMachine, "move", moveStateData, this);
-        idleState = new Skeleton_IdleState(this, stateMachine, "idle", idleStateData, this);
+        idleState = new Skeleton_IdleState(this, stateMachine, "IDLE", idleStateData, this);
         playerDetectedState = new Skeleton_PlayerDetectedState(this, stateMachine, "playerDetected", playerDetectedData, this);
         chargeState = new Skeleton_ChargeState(this, stateMachine, "charge", chargeStateData, this);
         lookForPlayerState = new Skeleton_LookForPlayerState(this, stateMachine, "lookForPlayer", lookForPlayerStateData, this);
@@ -63,21 +63,21 @@ public class EnemySkeleton : EntityNPC
     [System.Obsolete("This function has been replaced by 'Skeleton_MeleeAttackState'")]
     public IEnumerator AttackCo()
     {
-        if (currentState != EntityState.attack)
+        if (currentState != EntityState.ATTACK)
         {
             animator.SetTrigger("attack1");
-            base.SwitchState(EntityState.attack);
+            base.SwitchState(EntityState.ATTACK);
 
             yield return new WaitForSeconds(attackSpeed);
 
-            base.SwitchState(EntityState.idle);
+            base.SwitchState(EntityState.IDLE);
         }
     }
 
     // TODO: remove since it's not used.
     public override void UpdateState()
     {
-        if(currentState != EntityState.attack)
+        if(currentState != EntityState.ATTACK)
         {
             base.UpdateState();
         }

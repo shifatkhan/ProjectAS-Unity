@@ -51,7 +51,7 @@ public class CameraFollow : MonoBehaviour
 
         if (focusArea.velocity.x != 0)
         {
-            // Make camera move a bit more in the direction player is moving.
+            // Make camera MOVE a bit more in the direction player is moving.
             lookAheadDirX = Mathf.Sign(focusArea.velocity.x);
             if (Mathf.Sign(target.playerInput.x) == Mathf.Sign(focusArea.velocity.x) && target.playerInput.x != 0)
             {
@@ -108,7 +108,7 @@ public class CameraFollow : MonoBehaviour
 
         public void Update(Bounds targetBounds)
         {
-            // Check whether to move in X-axis
+            // Check whether to MOVE in X-axis
             float shiftX = 0;
             if (targetBounds.min.x < left)
             {
@@ -121,7 +121,7 @@ public class CameraFollow : MonoBehaviour
             left += shiftX;
             right += shiftX;
 
-            // Check whether to move in Y-axis
+            // Check whether to MOVE in Y-axis
             float shiftY = 0;
             if (targetBounds.min.y < bottom)
             {

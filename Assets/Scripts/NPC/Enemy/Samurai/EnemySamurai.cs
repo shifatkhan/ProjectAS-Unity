@@ -47,7 +47,7 @@ public class EnemySamurai : EntityNPC
 
         // Initialize states.
         moveState = new Samurai_MoveState(this, stateMachine, "move", moveStateData, this);
-        idleState = new Samurai_IdleState(this, stateMachine, "idle", idleStateData, this);
+        idleState = new Samurai_IdleState(this, stateMachine, "IDLE", idleStateData, this);
         playerDetectedState = new Samurai_PlayerDetectedState(this, stateMachine, "playerDetected", playerDetectedStateData, this);
         dodgeState = new Samurai_DodgeState(this, stateMachine, "dodge", dodgeStateData, this);
         kickState = new Samurai_KickState(this, stateMachine, "kick", kickStateData, this);
@@ -151,7 +151,7 @@ public class EnemySamurai : EntityNPC
     public void ResetStates()
     {
         animator.SetBool("move", false);
-        animator.SetBool("idle", false);
+        animator.SetBool("IDLE", false);
         animator.SetBool("playerDetected", false);
         animator.SetBool("punch", false);
         animator.SetBool("kick", false);

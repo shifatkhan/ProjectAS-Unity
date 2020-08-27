@@ -89,7 +89,7 @@ public class PlayerInput : MonoBehaviour
             player.OnDashInputDown();
         }
 
-        // TODO: Maybe move this into the InventoryUI script.
+        // TODO: Maybe MOVE this into the InventoryUI script.
         // INVENTORY
         if (Input.GetButtonDown("Inventory"))
         {
