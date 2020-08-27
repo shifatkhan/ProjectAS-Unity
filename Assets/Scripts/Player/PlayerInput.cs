@@ -132,4 +132,12 @@ public class PlayerInput : MonoBehaviour
         // Check if other gameobject is an item.
         itemToPickup = other.GetComponent<Item>();
     }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if(other.tag == "Item")
+        {
+            itemToPickup = null;
+        }
+    }
 }

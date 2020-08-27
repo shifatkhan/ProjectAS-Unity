@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 273546630234350483}
   m_Layer: 0
   m_Name: Lantern
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1316116231
   m_SortingLayer: 4
-  m_SortingOrder: -1
+  m_SortingOrder: -10
   m_Sprite: {fileID: 21300016, guid: 545e3f6ad65c48d40a96534d4c3ecd84, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 2b7a207a38340dd499e66ac810de653b, type: 2}
-  amount: 2
+  amount: 1
   amountText: {fileID: 0}
 --- !u!1 &5101820361740600783
 GameObject:
@@ -198,9 +198,9 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1316116231
+  m_SortingLayer: 4
+  m_SortingOrder: -9
 --- !u!33 &7961560944892106659
 MeshFilter:
   m_ObjectHideFlags: 0

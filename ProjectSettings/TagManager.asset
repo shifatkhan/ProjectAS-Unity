@@ -12,6 +12,7 @@ TagManager:
   - Inventory
   - GameManager
   - Level
+  - Item
   layers:
   - Default
   - TransparentFX
