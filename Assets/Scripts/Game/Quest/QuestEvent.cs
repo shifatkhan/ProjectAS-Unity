@@ -22,6 +22,7 @@ public class QuestEvent
     public string id;
     public int order = -1; // Specifies order in the quest graph.
     public EventStatus status;
+    public QuestButton button;
 
     [Header("Path")]
     public List<QuestPath> pathList = new List<QuestPath>();
@@ -37,6 +38,7 @@ public class QuestEvent
     public void SetStatus(EventStatus status)
     {
         this.status = status;
+        button.UpdateButton(status);
     }
 
     public string GetId()
