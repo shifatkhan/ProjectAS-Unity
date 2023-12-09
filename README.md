@@ -89,8 +89,9 @@ The inventory system was made to be flexible and scalable.
 Here's a general idea of how it works:
 - An `Item.cs` class is used for all items, which allows the inventory to work on an abstraction layer without being tightly coupled.
 - Each item has its own category, such as Equipment (for damage or health boost), Food (eat to regain health), etc.
+- The inventory keeps a `List` of items. However, this would make searching `O(n)`. Therefore, in `D_Inventory.cs` line 20, I made a TODO to change it into a Dictionary (for `O(1)` lookup, add, and delete)
 - All managed in the editor as a dev tool:
-- 
+  
   ![](readme/inventory.png)
 
 ![](readme/projectas_inventory.gif)
